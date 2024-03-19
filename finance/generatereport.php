@@ -52,69 +52,19 @@ ob_end_flush();
 </head>
 <body>
     <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                    <th>Measurment</th>
-                    <th>Quantity</th>
-                    <th>price</th>
-                    <th>Total_price</th>
-                </tr>
-            </thead>
-            <tbody>
+        
             <?php
 
 include("db_connect.php");
 
-// Check if the report table exists
-$table_check_sql = "SHOW TABLES LIKE 'report'";
-$table_check_result = $conn->query($table_check_sql);
-
-if ($table_check_result->num_rows == 0) {
-    // Create the report table if it doesn't exist
-    $create_table_sql = "CREATE TABLE report (
-        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        requesteditem_name VARCHAR(255) NOT NULL,
-        requesteditem_type VARCHAR(255) NOT NULL,
-        requesteditem_description VARCHAR(255),
-        requesteditem_measurment VARCHAR(255),
-        requesteditem_quantity INT(6),
-        requesteditem_id INT(6),
-        price DECIMAL(10, 2),
-        total_price DECIMAL(10, 2)
-    )";
-
-    if ($conn->query($create_table_sql) === TRUE) {
-        echo "Report table created successfully.<br>";
-    } else {
-        echo "Error creating report table: " . $conn->error . "<br>";
-    }
-}
-
-$select_sql = "SELECT * FROM report";
-$result = $conn->query($select_sql);
-
-if ($result->num_rows > 0) {
-    echo "Report already generated and stored in the database.";
-} else {
-    // Delete existing data from the report table
-    $delete_sql = "DELETE FROM report";
-    if ($conn->query($delete_sql) === TRUE) {
-        echo "Existing data deleted from the report table.<br>";
-    } else {
-        echo "Error deleting existing data from the report table: " . $conn->error . "<br>";
-    }
-
+$clear_sql = "TRUNCATE TABLE report";
+if ($conn->query($clear_sql) === TRUE) {
     $insert_sql = "INSERT INTO report (requesteditem_name, requesteditem_type, requesteditem_description, requesteditem_measurment, requesteditem_quantity, requesteditem_id)
-        SELECT name, type, description, measurment, quantity, id FROM requesteditem WHERE status = 1";
+            SELECT name, type, description, measurment, quantity, id FROM requesteditem WHERE status = 1";
 
     if ($conn->query($insert_sql) === TRUE) {
         echo "Generated report<br>";
-
+        
         $select_sql = "SELECT * FROM report";
         $result = $conn->query($select_sql);
 
@@ -156,6 +106,8 @@ if ($result->num_rows > 0) {
             echo "Error: " . $insert_sql . "<br>" . $conn->error;
         }
     }
+} else {
+    echo "Error clearing report table: " . $conn->error;
 }
 
 $conn->close();
