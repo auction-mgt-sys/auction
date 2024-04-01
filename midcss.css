@@ -1,0 +1,45 @@
+.header{
+    background-image: url(images/wkuhome.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 3px 3px 3px black; 
+    border-radius: 5px;
+   }
+   .overlay{
+    position: absolute;
+    min-height: auto;
+    min-width: auto;
+    left: 0;
+    top: 0;
+    background: rgba(247, 247, 247, 0.590);
+   }
+      .description{
+    position: relative;
+    top: 0px;
+    margin: auto;
+    padding: 2em;    
+}
+.description #wku {
+    width: 150px;
+}
+.description h1{
+    font-family: "Times New Roman";
+    color:rgb(13, 13, 39);
+    padding: 10px;
+   }
+   .description h3,.description h4{
+    font-family: "Times New Roman";
+    color:rgb(13, 13, 39);
+   }
+.sec1 {
+    margin-top: 15px;
+    background-color: #ffffff93;
+
+}
+   .description p{
+    color:rgb(49, 49, 49);
+    font-size: 20px;
+    width: 50%;
+    line-height: 1.5;
+   }
