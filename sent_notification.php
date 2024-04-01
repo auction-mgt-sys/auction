@@ -38,7 +38,8 @@ $bidder_id = $_SESSION['login_id'];
                    $users = $conn->query("SELECT * FROM comment where sender_id =$bidder_id  order by 'date' asc");
                     while($row= $users->fetch_assoc()){
 
-                        $get = $conn->query("SELECT * FROM users where id =".$row['reciver_id']."  order by 'date' asc limit 1");
+                        $get = $conn->query("SELECT * FROM users WHERE id = " . $row['reciver_id'] . " ORDER BY date ASC LIMIT 1");
+
                         $uname = $get->num_rows > 0 ? $get->fetch_array()['name'] : '' ;
                  ?>
                     <a class="dropdown-item view_detail" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>

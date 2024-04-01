@@ -45,8 +45,15 @@ $owner = $_SESSION['login_id'];
                            <hr>
                     </a>
                 <?php }  
-
-$d = date('g:i a',strtotime($row['date']));
+  
+  if (isset($row['date'])) {
+      $d = date('g:i a', strtotime($row['date']));
+      // Rest of your code that uses $d
+  } else {
+      // Handle the case when $row['date'] is not set or null
+      $d = ''; // or any default value you want to assign
+  }
+?>
                 ?>
 
                              

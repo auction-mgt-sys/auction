@@ -44,10 +44,10 @@ $user_type = $_SESSION['login_type'];
 						<label for="" class="control-label"><b>Send To: </b></label>
 							<select class="custom-select" name="resiver_id" required>
 								<option value="11">Auctioneer</option>
-								<option value="5">Technical Commitee</option>
-								<option value="1">Admin</option>
+                              
 							</select>
 						</div>
+						
 						
 					</div>
 					<div class="form-group row">
@@ -64,7 +64,7 @@ $user_type = $_SESSION['login_type'];
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<button class="btn btn-sm btn-block btn-primary col-sm-2"> Save</button>
+							<button class="btn btn-sm btn-block btn-primary col-sm-2"> Send</button>
 						</div>
 					</div>
 				</form>
