@@ -131,19 +131,72 @@ img#img_path-field{
 					<h4><b><?php echo !isset($id) ? "Add Items" : "Manage Product" ?></b></h4>
 					<hr>
 					<div class="form-group row">
+					<div class="col-md-4">
+    <label for="" class="control-label">Name</label>
+    <?php
+    // Include your database connection
+    include 'db_connect.php';
+
+    // Fetch name from reports table where auctionstatus is 1
+    $sql = "SELECT requesteditem_name FROM report WHERE auctionstatus = 1 LIMIT 1";
+    $result = $conn->query($sql);
+
+    // Check if there's a result
+    if ($result->num_rows > 0) {
+        // Output data of each row
+        $row = $result->fetch_assoc();
+        $name_from_report = $row['requesteditem_name'];
+    } else {
+        $name_from_report = ''; // Default value if no result
+    }
+    ?>
+    <input type="text" class="form-control" name="name" value="<?php echo $name_from_report; ?>" required>
+</div>
+
 						<div class="col-md-4">
-							<label for="" class="control-label">Name</label>
-							<input type="text" class="form-control" name="name"  value="<?php echo isset($name) ? $name :'' ?>" required>
-						</div>
+    <label for="" class="control-label">Measurement</label>
+    <select class="form-control" name="measurement" required>
+        <?php
+        // Fetch data from the report table where auctionstatus is 1
+        $sql = "SELECT DISTINCT requesteditem_measurment FROM report WHERE auctionstatus = 1";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // Output data of each row
+            while ($row = $result->fetch_assoc()) {
+                ?>
+                <option value="<?php echo $row['requesteditem_measurment']; ?>"><?php echo $row['requesteditem_measurment']; ?></option>
+                <?php
+            }
+        } else {
+            echo "<option value=''>No measurement available</option>";
+        }
+        ?>
+    </select>
+</div>
+
 						<div class="col-md-4">
-								<label for="" class="control-label">measurement</label>
-								<input type="text" class="form-control" name="measurement"  value="<?php echo isset($measurement) ? $measurement :'' ?>" required>
-							</div>
-						<div class="col-md-4">
-								<label for="" class="control-label">quantity</label>
-								<input type="text" class="form-control" name="quantity"  value="<?php echo isset($quantity) ? $quantity : 1 ?>" required>
-						</div>
-					</div>
+    <label for="" class="control-label">Quantity</label>
+    <select class="form-control" name="quantity" required>
+        <?php
+        // Fetch data from the report table where auctionstatus is 1
+        $sql = "SELECT DISTINCT requesteditem_quantity FROM report WHERE auctionstatus = 1";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // Output data of each row
+            while ($row = $result->fetch_assoc()) {
+                ?>
+                <option value="<?php echo $row['requesteditem_quantity']; ?>"><?php echo $row['requesteditem_quantity']; ?></option>
+                <?php
+            }
+        } else {
+            echo "<option value='1'>1</option>"; // Default to 1 if no quantity available
+        }
+        ?>
+    </select>
+</div>
+
 
 					<div class="form-group row">
 						<div class="col-md-4">
@@ -163,9 +216,27 @@ img#img_path-field{
 								<input type="text" class="form-control" name="price_for_form"  value="<?php echo isset($price_for_form) ? $price_for_form :'' ?>" required>
 						</div>
 						<div class="col-md-4">
-								<label for="" class="control-label">Total Price</label>
-								<input type="text" class="form-control" name="total_price"  value="<?php echo isset($total_price) ? $total_price : 0 ?>" required> 
-						</div>
+    <label for="" class="control-label">Total Price</label>
+    <select class="form-control" name="total_price" required>
+        <?php
+        // Fetch data from the report table where auctionstatus is 1
+        $sql = "SELECT DISTINCT total_price FROM report WHERE auctionstatus = 1";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // Output data of each row
+            while ($row = $result->fetch_assoc()) {
+                ?>
+                <option value="<?php echo $row['total_price']; ?>"><?php echo $row['total_price']; ?></option>
+                <?php
+            }
+        } else {
+            echo "<option value='0'>0</option>"; // Default to 0 if no total price available
+        }
+        ?>
+    </select>
+</div>
+
 						
 					</div>
 
@@ -177,10 +248,28 @@ img#img_path-field{
 					</div>
 
 					<div class="form-group row">
-						<div class="col-md-4">
-							<label for="" class="control-label">Regular Price</label>
-							<input type="number" class="form-control text-right" name="regular_price" value="<?php echo isset($regular_price) ? $regular_price : 0 ?>" required>
-						</div>
+					<div class="col-md-4">
+    <label for="" class="control-label">Regular Price</label>
+    <select class="form-control" name="regular_price" required>
+        <?php
+        // Fetch data from the report table where auctionstatus is 1
+        $sql = "SELECT DISTINCT price FROM report WHERE auctionstatus = 1";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // Output data of each row
+            while ($row = $result->fetch_assoc()) {
+                ?>
+                <option value="<?php echo $row['price']; ?>"><?php echo $row['price']; ?></option>
+                <?php
+            }
+        } else {
+            echo "<option value='0'>0</option>"; // Default to 0 if no regular price available
+        }
+        ?>
+    </select>
+</div>
+
 						<div class="col-md-4">
 							<label for="" class="control-label">Starting Bidding Amount</label>
 							<input type="number" class="form-control text-right" name="start_bid" value="<?php echo isset($start_bid) ? $start_bid : 0 ?>" required>

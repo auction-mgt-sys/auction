@@ -57,10 +57,32 @@
             display: table;
             clear: both;
         }
+
+        .search-bar {
+            margin-bottom: 10px;
+        }
+
+        .search-bar select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
+    
 <div class="container">
+    <div class="search-bar">
+        <span>Show:</span>
+        <select onchange="changePerPage(this)">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+        </select>
+    </div>
+
     <?php
     // Replace these variables with your actual database connection details
     include("db_connect.php");
@@ -116,5 +138,14 @@
     ?>
     <div class="clearfix"></div>
 </div>
+
+<script>
+    function changePerPage(select) {
+        var perPage = select.value;
+        // Implement logic to change the number of items per page
+        // For example, you can reload the page with a query parameter indicating the number of items per page
+        // window.location.href = window.location.pathname + '?perPage=' + perPage;
+    }
+</script>
 </body>
 </html>
