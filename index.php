@@ -64,20 +64,26 @@ include('header.php');
   
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=home"><img src="images/Home.png" class="ic"> Home</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> About Organization</a></li>
-                    <li class="nav-item notification-icon"><a class="nav-link js-scroll-trigger" href="index.php?page=event"><img src="images/auction_32px.png" class="ic"> Events <span class="notification-count">
-    
-                    <?php
-// Get current datetime
-$current_datetime = date('Y-m-d H:i:s');
+                    <li class="nav-item notification-icon">
+    <a class="nav-link js-scroll-trigger" href="index.php?page=event">
+        <img src="images/auction_32px.png" class="ic"> Events
+        <?php
+        // Get current datetime
+        $current_datetime = date('Y-m-d H:i:s');
 
-// Count the number of events from the product table that occur on or after the current datetime
-$event_count_query = $conn->query("SELECT COUNT(*) AS event_count FROM products WHERE bid_end_datetime >= '$current_datetime'");
-$event_count_row = $event_count_query->fetch_assoc();
-$event_count = $event_count_row['event_count'];
-?>
+        // Count the number of events from the product table that occur on or after the current datetime
+        $event_count_query = $conn->query("SELECT COUNT(*) AS event_count FROM products WHERE bid_end_datetime >= '$current_datetime'");
+        $event_count_row = $event_count_query->fetch_assoc();
+        $event_count = $event_count_row['event_count'];
 
-<!-- Display the number of events in the notification icon -->
-<span class="notification-count"><?php echo $event_count; ?></span>
+        // Display the number of events in the notification icon if count is greater than 0
+        if ($event_count > 0) {
+            echo '<span class="notification-count">' . $event_count . '</span>';
+        }
+        ?>
+    </a>
+</li>
+
 
 
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=contact"><img src="images/help.png" class="ic"> contact us</a></li>
@@ -90,61 +96,6 @@ $event_count = $event_count_row['event_count'];
                     <?php endif; ?>
 
 <!-- Translation Code here -->
-<span>
-    <div class="translate" id="google_translate_element"></div>
-    <!-- This <div> element will be replaced by the Google Translate widget. -->
-
-    <script type="text/javascript">
-        // This function initializes the Google Translate widget.
-        function googleTranslateElementInit() {  
-            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-        }
-    </script>
-
-    <!-- This script includes the Google Translate API -->
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<!-- Inline CSS -->
-<style>
-  /* Define styles for the translate button */
-  .translate-button {
-    display: inline-block;
-    padding: 10px;
-    background-color: #f2f2f2; /* Light black background color */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-  }
-
-  .translate-button:hover {
-    background-color: #ddd; /* Darker background color on hover */
-  }
-
-  /* Style for the translate dropdown */
-  .translate-dropdown {
-    display: none;
-    position: absolute;
-    z-index: 1;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    animation: fadein 0.3s; /* Fade-in animation for the dropdown */
-  }
-
-  .translate-dropdown.show {
-    display: block;
-  }
-
-  /* Define animation */
-  @keyframes fadein {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-</style>
 
 
 
