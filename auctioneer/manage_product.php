@@ -132,33 +132,36 @@ img#img_path-field{
 					<hr>
 					<div class="form-group row">
 					<div class="col-md-4">
-    <label for="" class="control-label">Name</label>
-    <?php
-    // Include your database connection
-    include 'db_connect.php';
+					<label for="" class="control-label">Name</label>
+<?php
+// Include your database connection
+include 'db_connect.php';
 
-    // Fetch name from reports table where auctionstatus is 1
-    $sql = "SELECT requesteditem_name FROM report WHERE auctionstatus = 1 LIMIT 1";
-    $result = $conn->query($sql);
+// Fetch name from reports table where auctionstatus is 1 and not used
+$sql = "SELECT requesteditem_name FROM report WHERE auctionstatus = 1 AND auction = 0 LIMIT 1";
+$result = $conn->query($sql);
 
-    // Check if there's a result
-    if ($result->num_rows > 0) {
-        // Output data of each row
-        $row = $result->fetch_assoc();
-        $name_from_report = $row['requesteditem_name'];
-    } else {
-        $name_from_report = ''; // Default value if no result
-    }
-    ?>
-    <input type="text" class="form-control" name="name" value="<?php echo $name_from_report; ?>" required>
-</div>
+// Check if there's a result
+if ($result->num_rows > 0) {
+    // Output data of the selected row
+    $row = $result->fetch_assoc();
+    $name_from_report = $row['requesteditem_name'];
 
-						<div class="col-md-4">
+    // Mark the selected item as used in the report table
+    $update_sql = "UPDATE report SET auction = 1 WHERE requesteditem_name = '{$name_from_report}'";
+    $conn->query($update_sql);
+} else {
+    $name_from_report = ''; // Default value if no result
+    // Handle the case where no item is available
+}
+?>
+
+<div class="col-md-4">
     <label for="" class="control-label">Measurement</label>
     <select class="form-control" name="measurement" required>
         <?php
-        // Fetch data from the report table where auctionstatus is 1
-        $sql = "SELECT DISTINCT requesteditem_measurment FROM report WHERE auctionstatus = 1";
+        // Fetch data from the report table where auctionstatus is 1 and used is 0
+        $sql = "SELECT DISTINCT requesteditem_measurment FROM report WHERE auctionstatus = 1 AND auction = 0";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -169,9 +172,12 @@ img#img_path-field{
                 <?php
             }
         } else {
-            echo "<option value=''>No measurement available</option>";
+            echo "<option value=''>No</option>";
         }
         ?>
+    </select>
+</div>
+
     </select>
 </div>
 
