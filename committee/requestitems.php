@@ -62,25 +62,26 @@ if ($result->num_rows > 0) {
                 <td>" . $row["measurment"] . "</td>
                 <td>" . $row["quantity"] . "</td>
                 <td>
-                    <a href='itemverification.php?id=" . $row["id"] . "&action=verify' style='background-color: yellow; display: inline-block; padding: 8px; font-weight: bold; text-decoration: none; color: black;'>Verify</a>
+                    <a href='itemverification.php?id=" . $row["id"] . "&action=verify' class='verify-btn' style='background-color: yellow; display: inline-block; padding: 8px; font-weight: bold; text-decoration: none; color: black;'>Verify</a>
                     <a href='itemverification.php?id=" . $row["id"] . "&action=reject' style='background-color: red; display: inline-block; padding: 8px; font-weight: bold; text-decoration: none; color: black;'>Reject</a>
                 </td>
             </tr>";
     }
     echo "</tbody></table>";
 } else {
-    echo "No requested items ";
+    echo "There is no requested items ";
 }
 ?>
-
 
 <!-- JavaScript for DataTables -->
 <script>
     $(document).ready(function() {
         $('#requested_items').DataTable();
+
+        // Handle click event for verify button
+        
     });
 </script>
-
 
 </body>
 </html>

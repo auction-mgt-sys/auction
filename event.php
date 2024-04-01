@@ -70,6 +70,15 @@ $result = $conn->query($sql);
       background-color: #007bff; /* Badge background color */
       color: #fff;
     }
+    .no-bids {
+  text-align: center;
+  padding: 20px;
+  height: 200px; /* Adjust the height as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
   </style>
 </head>
 <body>
@@ -98,11 +107,14 @@ $result = $conn->query($sql);
         <?php
         }
       } else {
-        echo "<div class='col-12'><p>No advertisements available.</p></div>";
+        ?>
+        <div class="col-12 no-bids">
+          <p>There are currently no available bids.</p>
+        </div>
+      <?php
       }
       ?>
     </div>
   </div>
 </body>
 </html>
-<?php

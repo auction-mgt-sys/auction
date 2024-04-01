@@ -21,6 +21,7 @@ if (isset($_GET['id']) && isset($_GET['action'])) {
                 $reason = $_POST['reason'];
                 $message = updateStatus($itemId, 2, "Item successfully rejected with reason: $reason", $reason);
             } else {
+                // Reason not provided, set message to display the form again
                 $message = "";
             }
             break;
@@ -56,7 +57,7 @@ function updateStatus($itemId, $status, $successMessage, $reason = "") {
 </div>
 
 <!-- Form for rejecting with reason -->
-<div id="rejectForm" style="display: <?php echo isset($_GET['action']) && $_GET['action'] == 'reject' ? 'block' : 'none'; ?>;">
+<div id="rejectForm" style="display: <?php echo (isset($_GET['action']) && $_GET['action'] == 'reject' && !isset($_POST['reason'])) ? 'block' : 'none'; ?>;">
     <form action="<?php echo $_SERVER['PHP_SELF'] . '?id=' . $_GET['id'] . '&action=reject'; ?>" method="post">
         <label for="reason">Reason for rejection:</label><br>
         <textarea id="reason" name="reason" rows="4" cols="50"></textarea><br>
