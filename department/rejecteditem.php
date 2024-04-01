@@ -1,75 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Requested Items</title>
+<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        width: 40%;
+        margin: auto;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    .container {
+        padding: 2px 16px;
+    }
+
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .card-column {
+        width: 48%;
+    }
+
+    label {
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+<div class="card">
+    <div class="container">
+        <form method="post">
+            <label for="depname">Enter depname:</label><br>
+            <input type="text" id="depname" name="depname"><br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+
 <?php
 // Assuming the connection to the database is already established
 include 'db_connect.php';
 
-// Initialize message variable
-$message = '';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $depname = $_POST['depname'];
 
-// Check if ID and action parameters are provided
-if (isset($_GET['id']) && isset($_GET['action'])) {
-    $itemId = $_GET['id'];
-    $action = $_GET['action'];
+    // Prepare SQL statement to fetch requested items with status = 2 and depname provided by user
+    $stmt = $conn->prepare("SELECT name, quantity, reason, type, depname FROM requesteditem WHERE status = 2 AND depname = ?");
+    $stmt->bind_param("s", $depname);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Update status based on action
-    switch ($action) {
-        case 'verify':
-            $message = updateStatus($itemId, 1, "Item successfully verified");
-            break;
-        case 'reject':
-            // If reject action, check if reason is provided
-            if (isset($_POST['reason']) && !empty(trim($_POST['reason']))) {
-                $reason = $_POST['reason'];
-                $message = updateStatus($itemId, 2, "Item successfully rejected with reason: $reason", $reason);
-            } else {
-                $message = "";
-            }
-            break;
-        default:
-            $message = "Invalid action";
-    }
-}
-
-// Function to update status and insert reason in the database
-function updateStatus($itemId, $status, $successMessage, $reason = "") {
-    global $conn;
-    // Update status for the specified item ID
-    $sql = "UPDATE requesteditem SET status = $status";
-    if (!empty($reason)) {
-        $sql .= ", reason = '$reason'";
-    }
-    $sql .= " WHERE id = $itemId";
-    
-    // Execute the SQL query to update status and insert reason
-    if ($conn->query($sql) === TRUE) {
-        return $successMessage;
+    // Check if there are any requested items
+    if ($result->num_rows > 0) {
+        echo '<div class="card-container">';
+        // Output data in card format
+        while ($row = $result->fetch_assoc()) {
+            echo '<div class="card-column">';
+            echo '<div class="card">';
+            echo '<div class="container">';
+            echo '<p><strong>Name:</strong> ' . $row["name"] . '</p>';
+            echo '<p><strong>Quantity:</strong> ' . $row["quantity"] . '</p>';
+            echo '<p><strong>Reason:</strong> ' . $row["reason"] . '</p>';
+            echo '<p><strong>Type:</strong> ' . $row["type"] . '</p>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+        }
+        echo '</div>'; // close card-container
     } else {
-        return "Error updating status: " . $conn->error;
+        echo "<p>No requested items found for depname: $depname</p>";
     }
+
+    $stmt->close();
 }
 ?>
 
-
-
-<div id="message" class="toast" style="display: <?php echo $message ? 'block' : 'none'; ?>;">
-    <?php echo $message; ?>
-</div>
-
-<!-- Form for rejecting with reason -->
-<div id="rejectForm" style="display: <?php echo isset($_GET['action']) && $_GET['action'] == 'reject' ? 'block' : 'none'; ?>;">
-    <form action="<?php echo $_SERVER['PHP_SELF'] . '?id=' . $_GET['id'] . '&action=reject'; ?>" method="post">
-        <label for="reason">Reason for rejection:</label><br>
-        <textarea id="reason" name="reason" rows="4" cols="50"></textarea><br>
-        <input type="submit" value="Reject">
-    </form>
-</div>
-
-<script>
-    // Function to hide the message after some time
-    function hideMessage() {
-        var messageBox = document.getElementById('message');
-        messageBox.style.display = 'none';
-    }
-
-    // Call hideMessage function after 5 seconds
-    setTimeout(hideMessage, 5000);
-</script>
+</body>
+</html>
