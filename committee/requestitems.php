@@ -24,6 +24,25 @@
     .professional-table tr:nth-child(even) {
         background-color: #f2f2f2;
     }
+    .toast {
+            display: none;
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 50px;
+            border-radius: 10px;
+            z-index: 1;
+            animation: fadeInOut 20s ease-in-out;
+        }
+        @keyframes fadeInOut {
+            0% {opacity: 2;}
+            10% {opacity: 6;}
+            90% {opacity: 6;}
+            100% {opacity: 2;}
+        }
 </style>
 </head>
 <body>
@@ -62,7 +81,7 @@ if ($result->num_rows > 0) {
                 <td>" . $row["measurment"] . "</td>
                 <td>" . $row["quantity"] . "</td>
                 <td>
-                    <a href='itemverification.php?id=" . $row["id"] . "&action=verify' style='background-color: yellow; display: inline-block; padding: 8px; font-weight: bold; text-decoration: none; color: black;'>Verify</a>
+                    <a  href='itemverification.php?id=" . $row["id"] . "&action=verify' style='background-color: yellow; display: inline-block; padding: 8px; font-weight: bold; text-decoration: none; color: black;'>Verify</a>
                     <a href='itemverification.php?id=" . $row["id"] . "&action=reject' style='background-color: red; display: inline-block; padding: 8px; font-weight: bold; text-decoration: none; color: black;'>Reject</a>
                 </td>
             </tr>";
@@ -80,6 +99,7 @@ if ($result->num_rows > 0) {
         $('#requested_items').DataTable();
     });
 </script>
+
 
 
 </body>

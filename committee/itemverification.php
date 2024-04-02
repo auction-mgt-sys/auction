@@ -64,13 +64,23 @@ function updateStatus($itemId, $status, $successMessage, $reason = "") {
     </form>
 </div>
 
+<style>
+    .toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #4CAF50;
+        color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+</style>
+
 <script>
     // Function to hide the message after some time
-    function hideMessage() {
+    setTimeout(function() {
         var messageBox = document.getElementById('message');
         messageBox.style.display = 'none';
-    }
-
-    // Call hideMessage function after 5 seconds
-    setTimeout(hideMessage, 5000);
+    }, 5000);
 </script>
