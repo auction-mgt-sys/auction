@@ -44,8 +44,6 @@ $user_type = $_SESSION['login_type'];
 						<label for="" class="control-label"><b>Send To: </b></label>
 							<select class="custom-select" name="resiver_id" required>
 								<option value="11">Auctioneer</option>
-								<option value="5">Technical Commitee</option>
-								<option value="1">Admin</option>
 							</select>
 						</div>
 						
