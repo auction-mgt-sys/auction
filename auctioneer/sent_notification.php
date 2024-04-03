@@ -1,67 +1,66 @@
- <!-- Masthead-->
+<?php 
+include('db_connect.php');
 
-       <?php include('db_connect.php');
+if (isset($_SESSION['login_id'])) {
+    $owner = $_SESSION['login_id'];
+?>
 
-       if (isset($_SESSION['login_id'])) {
-  
-$owner = $_SESSION['login_id'];
-     ?>
-    <div class="col-lg-12 ">
-        
-        <div class="row">
-            <!-- FORM Panel -->
-
-            <!-- Table Panel -->
-            <div class="col-md-12">
-                
-              <br>
-
-                <div class="card">
-                    <div class="card-header">
-                        <b>Sent Messages</b>
-                        <span class="float:right"><a class="btn-block btn-sm col-sm-1 float-right c" href="index.php?page=write_comment" id="new_product">
-                    <i class="fa fa-plus"></i>
-                </a>
-                </span>
-                        <span class="float:right"><a class="btn-block btn-sm col-sm-1 float-right c" href="index.php?page=feedback" id="new_product">
-                    <i class="fas fa-envelope-square"></i>
-                </a>
-                </span>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-condensed table-bordered table-hover">
-                            <?php
-                   $users = $conn->query("SELECT * FROM comment where sender_id =$owner  order by 'date' asc");
-                    while($row= $users->fetch_assoc()){
-
-                        $get = $conn->query("SELECT * FROM users where id =".$row['reciver_id']."  order by 'date' asc limit 1");
-                        $uname = $get->num_rows > 0 ? $get->fetch_array()['name'] : '' ;
-                 ?>
-                    <a class="dropdown-item view_detail" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>
-                        <small> <i><?php echo 'To:- '.$uname ?></i></small>
-                        <br>
-                         <p>Subject: <?php echo $row['title'] ; ?></p>
-                         <small><i><?php echo date('F j, Y, g:i a',strtotime($row['date'])) ?></i></small>
-                           <hr>
-                    </a>
-                <?php }  
-
-$d = date('g:i a',strtotime($row['date']));
-                ?>
-
-                             
-<!--                     <small><i><?php #echo date('F j, Y, g:i a',strtotime($i['date'])) ?></i></small><br/>  
- -->                             
-                        </table>
-                    </div>
+<div class="col-lg-12">
+    <div class="row">
+        <!-- Table Panel -->
+        <div class="col-md-12"> 
+            <br>
+            <div class="card">
+                <div class="card-header">
+                    <b>Sent Messages</b>
+                    <span class="float:right">
+                        <a class="btn-block btn-sm col-sm-1 float-right c" href="index.php?page=write_comment" id="new_product">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </span>
+                    <span class="float:right">
+                        <a class="btn-block btn-sm col-sm-1 float-right c" href="index.php?page=feedback" id="new_product">
+                            <i class="fas fa-envelope-square"></i>
+                        </a>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <table class="table table-condensed table-bordered table-hover">
+                        <?php
+                        $users = $conn->query("SELECT * FROM comment where sender_id = $owner  ORDER BY `date` ASC");
+                        while($row = $users->fetch_assoc()){
+                            $get = $conn->query("SELECT * FROM users where id = ".$row['reciver_id']." ORDER BY `date` ASC LIMIT 1");
+                            $uname = '';
+                            if ($get->num_rows > 0) {
+                                $uname = $get->fetch_array()['name'];
+                            }
+                        ?>
+                            <tr>
+                                <td>
+                                    <a class="dropdown-item view_detail" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">
+                                        <small><i><?php echo 'To:- '.$uname ?></i></small><br>
+                                        <p>Subject: <?php echo $row['title'] ?></p>
+                                        <small><i><?php echo date('F j, Y, g:i a',strtotime($row['date'])) ?></i></small>
+                                        <hr>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php 
+                            $d = date('g:i a',strtotime($row['date']));
+                        } // Close the while loop here
+                        ?>
+                    </table>
                 </div>
             </div>
-            <!-- Table Panel -->
         </div>
-    </div>  
-
+        <!-- Table Panel -->
+    </div>
 </div>
+
 <?php } ?>
+
+<!-- Your CSS and JavaScript code here -->
+
 <style>
 .b{
     border-radius: 30%;

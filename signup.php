@@ -70,8 +70,8 @@
         justify-content: start;
     }
     img#img_preview {
-        max-height: 150px;
-        max-width: 150px;
+        max-height: 50px;
+        max-width: 50px;
     }
 </style>
 <script>

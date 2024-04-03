@@ -47,6 +47,10 @@ foreach($user->fetch_array() as $k =>$v){
 				<option value="3" <?php echo isset($meta['type']) && $meta['type'] == 3 ? 'selected': '' ?>>Auctioneer</option>
 				<option value="1" <?php echo isset($meta['type']) && $meta['type'] == 1 ? 'selected': '' ?>>Admin</option>
 				<option value="4" <?php echo isset($meta['type']) && $meta['type'] == 4 ? 'selected': '' ?>>Committee</option>
+				<option value="5" <?php echo isset($meta['type']) && $meta['type'] == 5 ? 'selected': '' ?>>department</option>
+				<option value="6" <?php echo isset($meta['type']) && $meta['type'] == 6 ? 'selected': '' ?>>finance</option>
+	 <option value="7" <?php echo isset($meta['type']) && $meta['type'] == 7 ? 'selected': '' ?>>president</option>
+
 			</select>
 		</div>
 		<?php endif; ?>
