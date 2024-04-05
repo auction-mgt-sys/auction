@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            position: relative; /* Added */
         }
 
         .container {
@@ -19,6 +20,7 @@
             background-color: #f4f4f4;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* Added */
         }
 
         .card {
@@ -57,10 +59,58 @@
             display: table;
             clear: both;
         }
+
+        .search-bar {
+            margin-bottom: 10px;
+        }
+
+        .search-bar select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
+
+        .success-message {
+            background-color: lightgreen;
+            color: green;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            position: absolute; /* Added */
+            top: 50%; /* Added */
+            left: 50%; /* Added */
+            transform: translate(-50%, -50%); /* Added */
+            z-index: 9999; /* Added */
+        }
+
+        .error-message {
+            background-color: #ffcccc;
+            color: red;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            position: absolute; /* Added */
+            top: 50%; /* Added */
+            left: 50%; /* Added */
+            transform: translate(-50%, -50%); /* Added */
+            z-index: 9999; /* Added */
+        }
     </style>
 </head>
 <body>
+    
 <div class="container">
+    <div class="search-bar">
+        <span>Show:</span>
+        <select onchange="changePerPage(this)">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+        </select>
+    </div>
+
     <?php
     // Replace these variables with your actual database connection details
     include("db_connect.php");
@@ -100,7 +150,7 @@
         // Perform approval action here (e.g., update database, send notification)
         $item_id = $_POST['item_id'];
         $conn->query("UPDATE report SET auctionstatus = 1 WHERE id = $item_id");
-        echo "<script>alert('Successfully approved auction!');</script>";
+        echo '<div class="success-message">Successfully approved auction!</div>';
     }
 
     // Check if the cancel button is clicked
@@ -108,7 +158,7 @@
         // Perform cancellation action here (e.g., update database, send notification)
         $item_id = $_POST['item_id'];
         $conn->query("UPDATE report SET auctionstatus = 2 WHERE id = $item_id");
-        echo "<script>alert('Auction cancelled!');</script>";
+        echo '<div class="error-message">Auction cancelled!</div>';
     }
 
     // Close connection
@@ -116,5 +166,30 @@
     ?>
     <div class="clearfix"></div>
 </div>
+
+<script>
+    // Remove success message after 2 seconds
+    setTimeout(function() {
+        var successMessage = document.querySelector('.success-message');
+        if (successMessage) {
+            successMessage.remove();
+        }
+    }, 2000);
+
+    // Remove error message after 2 seconds
+    setTimeout(function() {
+        var errorMessage = document.querySelector('.error-message');
+        if (errorMessage) {
+            errorMessage.remove();
+        }
+    }, 2000);
+
+    function changePerPage(select) {
+        var perPage = select.value;
+        // Implement logic to change the number of items per page
+        // For example, you can reload the page with a query parameter indicating the number of items per page
+        // window.location.href = window.location.pathname + '?perPage=' + perPage;
+    }
+</script>
 </body>
 </html>
