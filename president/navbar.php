@@ -16,6 +16,7 @@
             <a href="index.php?page=cancel_auction" class="nav-item"><span class='icon-field'><i class="fa fa-times-circle"></i></span> Cancel Auction</a>
         </div>
     </div>
+    
 </nav>
 <script>
 	$('.nav_collapse').click(function(){
