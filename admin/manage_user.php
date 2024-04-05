@@ -8,7 +8,12 @@ if(isset($_GET['id'])){
     }
 }
 
+ 
+
+
+// Check if form data is submitted
 if(isset($_POST['name'])){
+    // Retrieve form data
     $name = $_POST['name'];
     $lname = $_POST['lname'];
     $age = $_POST['age'];
@@ -17,30 +22,25 @@ if(isset($_POST['name'])){
     $type = $_POST['type'];
     $deptname = isset($_POST['deptname']) ? $_POST['deptname'] : ''; // Get the department name
 
-    // Check if user already exists
-    $check_user = $conn->query("SELECT * FROM users WHERE username = '$username' ". (isset($meta['id']) ? "AND id != ".$meta['id'] : ''));
+    // Check if username already exists
+    $check_user = $conn->query("SELECT * FROM users WHERE username = '$username'");
     if($check_user->num_rows > 0){
         echo 2; // Username already exists
         exit;
     }
 
-    if(isset($meta['id'])){
-        $update_query = "UPDATE users SET name = '$name', lname = '$lname', age = '$age', username = '$username', ".($_POST['password'] != '' ? " password = '$password', " : '')." type = '$type', deptname = '$deptname' WHERE id = ".$meta['id'];
-        if($conn->query($update_query) === TRUE) {
-            echo "Record updated successfully";
-        } else {
-            echo "Error updating record: " . $conn->error;
-        }
+    // Construct the insert query
+    $insert_query = "INSERT INTO users (name, lname, age, username, password, type, deptname) 
+                     VALUES ('$name', '$lname', '$age', '$username', '$password', '$type', '$deptname')";
+
+    // Execute the insert query
+    if($conn->query($insert_query) === TRUE) {
+        echo "New record created successfully";
     } else {
-        $insert_query = "INSERT INTO users (name, lname, age, username, password, type, deptname) VALUES ('$name', '$lname', '$age', '$username', '$password', '$type', '$deptname')";
-        if($conn->query($insert_query) === TRUE) {
-            echo "New record created successfully";
-        } else {
-            echo "Error: " . $insert_query . "<br>" . $conn->error;
-        }
+        echo "Error: " . $insert_query . "<br>" . $conn->error;
     }
 
-    exit;
+    exit; // Stop further execution
 }
 ?>
 
