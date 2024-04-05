@@ -13,7 +13,7 @@
 				<a href="index.php?page=rejecteditem" class="nav-item rejecteditem"><span class='icon-field'><i class="fa fa-itemrequest"></i></span> veiw rejecteditem  </a>
 				
 			</div>
-s
+
 </nav>
 <script>
 	$('.nav_collapse').click(function(){
