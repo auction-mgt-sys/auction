@@ -1,4 +1,3 @@
-Hani, [4/9/2024 1:15 PM]
 <?php
 include('./db_connect.php');
 ob_start();
@@ -91,7 +90,6 @@ ob_end_flush();
 
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-Hani, [4/9/2024 1:15 PM]
 <script>
         // Function to calculate total price
         function calculateTotalPrice(requesteditemId, quantity) {

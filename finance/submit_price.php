@@ -19,12 +19,12 @@ if (isset($_POST['submit_price'])) {
         }
     }
 
-    // Display success message
+    // Close the database connection
+    $conn->close();
+
+    // JavaScript for displaying toast message
     echo "<script>
             alert('Prices have been submitted successfully');
-            window.history.back(); // Go back to the previous page
           </script>";
 }
-
-$conn->close();
 ?>
