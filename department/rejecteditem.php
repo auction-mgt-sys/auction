@@ -1,60 +1,36 @@
 <?php
-include 'db_connect.php'; 
+include 'db_connect.php';   
 
-$message = ""; // Initialize message variable
+// Assuming you have set the user_id in the session (replace it with your actual way of identifying the user)
+$userId = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : 0; // Replace 'login_id' with your session variable name
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve the form data
-    $items = $_POST['items'];
-    
-    // Assuming you have set the user_id in the session (replace it with your actual way of identifying the user)
-    $userId = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : 0; // Replace 'login_id' with your session variable name
-
-    // Initialize variables
-    $departmentName = ""; // Initialize department name variable
-    $departmentHeadName = ""; // Initialize department head name variable
-    
-    // Fetch department name and department head name only if user_id is set
-    if ($userId != 0) {
-        $query = "SELECT deptname, CONCAT(name, ' ', lname) AS departmentHeadName FROM users WHERE id = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("i", $userId);
-        $stmt->execute();
-        $stmt->bind_result($departmentName, $departmentHeadName);
-        $stmt->fetch();
-        $stmt->close();
-    }
-
-    // Loop through each item and insert into the database
-    foreach ($items as $item) {
-        $name = $item['name'];
-        $type = $item['type'];
-        $description = $item['description'];
-        $measurement = $item['measurement'];
-        $quantity = $item['quantity'];
-
-        // Prepare and execute SQL query to insert data into the database table using prepared statements
-        $stmt = $conn->prepare("INSERT INTO requesteditem (name, type, description, measurement, quantity, deptname, depheadname) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssiss", $name, $type, $description, $measurement, $quantity, $departmentName, $departmentHeadName);
-
-        if ($stmt->execute()) {
-            $message = "";
-        } else {
-            $message = "Error: " . $stmt->error;
-            break; // Stop the loop if an error occurs
-        }
-    }
+// Fetch department name associated with the logged-in user
+$departmentName = "";
+if ($userId != 0) {
+    $query = "SELECT deptname FROM users WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $stmt->bind_result($departmentName);
+    $stmt->fetch();
+    $stmt->close();
 }
 
-// Fetch rejected items from the requesteditem table
+// Fetch rejected items from the requesteditem table for the department associated with the logged-in user
 $rejectedItems = array();
-$query = "SELECT id, name, type, description, measurment, quantity FROM requesteditem WHERE status = '2'";
-$result = $conn->query($query);
+$query = "SELECT id, name, type, measurment, quantity, reason FROM requesteditem WHERE status = 2 AND deptname = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("s", $departmentName);
+$stmt->execute();
+$result = $stmt->get_result();
+
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $rejectedItems[] = $row;
     }
 }
+
+$stmt->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +38,31 @@ if ($result->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rejected Item View</title>
-    <!-- Your CSS styles here -->
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
     <h2>Rejected Items</h2>
@@ -73,9 +73,9 @@ if ($result->num_rows > 0) {
                     <th>ID</th>
                     <th>Name</th>
                     <th>Type</th>
-                    <th>Description</th>
                     <th>Measurement</th>
                     <th>Quantity</th>
+                    <th>Reason</th>
                 </tr>
             </thead>
             <tbody>
@@ -84,9 +84,9 @@ if ($result->num_rows > 0) {
                         <td><?php echo $item['id']; ?></td>
                         <td><?php echo $item['name']; ?></td>
                         <td><?php echo $item['type']; ?></td>
-                        <td><?php echo $item['description']; ?></td>
                         <td><?php echo $item['measurment']; ?></td>
                         <td><?php echo $item['quantity']; ?></td>
+                        <td><?php echo $item['reason']; ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
