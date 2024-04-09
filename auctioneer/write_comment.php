@@ -1,113 +1,118 @@
-<!-- Masthead -->
-<?php 
-    include('db_connect.php');
+ <!-- Masthead-->
 
-    if (isset($_SESSION['login_id'])) {
-        $owner = $_SESSION['login_id'];
-?>
-    <div class="container-fluid d-flex h justify-content-center">
-        <div class="col-lg-10 ">
-            <div class="row">
-                <!-- FORM Panel -->
-                <div id="msg"></div>
-                <!-- Table Panel -->
-                <div class="col-md-12">
-                    <br>
-                    <div class="card">
-                        <div class="card-body">
-                            <form id="add_comments">
-                                <input type="hidden" name="id" value="<?php echo isset($owner) ? $owner : ''; ?>">
-                                <h5>Write Your Message
-                                    <span class="float:right">
-                                        <a class="btn-block btn-sm col-sm-1 float-right c" href="index.php?page=sent_notification" id="new_product">
-                                            <i class="fas fa-long-arrow-alt-right"></i>
-                                        </a>
-                                    </span>
-                                    <span class="float:right">
-                                        <a class="btn-block btn-sm col-sm-1 float-right c" href="index.php?page=feedback" id="new_product">
-                                            <i class="fas fa-envelope-square"></i>
-                                        </a>
-                                    </span>
-                                </h5>
-                                <div class="form-group row d-flex">
-                                    <div class="col-md-8 justify-content-start">
-                                        <label for="" class="control-label">From: &nbsp;&nbsp; <?php echo $_SESSION['login_name']; ?></label>
-                                    </div>
-                                    <div class="col-md-4 justify-content-end">
-                                        <label><b>Date:</b><i style="background: #e1e6e1;"> <?php echo strtolower(date('F j, Y')); ?></i></label>
-                                    </div>
-                                </div>
-                                <div class="form-group row d-flex">
-                                    <div class="">
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To:
-                                    </div>
-                                    <div class="col-md-9 ">
-                                        <input type="text" class="form-control" name="receiver" list="receiver" id="receiver" required>
-                                        <datalist id="receiver">
-                                            <option value=""></option>
-                                            <?php
-                                            $qry = $conn->query("SELECT * FROM users ORDER BY name ASC");
-                                            while ($row = $qry->fetch_assoc()) :
-                                            ?>
-                                                <option value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?></option>
-                                            <?php endwhile; ?>
-                                        </datalist>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div>
-                                        Subject:
-                                    </div>
-                                    <div class="col-md-9 ">
-                                        <input type="text" class="form-control" name="subject" required>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-lg-12">
-                                        <label for="" class="control-label">Details</label>
-                                        <textarea name="description" id="description" class="form-control" cols="30" rows="5" required></textarea>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn btn-sm btn-block btn-primary col-sm-2">Save</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+       <?php include('db_connect.php');
+
+       if (isset($_SESSION['login_id'])) {
+       ?>
+<div class="container-fluid d-flex h justify-content-center">
+     
+    <?php
+$owner = $_SESSION['login_id'];
+     ?>
+    <div class="col-lg-10 ">
+        
+        <div class="row">
+            <!-- FORM Panel -->
+            <div id="msg"></div>
+            <!-- Table Panel -->
+            <div class="col-md-12">
+    		<br>
+		<div class="card">
+			<div class="card-body">
+				<form action="" id="add_comments">
+					<input type="hidden" name="id" value="<?php echo isset($owner) ? $id :'' ?>">
+					<h5>Write Your Message
+
+                <span class="float:right"><a class="btn-block btn-sm col-sm-1 float-right c" href="index.php?page=sent_notification" id="new_product">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                </a>
+                </span>
+            <span class="float:right"><a class="btn-block btn-sm col-sm-1 float-right c" href="index.php?page=feedback" id="new_product">
+                    <i class="fas fa-envelope-square"></i>
+                </a>
+                </span>
+</h5>
+					<div class="form-group row d-flex">
+						<div class="col-md-8 justify-content-start ">
+							<label for="" class="control-label">From: &nbsp;&nbsp; <?php echo $_SESSION['login_name'];?></label>
+							
+						</div>
+						<div class="col-md-4 justify-content-end">
+						  <label><b>Date:</b><i style="background: #e1e6e1;"> <?php echo strtolower((date('F j, Y'))); ?></i></label>
+						</div>
+					</div>
+					<div class="form-group row d-flex">
+						<div class=" ">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To:
+						</div>
+						<div class="col-md-9 ">
+							
+								<input type="text" class="form-control" name="reciver" list="reciver" id="reciver" required>
+								<datalist id="reciver">
+									<option value=""></option>
+							<?php
+								$qry = $conn->query("SELECT * FROM users order by name asc");
+								while($row=$qry->fetch_assoc()):
+								?>
+								<option value="<?php echo $row['id'] ?>"><?php echo $row['name'] ?></option>
+								<?php endwhile; ?>
+
+							</datalist>
+							
+						</div>
+					</div>
+					<div class="form-group row">
+						<div>
+						Subject:
+
+						</div>
+						<div class="col-md-9 ">
+							
+							<input type="text" class="form-control" name="Subject" required>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-lg-12">
+							<label for="" class="control-label">Details</label>
+							<textarea name="description" id="description" class="form-control" cols="30" rows="5" required></textarea>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<button class="btn btn-sm btn-block btn-primary col-sm-2"> Save</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>
 <?php } ?>
-
 <script>
-    $(document).ready(function() {
-        $('#add_comments').submit(function(e) {
-            e.preventDefault();
-            start_load();
-            $.ajax({
-                url: 'admin/ajax.php?action=save_comment',
-                method: 'POST',
-                data: $(this).serialize(),
-                success: function(resp) {
-                    if (resp == 1) {
-                        alert_toast("Message successfully Sent", 'success');
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                    } else {
-                        $('#msg').html('<div class="alert alert-danger">Something went wrong. Please try again later!</div>');
-                        end_load();
-                    }
-                }
-            });
-        });
-    });
-    $('.list-<?php echo isset($_GET['page']) ? $_GET['page'] : ''; ?>').addClass('active');
+	$('#add_comments').submit(function(e){
+		e.preventDefault();
+		start_load()
+		$.ajax({
+			url:'admin/ajax.php?action=save_comment',
+			method:'POST',
+			data:$(this).serialize(),
+			success:function(resp){
+				if(resp ==1){
+					alert_toast("Message successfully Sent",'success')
+					setTimeout(function(){
+						location.reload()
+					},1500)
+				}else{
+					$('#msg').html('<div class="alert alert-danger">something Wrong Please try again later!</div>')
+					end_load()
+				}
+			}
+		})
+	})
+	$('.list-<?php echo isset($_GET['page']) ? $_GET['page'] : '' ?>').addClass('active')
 </script>
-
 
 <style>
 	.c:hover{

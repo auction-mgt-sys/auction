@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $quantity = $item['quantity'];
 
         // Prepare and execute SQL query to insert data into the database table using prepared statements
-        $stmt = $conn->prepare("INSERT INTO requesteditem (name, type, description, measurment, quantity, depname) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO requesteditem (name, type, description, measurment, quantity, depheadname) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssis", $name, $type, $description, $measurement, $quantity, $departmentName);
         
         if ($stmt->execute()) {

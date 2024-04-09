@@ -20,7 +20,7 @@
 			<tbody>
 				<?php
  					include 'db_connect.php';
- 					$type = array("","bidder","Admin","Auctioneer","commitee","department","finance","president");
+ 					$type = array("","bidder","Admin","Auctioneer","commitee");
  					$users = $conn->query("SELECT * FROM users order by name asc");
  					$i = 1;
  					while($row= $users->fetch_assoc()):
