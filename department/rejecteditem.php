@@ -1,84 +1,99 @@
+<?php
+include 'db_connect.php'; 
+
+$message = ""; // Initialize message variable
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve the form data
+    $items = $_POST['items'];
+    
+    // Assuming you have set the user_id in the session (replace it with your actual way of identifying the user)
+    $userId = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : 0; // Replace 'login_id' with your session variable name
+
+    // Initialize variables
+    $departmentName = ""; // Initialize department name variable
+    $departmentHeadName = ""; // Initialize department head name variable
+    
+    // Fetch department name and department head name only if user_id is set
+    if ($userId != 0) {
+        $query = "SELECT deptname, CONCAT(name, ' ', lname) AS departmentHeadName FROM users WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $stmt->bind_result($departmentName, $departmentHeadName);
+        $stmt->fetch();
+        $stmt->close();
+    }
+
+    // Loop through each item and insert into the database
+    foreach ($items as $item) {
+        $name = $item['name'];
+        $type = $item['type'];
+        $description = $item['description'];
+        $measurement = $item['measurement'];
+        $quantity = $item['quantity'];
+
+        // Prepare and execute SQL query to insert data into the database table using prepared statements
+        $stmt = $conn->prepare("INSERT INTO requesteditem (name, type, description, measurement, quantity, deptname, depheadname) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssiss", $name, $type, $description, $measurement, $quantity, $departmentName, $departmentHeadName);
+
+        if ($stmt->execute()) {
+            $message = "";
+        } else {
+            $message = "Error: " . $stmt->error;
+            break; // Stop the loop if an error occurs
+        }
+    }
+}
+
+// Fetch rejected items from the requesteditem table
+$rejectedItems = array();
+$query = "SELECT id, name, type, description, measurment, quantity FROM requesteditem WHERE status = '2'";
+$result = $conn->query($query);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $rejectedItems[] = $row;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Requested Items</title>
-<style>
-    .card {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        transition: 0.3s;
-        width: 23%; /* Adjusted width to accommodate four cards in a row */
-        margin: 1%; /* Margin between cards */
-        padding: 20px;
-        border-radius: 5px;
-        margin-top: 20px;
-        display: inline-block; /* Ensure cards display in a row */
-        vertical-align: top; /* Align cards to the top of the container */
-    }
-
-    .container {
-        padding: 2px 16px;
-    }
-
-    label {
-        font-weight: bold;
-    }
-
-    /* Clearfix to clear floats */
-    .clearfix::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejected Item View</title>
+    <!-- Your CSS styles here -->
 </head>
 <body>
-<div class="card">
-    <div class="container">
-        <form method="post">
-            <label for="depname">Enter depname:</label><br>
-            <input type="text" id="depname" name="depname"><br><br>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-</div>
-
-<?php
-// Assuming the connection to the database is already established
-include 'db_connect.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $depname = $_POST['depname'];
-
-    // Prepare SQL statement to fetch requested items with status = 2 and depname provided by user
-    $stmt = $conn->prepare("SELECT name, type, quantity, reason FROM requesteditem WHERE status = 2 AND depname = ?");
-    $stmt->bind_param("s", $depname);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    // Check if there are any requested items
-    if ($result->num_rows > 0) {
-        // Output data in card format
-        echo '<div class="clearfix">'; // Add clearfix to clear floats
-        while ($row = $result->fetch_assoc()) {
-            echo '<div class="card">';
-            echo '<div class="container">';
-            echo '<p><strong>Name:</strong> ' . $row["name"] . '</p>';
-            echo '<p><strong>Type:</strong> ' . $row["type"] . '</p>';
-            echo '<p><strong>Quantity:</strong> ' . $row["quantity"] . '</p>';
-            echo '<p><strong>Reason:</strong> ' . $row["reason"] . '</p>';
-            echo '</div>';
-            echo '</div>';
-        }
-        echo '</div>'; // Close clearfix
-    } else {
-        echo "<p>No requested items found for depname: $depname</p>";
-    }
-
-    $stmt->close();
-}
-?>
-
+    <h2>Rejected Items</h2>
+    <?php if (!empty($rejectedItems)): ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Measurement</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($rejectedItems as $item): ?>
+                    <tr>
+                        <td><?php echo $item['id']; ?></td>
+                        <td><?php echo $item['name']; ?></td>
+                        <td><?php echo $item['type']; ?></td>
+                        <td><?php echo $item['description']; ?></td>
+                        <td><?php echo $item['measurment']; ?></td>
+                        <td><?php echo $item['quantity']; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>No rejected items found.</p>
+    <?php endif; ?>
+    <!-- Your HTML content here -->
 </body>
 </html>

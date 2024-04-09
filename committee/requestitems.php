@@ -111,7 +111,7 @@
 // PHP code to fetch requested items from database
 include 'db_connect.php'; 
 
-$sql = "SELECT id, name, type, measurment, description, quantity, depname FROM requesteditem WHERE status = 0";
+$sql = "SELECT id, name, type, measurment, description, quantity, deptname FROM requesteditem WHERE status = 0";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -138,7 +138,7 @@ if ($result->num_rows > 0) {
         echo "<td>" . $row["measurment"] . "</td>";
         echo "<td>" . $row["description"] . "</td>";
         echo "<td>" . $row["quantity"] . "</td>";
-        echo "<td>" . $row["depname"] . "</td>";
+        echo "<td>" . $row["deptname"] . "</td>";
         echo "<td>";
         echo "<button class='verify-btn' onclick='showVerifyPopup(\"" . $row["name"] . "\", " . $row["id"] . ")'>Verify</button>";
         echo "<button class='reject-btn' onclick='showRejectPopup(\"" . $row["name"] . "\", " . $row["id"] . ")'>Reject</button>";

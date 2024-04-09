@@ -101,6 +101,8 @@ $result = $conn->query($sql);
                 <p><?php echo $row['name'] ?></p>
                 <!-- <p><small><?php //echo $cat_arr[$row['category_id']] ?></small></p> -->
                 <p class="truncate"><?php echo $row['description'] ?></p>
+                <button class="btn btn-primary btn-sm view_prod" type="button" data-id="<?php echo $row['id'] ?>"> View</button>
+
               </div>
             </div>
           </div>

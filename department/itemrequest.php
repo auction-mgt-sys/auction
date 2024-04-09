@@ -6,7 +6,24 @@ $message = ""; // Initialize message variable
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve the form data
     $items = $_POST['items'];
-    $departmentName = $_POST['department_name']; // Retrieve department name
+    
+    // Assuming you have set the user_id in the session (replace it with your actual way of identifying the user)
+    $userId = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : 0; // Replace 'login_id' with your session variable name
+
+    // Fetch department name and department head name from the users table
+    $departmentName = ""; // Initialize department name variable
+    $departmentHeadName = ""; // Initialize department head name variable
+    
+    // Fetch department name and department head name only if user_id is set
+    if ($userId != 0) {
+        $query = "SELECT deptname, CONCAT(name, ' ', lname) AS departmentHeadName FROM users WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $stmt->bind_result($departmentName, $departmentHeadName);
+        $stmt->fetch();
+        $stmt->close();
+    }
 
     // Loop through each item and insert into the database
     foreach ($items as $item) {
@@ -17,9 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $quantity = $item['quantity'];
 
         // Prepare and execute SQL query to insert data into the database table using prepared statements
-        $stmt = $conn->prepare("INSERT INTO requesteditem (name, type, description, measurment, quantity, depheadname) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssis", $name, $type, $description, $measurement, $quantity, $departmentName);
-        
+        $stmt = $conn->prepare("INSERT INTO requesteditem (name, type, description, measurment, quantity, deptname, depheadname) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssiss", $name, $type, $description, $measurement, $quantity, $departmentName, $departmentHeadName);
+
         if ($stmt->execute()) {
             $message = "";
         } else {
@@ -29,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,8 +89,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
         <!-- Form -->
         <form id="item-request-form" action="" method="post"> <!-- Set action to empty string to submit to the same page -->
-            <label for="department_name">Department Name:</label>
-            <input type="text" id="department_name" name="department_name" required><br><br>
             <table class="item-table">
                 <thead>
                     <tr>
