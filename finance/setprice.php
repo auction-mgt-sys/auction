@@ -39,7 +39,7 @@ ob_end_flush();
         WHERE status = 1 AND id NOT IN (SELECT requesteditem_id FROM report)";
 
         if ($conn->query($insert_sql) === TRUE) {
-            echo "<p>Items have been priced successfully</p>";
+            echo "<script>showSweetAlert('Items have been priced successfully', 'success');</script>";
 
             // Fetch data from the report table
             $select_sql = "SELECT * FROM report WHERE status = 0"; // Select only rows with status = 0
@@ -78,50 +78,43 @@ ob_end_flush();
                       <button type='submit' name='submit_price'>Submit Price</button>
                       </form>";
             } else {
-                echo "<p>0 results</p>";
+                echo "<script>showSweetAlert('No results found', 'info');</script>";
             }
         } else {
-            echo "Error inserting data into the report table: " . $conn->error;
+            echo "<script>showSweetAlert('Error inserting data into the report table: " . $conn->error . "', 'error');</script>";
         }
 
         $conn->close();
         ?>
     </div>
 
-   
+    <script>
+        // JavaScript code
 
+        // Function to calculate total price
+        function calculateTotalPrice(requesteditemId, quantity) {
+            var price = parseFloat(document.getElementById('price_' + requesteditemId).value);
+            var totalPrice = price * quantity;
+            document.getElementById('total_price_' + requesteditemId).value = totalPrice.toFixed(2);
+        }
 
-
-        <script>
-            // JavaScript code
-
-            // Function to calculate total price
-            function calculateTotalPrice(requesteditemId, quantity) {
-                var price = parseFloat(document.getElementById('price_' + requesteditemId).value);
-                var totalPrice = price * quantity;
-                document.getElementById('total_price_' + requesteditemId).value = totalPrice.toFixed(2);
-            }
-
-            // Function to show SweetAlert message
-            function showSweetAlert(message, type) {
-                Swal.fire({
-                    text: message,
-                    icon: type,
-                    timer: 250, //Duration in milliseconds
-                    showConfirmButton: false
-                });
-            }
-
-            // Function to submit the form
-            function submitForm() {
-                showSweetAlert('Prices have been submitted successfully', 'success');
-                setTimeout(function () {
-                    document.querySelector('form').submit();
-                }, 50); // Delay form submission for 2 seconds to allow the SweetAlert to be displayed
-            }
-        </script>
-
-    </div>
+        // Function to show SweetAlert message
+        function showSweetAlert(message, type) {
+            Swal.fire({
+                text: message,
+                icon: type,
+                timer: 2500, // Duration in milliseconds
+                showConfirmButton: false
+            });
+        }
+        // Function to submit the form
+        function submitForm() {
+            showSweetAlert('Prices have been submitted successfully', 'success');
+            setTimeout(function () {
+                document.querySelector('form').submit();
+            }, 5000); // Delay form submission for 2 seconds to allow the SweetAlert to be displayed
+        }
+    </script>
 </body>
 
 </html>
