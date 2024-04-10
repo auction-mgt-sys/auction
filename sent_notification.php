@@ -1,87 +1,140 @@
- <!-- Masthead-->
+<?php
+include('admin/db_connect.php');
 
-       <?php include('admin/db_connect.php');
+// Check if the user is logged in
+if (isset($_SESSION['login_id'])) {
+    $bidder_id = $_SESSION['login_id'];}
+?>
 
-       if (isset($_SESSION['login_id'])) {
-       ?>
-<div class="container-fluid d-flex h">
-	<div class="col-lg-3">
-        <br>
-    <a href="bidder.php" class="text-start"><b><img src="images/Backspace.png" style="width: 50px; height: 50px;"> BACK To HOME</b></a> 
-    <ul class='list-group ' id='opp-list'>
-        <a href="index.php?page=write_notifications" class='list-group-item list-write_notifications list' id="sids"> Write New</a>
-        <a href="index.php?page=inbox_notifications" class='list-group-item list-inbox_notifications list' id="sids" >Inbox</a>
-        <a href="index.php?page=sent_notification" class='list-group-item list-sent_notification list' id="sids">Sent</a>
-    </ul> 
-    </div>
-    
-    <?php
-$bidder_id = $_SESSION['login_id'];
-     ?>
-    <div class="col-lg-9">
-        
-        <div class="row">
-            <!-- FORM Panel -->
+    <div class="container-fluid d-flex h">
+        <div class="col-lg-3">
+            <br>
+            <a href="bidder.php" class="text-start"><b><img src="images/Backspace.png" style="width: 50px; height: 50px;"> BACK TO HOME</b></a>
+            <ul class='list-group' id='opp-list'>
+                <a href="index.php?page=write_notifications" class='list-group-item list-write_notifications list' id="sids">Write New</a>
+                <a href="index.php?page=inbox_notifications" class='list-group-item list-inbox_notifications list' id="sids">Inbox</a>
+                <a href="index.php?page=sent_notification" class='list-group-item list-sent_notification list' id="sids">Sent</a>
+            </ul>
+        </div>
 
-            <!-- Table Panel -->
-            <div class="col-md-12">
-            	<br>
-              <h5 class="text-center">Notification Center</h5>
-              <br>
-                <div class="card">
-                    <div class="card-header">
-                        <b>Sent Messages</b>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-condensed table-bordered table-hover">
-                            <?php
-                   $users = $conn->query("SELECT * FROM comment where sender_id =$bidder_id  order by 'date' asc");
-                    while($row= $users->fetch_assoc()){
+        <div class="col-lg-9">
+            <div class="row">
+                <!-- FORM Panel -->
 
-                        $get = $conn->query("SELECT * FROM users WHERE id = " . $row['reciver_id'] . " ORDER BY date ASC LIMIT 1");
-
-                        $uname = $get->num_rows > 0 ? $get->fetch_array()['name'] : '' ;
-                 ?>
-                    <a class="dropdown-item view_detail" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>
-                        <small> <i><?php echo 'To:- '.$uname ?></i></small>
-                        <br>
-                         <p>Subject: <?php echo $row['title'] ; ?></p>
-                         <small><i><?php echo date('F j, Y, g:i a',strtotime($row['date'])) ?></i></small>
-                           <hr>
-                    </a>
-                <?php }  
-
-$d = date('g:i a',strtotime($row['date']));
-                ?>
-
-                             
-<!--                     <small><i><?php #echo date('F j, Y, g:i a',strtotime($i['date'])) ?></i></small><br/>  
- -->                             
-                        </table>
+                <!-- Table Panel -->
+                <div class="col-md-12">
+                    <br>
+                    <h5 class="text-center">Notification Center</h5>
+                    <br>
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Sent Messages</b>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-condensed table-bordered table-hover">
+                                <?php
+                                $users = $conn->query("SELECT * FROM comment WHERE sender_id = $bidder_id ORDER BY `date` ASC LIMIT 1");
+                                while ($row = $users->fetch_assoc()) {
+                                    $get = $conn->query("SELECT * FROM users WHERE id =" . $row['reciver_id'] . " LIMIT 1");
+                                    $uname = $get->num_rows > 0 ? $get->fetch_array()['name'] : '';
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <a class="dropdown-item view_detail" href="javascript:void(0)" data-id='<?php echo $row['id'] ?>'>
+                                                <small><i><?php echo 'To: ' . $uname ?></i></small><br>
+                                                <p>Subject: <?php echo $row['title']; ?></p>
+                                                <small><i><?php echo date('F j, Y, g:i a', strtotime($row['date'])) ?></i></small>
+                                                <hr>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+                            </table>
+                        </div>
                     </div>
                 </div>
+                <!-- Table Panel -->
             </div>
-            <!-- Table Panel -->
         </div>
-    </div>  
+    </div>
 
-</div>
-<?php } ?>
-<style>
-    .h{
-        min-height: 400px;
-    }
-    td{
-        vertical-align: middle !important;
-    }
-    td p{
-        margin: unset
-    }
-    img{
-        max-width:100px;
-        max-height: :150px;
-    }
-</style>
+    <style>
+        .h {
+            min-height: 400px;
+        }
+
+        td {
+            vertical-align: middle !important;
+        }
+
+        td p {
+            margin: unset
+        }
+
+        img {
+            max-width: 100px;
+            max-height: 150px;
+        }
+    </style>
+    <style>
+        #sids {
+            margin-bottom: 5px;
+        }
+
+        .a {
+            margin-bottom: 15px;
+            font-family: 'Arial';
+        }
+
+        .mid_1 {
+            margin-left: 20%;
+            font-family: "Algerian";
+            margin-top: 20px;
+        }
+
+        .mid_2 {
+            margin-left: 40%;
+            font-family: "Algerian";
+            margin-top: 10px;
+        }
+
+        .mid_1 h3 {
+            font-family: "Times New Roman";
+            text-decoration: none;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        #w {
+            font-weight: bold;
+        }
+
+        #im1 {
+            width: 100px;
+            margin-left: 5%;
+        }
+
+        .row0 {
+            padding-top: 25px;
+            background: #f1f1f1;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 5px black;
+            border-radius: 3px;
+        }
+
+        .row00 {
+            background: #f1f1f1;
+            margin: 10px;
+            box-shadow: 0 0 5px black;
+            border-radius: 3px;
+        }
+    </style>
+
+
+
 <style>
 #sids{
   margin-bottom: 5px;

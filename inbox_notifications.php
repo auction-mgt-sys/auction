@@ -1,33 +1,34 @@
- <!-- Masthead-->
+<!-- Masthead -->
 
-       <?php include('admin/db_connect.php');
+<?php
+include('admin/db_connect.php');
 
-       if (isset($_SESSION['login_id'])) {
-       ?>
+if (isset($_SESSION['login_id'])) {
+?>
 <div class="container-fluid d-flex h">
-	<div class="col-lg-3">
-		<br>
-	<a href="bidder.php" class="text-start"><b><img src="images/Backspace.png" style="width: 50px; height: 50px;"> BACK To HOME</b></a>	
-    <ul class='list-group ' id='opp-list'>
-        <a href="index.php?page=write_notifications" class='list-group-item list-write_notifications list' id="sids"> Write New</a>
-        <a href="index.php?page=inbox_notifications" class='list-group-item list-inbox_notifications list' id="sids" >Inbox</a>
-        <a href="index.php?page=sent_notification" class='list-group-item list-sent_notification list' id="sids">Sent</a>
-    </ul> 
-	</div>
-     
+    <div class="col-lg-3">
+        <br>
+        <a href="bidder.php" class="text-start"><b><img src="images/Backspace.png" style="width: 50px; height: 50px;"> BACK To HOME</b></a>
+        <ul class='list-group ' id='opp-list'>
+            <a href="index.php?page=write_notifications" class='list-group-item list-write_notifications list' id="sids"> Write New</a>
+            <a href="index.php?page=inbox_notifications" class='list-group-item list-inbox_notifications list' id="sids" >Inbox</a>
+            <a href="index.php?page=sent_notification" class='list-group-item list-sent_notification list' id="sids">Sent</a>
+        </ul>
+    </div>
+
     <?php
-$bidder_id = $_SESSION['login_id'];
-     ?>
+    $bidder_id = $_SESSION['login_id'];
+    ?>
     <div class="col-lg-9">
-        
+
         <div class="row">
             <!-- FORM Panel -->
 
             <!-- Table Panel -->
             <div class="col-md-12">
-            	<br>
-              <h5 class="text-center">Notification Center</h5>
-              <br>
+                <br>
+                <h5 class="text-center">Notification Center</h5>
+                <br>
                 <div class="card">
                     <div class="card-header">
                         <b>Your Inbox</b>
@@ -35,32 +36,28 @@ $bidder_id = $_SESSION['login_id'];
                     <div class="card-body">
                         <table class="table table-condensed table-bordered table-hover">
                             <?php
-                   $users = $conn->query("SELECT * FROM comment where reciver_id =$bidder_id  order by 'id' asc");
-                    while($row= $users->fetch_assoc()){
+                            $users = $conn->query("SELECT * FROM comment where reciver_id =$bidder_id  order by 'id' asc");
+                            while($row = $users->fetch_assoc()) {
 
-                        $get = $conn->query("SELECT * FROM users where id =".$row['sender_id']."  order by 'date' asc limit 1");
-                        $uname = $get->num_rows > 0 ? $get->fetch_array()['name'] : '' ;
-                 ?>
-                 
-                        <a style ="<?php if($row['status']=='unread'){ echo "font-weight:bold; font-size: 20px;"; } ?>" class="dropdown-item view_detail" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>
-                            <small><i><?php echo date('F j, Y, g:i a',strtotime($row['date'])) ?></i></small><br>
-                            <?php echo $row['title'] ; ?><br>
-                           <small> <i><?php echo 'From:- '.$uname ?></i></small><hr>
-                    </a>
-                <?php }  
+                                $get = $conn->query("SELECT * FROM users where id =" . $row['sender_id'] . "  order by 'date' asc limit 1");
+                                $uname = $get->num_rows > 0 ? $get->fetch_array()['name'] : '';
 
-//$d = date('g:i a',strtotime($row['date']));
-                ?>
-                             
-<!--                     <small><i><?php #echo date('F j, Y, g:i a',strtotime($i['date'])) ?></i></small><br/>  
- -->                             
+                                $d = date('g:i a', strtotime($row['date'])); // Move this line inside the loop
+
+                            ?>
+                                <a style ="<?php if($row['status']=='unread'){ echo "font-weight:bold; font-size: 20px;"; } ?>" class="dropdown-item view_detail" href="javascript:void(0)" data-id='<?php echo $row['id'] ?>'>
+                                    <small><i><?php echo date('F j, Y, g:i a', strtotime($row['date'])) ?></i></small><br>
+                                    <?php echo $row['title'] ; ?><br>
+                                    <small><i><?php echo 'From:- '.$uname ?></i></small><hr>
+                                </a>
+                            <?php } ?>
                         </table>
                     </div>
                 </div>
             </div>
             <!-- Table Panel -->
         </div>
-    </div>  
+    </div>
 
 </div>
 <?php } ?>
@@ -115,9 +112,12 @@ $bidder_id = $_SESSION['login_id'];
     background: #f1f1f1;
     padding-bottom: 10px;
     margin-bottom: 20px;
-    box-shadow: 0 0 5px black; 
+    box-shadow: 0 0 5px black;
     border-radius: 3px;
 }
+
+
+
 .row00 {
     background: #f1f1f1;
     margin: 10px;

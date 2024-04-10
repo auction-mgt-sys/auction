@@ -54,7 +54,7 @@ $owner = $_SESSION['login_id'];
       $d = ''; // or any default value you want to assign
   }
 ?>
-                ?>
+              
 
                              
 <!--                     <small><i><?php #echo date('F j, Y, g:i a',strtotime($i['date'])) ?></i></small><br/>  
