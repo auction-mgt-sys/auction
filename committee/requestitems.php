@@ -43,18 +43,30 @@
         z-index: 1;
     }
     .toast-success, .toast-reject {
-        position: fixed;
-        top: 50px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #4CAF50; /* Green for success, red for rejection */
-        color: white;
-        padding: 16px;
-        border-radius: 5px;
-        z-index: 9999;
-        display: none; /* Hide initially */
-        animation: fade 5s ease-out; /* Animation for fade-in and fade-out */
-    }
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(76, 175, 80, 0.9); /* Semi-transparent green for success */
+    color: white;
+    padding: 16px;
+    border-radius: 5px;
+    z-index: 10000; /* Increased z-index for higher visibility */
+    display: none; /* Hide initially */
+    animation: fade 0.5s ease-in-out; /* Animation for fade-in and fade-out */
+    font-weight: bold; /* Make the text bold */
+    font-size: 16px; /* Adjust font size for better visibility */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for better contrast */
+}
+
+@keyframes fade {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+
     .search-container {
         margin-bottom: 20px;
     }
@@ -100,10 +112,7 @@
         text-align: center;
         margin-top: 20px;
     }
-    @keyframes fade {
-        0% { opacity: 0; }
-        100% { opacity: 1; }
-    }
+   
 </style>
 </head>
 <body>
@@ -234,7 +243,7 @@ $conn->close();
                     // Hide the toast after 3 seconds
                     setTimeout(function() {
                         toast.style.display = 'none';
-                    }, 5000);
+                    }, 9000);
                 } else {
                     // Show a toast alert for successful rejection
                     var toast = document.getElementById('toastReject');
@@ -243,7 +252,7 @@ $conn->close();
                     // Hide the toast after 3 seconds
                     setTimeout(function() {
                         toast.style.display = 'none';
-                    }, 5000);
+                    }, 9000);
                 }
                 // Reload the page after status update
                 location.reload();
