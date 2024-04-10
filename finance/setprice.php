@@ -2,14 +2,13 @@
 include('./db_connect.php');
 ob_start();
 if (!isset($_SESSION['system'])) {
-    $system = $conn->query("SELECT * FROM requesteditem LIMIT 1")->fetch_array();
+    $system = $conn->query("SELECT * FROM requesteditem limit 1")->fetch_array();
     foreach ($system as $k => $v) {
         $_SESSION['system'][$k] = $v;
     }
 }
 ob_end_flush();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,50 +16,88 @@ ob_end_flush();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Request</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css">
     <style>
-        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
 
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .success-message {
+            background-color: lightgreen;
+            color: green;
+            padding: 10px;
+            border-radius: 4px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            z-index: 9999;
+        }
     </style>
-    <!-- Include Toastify library -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 
 <body>
     <div class="container">
         <?php
-        // PHP code
-
         include("db_connect.php");
 
         // Insert data into the report table
-        $insert_sql = "INSERT INTO report (requesteditem_name, requesteditem_type, requesteditem_description, requesteditem_measurment, requesteditem_quantity, requesteditem_id, price, total_price)
-        SELECT DISTINCT name, type, description, measurment, quantity, id, 0 AS price, (0 * quantity) AS total_price 
-        FROM requesteditem 
-        WHERE status = 1 AND id NOT IN (SELECT requesteditem_id FROM report)";
+        $insert_sql = "INSERT INTO report (requesteditem_name, requesteditem_type, requesteditem_description, requesteditem_measurment, requesteditem_quantity, requesteditem_id)
+                        SELECT DISTINCT name, type, description, measurment, quantity, id FROM requesteditem 
+                        WHERE status = 1 and  id NOT IN (SELECT requesteditem_id FROM report)";
 
         if ($conn->query($insert_sql) === TRUE) {
-            echo "<p>Items have been priced successfully</p>";
+            echo "Item hasn't been requested<br>";
 
             // Fetch data from the report table
             $select_sql = "SELECT * FROM report WHERE status = 0"; // Select only rows with status = 0
             $result = $conn->query($select_sql);
 
             if ($result->num_rows > 0) {
-                echo "<form action='submit_price.php' method='POST' onsubmit='return confirmSubmit()'>
+                echo "<form id='submitPriceForm' method='post' action=''>
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                    <th>Description</th>
-                                    <th>Measurement</th>
-                                    <th>Quantity</th>
-                                    <th>ID</th>
-                                    <th>Price</th>
-                                    <th>Total Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>";
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Measurement</th>
+                                <th>Quantity</th>
+                                <th>ID</th>
+                                <th>Price</th>
+                                <th>Total Price</th>
+                            </tr>";
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>
                             <td>" . $row["requesteditem_name"] . "</td>
@@ -71,51 +108,58 @@ ob_end_flush();
                             <td>" . $row["requesteditem_id"] . "</td>
                             <td><input type='text' name='price[" . $row["requesteditem_id"] . "]' id='price_" . $row["requesteditem_id"] . "' value='" . $row["price"] . "' oninput='calculateTotalPrice(" . $row["requesteditem_id"] . ", " . $row["requesteditem_quantity"] . ")'></td>
                             <td><input type='text' name='total_price[" . $row["requesteditem_id"] . "]' id='total_price_" . $row["requesteditem_id"] . "' value='" . ($row["price"] * $row["requesteditem_quantity"]) . "'></td>
-                          </tr>";
+                        </tr>";
                 }
-                echo "</tbody>
-                      </table>
-                      <button type='submit' name='submit_price' onclick='submitForm()'>Submit Price</button>
-                      </form>";
+                echo "</table>
+                    <button type='submit' name='submit_price'>Submit Price</button>
+                    </form>";
             } else {
-                echo "<p>0 results</p>";
+                echo "0 results";
             }
         } else {
-            echo "Error inserting data into the report table: " . $conn->error;
+            echo "Error inserting data into report table: " . $conn->error;
+        }
+
+        if (isset($_POST['submit_price'])) {
+            $prices = $_POST['price'];
+            $totalPrices = $_POST['total_price'];
+
+            // Update prices and status in the report table
+            foreach ($prices as $requesteditemId => $price) {
+                // Escape the values to prevent SQL injection
+                $requesteditemId = $conn->real_escape_string($requesteditemId);
+                $price = $conn->real_escape_string($price);
+                $totalPrice = $conn->real_escape_string($totalPrices[$requesteditemId]);
+
+                if ($price != 0 || $totalPrice != 0) {
+                    // Update the price and status for the specified requesteditem_id
+                    $update_sql = "UPDATE report SET price = '$price', total_price = '$totalPrice', status = 1 WHERE requesteditem_id = '$requesteditemId'";
+                    $conn->query($update_sql);
+                }
+            }
+
+            // Display success message using SweetAlert
+            echo "<script>
+                document.querySelector('.success-message').style.display = 'block';
+                setTimeout(function() {
+                    document.querySelector('.success-message').style.display = 'none';
+                }, 5000);
+            </script>";
         }
 
         $conn->close();
         ?>
+
+        <div class="success-message">Price submitted successfully</div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
-<script>
-        // Function to calculate total price
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script>
+        // JavaScript function to calculate total price
         function calculateTotalPrice(requesteditemId, quantity) {
             var price = parseFloat(document.getElementById('price_' + requesteditemId).value);
             var totalPrice = price * quantity;
             document.getElementById('total_price_' + requesteditemId).value = totalPrice.toFixed(2);
-        }
-
-        // Function to show toast message
-        function showToast(message, type) {
-            Toastify({
-                text: message,
-                backgroundColor: type === 'success' ? '#28a745' : '#dc3545',
-                duration: 2500, // Duration in milliseconds
-
-                gravity: 'top',
-                close: true
-            }).showToast();
-        }
-
-        // Function to submit the form
-        function submitForm() {
-            showToast('Prices have been submitted successfully', 'success');
-            setTimeout(function () {
-                document.querySelector('form').submit();
-            }, 50); // Delay form submission for 50 milliseconds to allow the toast message to be displayed
         }
     </script>
 </body>
