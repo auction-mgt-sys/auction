@@ -49,7 +49,7 @@
 				 	<td>
 				 		<center>
 								<div class="btn-group">								  
-								    <a class="btn btn-primary Verify_payment" type='button' href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Accepte</a>&nbsp;
+								    <a class="btn btn-primary Verify_payment" type='button' href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Accept</a>&nbsp;
 								    <a class="btn btn-danger delet_payment" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Delete</a>
 								</div>
 								</center>

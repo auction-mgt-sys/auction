@@ -202,7 +202,7 @@ img#img_path-field{
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<button class="btn btn-sm btn-block btn-primary col-sm-2"> Save</button>
+							<button class="btn btn-sm btn-block btn-primary col-sm-2"> post</button>
 						</div>
 					</div>
 				</form>
@@ -237,7 +237,7 @@ img#img_path-field{
 		    type: 'POST',
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully saved",'success')
+					alert_toast("Data successfully post",'success')
 					setTimeout(function(){
 						location.href = "index.php?page=products"
 					},1500)

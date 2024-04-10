@@ -1,122 +1,180 @@
-<?php
+<?php 
+include 'admin/db_connect.php'; 
 
-// Retrieve data from the product table
-$sql = "SELECT * FROM products WHERE unix_timestamp(bid_end_datetime) >= " . strtotime(date("Y-m-d H:i")) . " ORDER BY name ASC";
-$result = $conn->query($sql);
+// Fetch category names from the database
+$category_result = $conn->query("SELECT * FROM categories");
+$cat_arr = array();
+while ($cat_row = $category_result->fetch_assoc()) {
+    $cat_arr[$cat_row['id']] = $cat_row['name'];
+}
+?>
+<script src="sweetalert.min.js"></script>
+<style>
+    #cat-list li{
+        cursor: pointer;
+    }
+       #cat-list li:hover {
+        color: white;
+        background: #007bff8f;
+    }
+    .prod-item p{
+        margin: unset;
+    }
+    .bid-tag {
+    position: absolute;
+    right: .5em;
+}
+</style>
+<?php 
+
+$cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Advertisements and Notifications</title>
-  <style>
-    /* CSS styles for professional layout */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4; /* Change background color as needed */
-    }
-    .container {
-      max-width: 1200px; /* Adjust container width as needed */
-      margin: 20px auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      background-color: #fff; /* Container background color */
-    }
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      margin: -15px;
-    }
-    .col-sm-4 {
-      flex: 0 0 calc(33.333% - 30px); /* Adjust column width as needed */
-      max-width: calc(33.333% - 30px); /* Adjust column width as needed */
-      margin: 15px;
-    }
-    .card {
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-    }
-    .card-img-top {
-      width: 100%;
-      height: auto;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-    }
-    .card-body {
-      padding: 20px;
-      background-color: #fff; /* Card body background color */
-    }
-    .truncate {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .badge {
-      margin-right: 5px;
-    }
-    .badge-warning {
-      background-color: #ffc107; /* Badge background color */
-      color: #fff;
-    }
-    .badge-primary {
-      background-color: #007bff; /* Badge background color */
-      color: #fff;
-    }
-    .no-bids {
-  text-align: center;
-  padding: 20px;
-  height: 200px; /* Adjust the height as needed */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="row">
-      <?php
-      if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-          ?>
-          <div class="col-sm-4">
-            <div class="card">
-              <div class="float-right align-top bid-tag">
-                <span class="badge badge-primary"><i class="fa fa-tag"></i> Form Price: <?php echo number_format($row['price_for_form']) ?></span>
-              </div>
-              <img class="card-img-top" src="auctioneer/assets/uploads/<?php echo $row['img_fname'] ?>" alt="<?php echo $row['name'] ?>">
-              <div class="float-right align-top d-flex">
-                <span class="badge badge-warning"><i class="fa fa-hourglass-half"></i> <?php echo date("M d,Y h:i A", strtotime($row['bid_end_datetime'])) ?></span>
-              </div>
-              <div class="card-body prod-item">
-                <p><?php echo $row['name'] ?></p>
-                <!-- <p><small><?php //echo $cat_arr[$row['category_id']] ?></small></p> -->
-                <p class="truncate"><?php echo $row['description'] ?></p>
-                <button class="btn btn-primary btn-sm view_prod" type="button" data-id="<?php echo $row['id'] ?>"> View</button>
-
-              </div>
             </div>
-          </div>
-        <?php
-        }
-      } else {
-        ?>
-        <div class="col-12 no-bids">
-          <p>There are currently no available bids.</p>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+<!--the center of the home page starts here-->
+<div class="col-lg-12">
+    <div>
+        <header class="header">
+
+          
+        </header>         
+    </div>  
+
+</div> 
+    
+<style>
+.a {
+    margin-bottom: 15px;
+    font-family: 'Arial';
+}
+.mid_1 {
+    margin-left: 20%;
+    font-family: "Algerian";
+    margin-top: 20px;
+}
+.mid_2 {
+    margin-left: 40%;
+    font-family: "Algerian";
+    margin-top: 10px;
+}
+.mid_1 h3 {
+    font-family: "Times New Roman";
+    text-decoration: none;
+    margin-top: 20px;
+    font-style: italic;
+}
+#w {
+    font-weight: bold;
+}
+#im1 {
+    width: 100px;
+    margin-left: 5%;
+}
+.row0 {
+    padding-top: 25px;
+    background: #f1f1f1;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 5px black; 
+    border-radius: 3px;
+}
+.row00 {
+    background: #f1f1f1;
+    margin-left: 12px;
+    margin-top: 15px;
+    box-shadow: 0 0 5px black; 
+    border-radius: 5px;
+    width: 100%;
+}
+.row1 {
+    margin-left: 10px;
+}
+.row2 {
+    text-align: center;
+    margin-top: 10px;
+    padding-left: 10px;
+    color: #1C2B5C;
+    font-family: "Algerian";
+} 
+
+ .row4 {
+    text-align: center;
+    color: #1C2B5C;
+    font-style: italic;
+    font-family: "Algerian";
+}   
+</style>
+<!--the mid ends here-->
+                        <div class="row">
+                            <?php
+                                $where = "";
+                                if($cid > 0){
+                                    $where  = " and category_id =$cid ";
+                                }
+                                $cat = $conn->query("SELECT * FROM products where unix_timestamp(bid_end_datetime) >= ".strtotime(date("Y-m-d H:i"))." $where order by name asc");
+                                if($cat->num_rows <= 0){
+                                    echo "<center><h4><i>No Available Product.</i></h4></center>";
+                                    ?>
+                                    <script> swal("Sorry!", "There are no Currently Avalable Bids!");</script>
+                                        
+                                    <?php 
+                                } 
+                                while($row=$cat->fetch_assoc()):
+                             ?>
+                             <div class="col-sm-4">
+                                 <div class="card row00">
+                                    <div class="float-right align-top bid-tag">
+                                         <span class="badge badge-pill badge-primary text-white"><i class="fa fa-tag"></i>Form Price: <?php echo number_format($row['price_for_form']) ?></span>
+                                     </div>
+                                     <img class="card-img-top" src="auctioneer/assets/uploads/<?php echo $row['img_fname'] ?>" alt="Card image cap">
+                                      <div class="float-right align-top d-flex">
+                                         <span class="badge badge-pill badge-warning text-white"><i class="fa fa-hourglass-half"></i> <?php echo date("M d,Y h:i A",strtotime($row['bid_end_datetime'])) ?></span>
+                                     </div>
+                                     <div class="card-body prod-item">
+                                         <p><?php echo $row['name'] ?></p>
+                                         <p><small><?php echo $cat_arr[$row['category_id']] ?></small></p>
+                                         <p class="truncate"><?php echo $row['description'] ?></p>
+                                        <button class="btn btn-primary btn-sm view_prod" type="button" data-id="<?php echo $row['id'] ?>"> View</button>
+                                     </div>
+                                 </div>
+                             </div>
+                            <?php endwhile; ?>
+                            </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      <?php
-      }
-      ?>
     </div>
-  </div>
-</body>
-</html>
+</div>
+       
+<script>
+    $('#cat-list li').click(function(){
+        location.href = $(this).attr('data-href')
+    })
+     $('#cat-list li').each(function(){
+        var id = '<?php echo $cid > 0 ? $cid : 'all' ?>';
+        if(id == $(this).attr('data-id')){
+            $(this).addClass('active')
+        }
+    })
+      $('#LogIn').click(function(){
+      if('<?php echo isset($_SESSION['login_id']) ? 1 : '' ?>' != 1){
+             uni_modal("LOGIN",'login.php')
+        }
+     })
+     // $('.view_prod').click(function(){
+     //    uni_modal_right('View Product','view_prod.php?id='+$(this).attr('data-id'))
+     // })
+      $('.view_prod').click(function(){
+      if('<?php echo isset($_SESSION['login_id']) ? 1 : '' ?>' != 1){
+             uni_modal("LOGIN",'login.php')
+        }
+        else
+         {
+          uni_modal_right('BID FORM','view_prod.php?id='+$(this).attr('data-id'))
+         }
+     })
+</script>
