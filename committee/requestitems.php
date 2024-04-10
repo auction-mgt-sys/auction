@@ -44,7 +44,7 @@
     }
     .toast-success, .toast-reject {
         position: fixed;
-        top: 30px;
+        top: 50px;
         left: 50%;
         transform: translateX(-50%);
         background-color: #4CAF50; /* Green for success, red for rejection */
@@ -53,7 +53,7 @@
         border-radius: 5px;
         z-index: 9999;
         display: none; /* Hide initially */
-        animation: fade 2s ease-out; /* Animation for fade-in and fade-out */
+        animation: fade 5s ease-out; /* Animation for fade-in and fade-out */
     }
     .search-container {
         margin-bottom: 20px;
@@ -234,7 +234,7 @@ $conn->close();
                     // Hide the toast after 3 seconds
                     setTimeout(function() {
                         toast.style.display = 'none';
-                    }, 2000);
+                    }, 5000);
                 } else {
                     // Show a toast alert for successful rejection
                     var toast = document.getElementById('toastReject');
@@ -243,7 +243,7 @@ $conn->close();
                     // Hide the toast after 3 seconds
                     setTimeout(function() {
                         toast.style.display = 'none';
-                    }, 2000);
+                    }, 5000);
                 }
                 // Reload the page after status update
                 location.reload();
