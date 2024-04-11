@@ -72,30 +72,35 @@
         }
 
         .success-message {
-            background-color: lightgreen;
-            color: green;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            position: absolute; /* Added */
-            top: 50%; /* Added */
-            left: 50%; /* Added */
-            transform: translate(-50%, -50%); /* Added */
-            z-index: 9999; /* Added */
-        }
+    background-color: lightgreen;
+    color: green;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 0 auto;
+    max-width: 300px; /* Adjust the maximum width as needed */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    text-align: center;
+}
 
-        .error-message {
-            background-color: #ffcccc;
-            color: red;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            position: absolute; /* Added */
-            top: 50%; /* Added */
-            left: 50%; /* Added */
-            transform: translate(-50%, -50%); /* Added */
-            z-index: 9999; /* Added */
-        }
+      
+.error-message {
+    background-color: #ffcccc;
+    color: red;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 0 auto;
+    max-width: 300px; /* Adjust the maximum width as needed */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    text-align: center;
+}
     </style>
 </head>
 <body>
@@ -123,7 +128,7 @@
         // Output data of each row
         while ($row = $result->fetch_assoc()) {
             ?>
-            <div class="card">
+            <div class="card" id="report-<?php echo $row['id']; ?>">
                 <div class="card-header">
                     Item ID: <?php echo $row['id']; ?>
                 </div>
@@ -141,24 +146,46 @@
             </div>
             <?php
         }
+       // Check if the approve button is clicked
+if (isset($_POST['approve'])) {
+    // Perform approval action here (e.g., update database, send notification)
+    $item_id = $_POST['item_id'];
+    $conn->query("UPDATE report SET auctionstatus = 1 WHERE id = $item_id");
+    ?>
+    <script>
+        document.getElementById('report-<?php echo $item_id; ?>').remove();
+        const successMessage = document.createElement('div');
+        successMessage.className = 'success-message';
+        successMessage.textContent = 'Successfully approved auction!';
+        document.body.appendChild(successMessage);
+        setTimeout(function() {
+            successMessage.remove();
+        }, 2000);
+    </script>
+    <?php
+}
+
+// Check if the cancel button is clicked
+if (isset($_POST['cancel'])) {
+    // Perform cancellation action here (e.g., update database, send notification)
+    $item_id = $_POST['item_id'];
+    $conn->query("UPDATE report SET auctionstatus = 2 WHERE id = $item_id");
+    ?>
+    <script>
+        document.getElementById('report-<?php echo $item_id; ?>').remove();
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'error-message';
+        errorMessage.textContent = 'Auction cancelled!';
+        document.body.appendChild(errorMessage);
+        setTimeout(function() {
+            errorMessage.remove();
+        }, 2000);
+    </script>
+    <?php
+}
+
     } else {
         echo "<p>No reports available now.</p>";
-    }
-
-    // Check if the approve button is clicked
-    if (isset($_POST['approve'])) {
-        // Perform approval action here (e.g., update database, send notification)
-        $item_id = $_POST['item_id'];
-        $conn->query("UPDATE report SET auctionstatus = 1 WHERE id = $item_id");
-        echo '<div class="success-message">Successfully approved auction!</div>';
-    }
-
-    // Check if the cancel button is clicked
-    if (isset($_POST['cancel'])) {
-        // Perform cancellation action here (e.g., update database, send notification)
-        $item_id = $_POST['item_id'];
-        $conn->query("UPDATE report SET auctionstatus = 2 WHERE id = $item_id");
-        echo '<div class="error-message">Auction cancelled!</div>';
     }
 
     // Close connection
@@ -168,22 +195,6 @@
 </div>
 
 <script>
-    // Remove success message after 2 seconds
-    setTimeout(function() {
-        var successMessage = document.querySelector('.success-message');
-        if (successMessage) {
-            successMessage.remove();
-        }
-    }, 2000);
-
-    // Remove error message after 2 seconds
-    setTimeout(function() {
-        var errorMessage = document.querySelector('.error-message');
-        if (errorMessage) {
-            errorMessage.remove();
-        }
-    }, 2000);
-
     function changePerPage(select) {
         var perPage = select.value;
         // Implement logic to change the number of items per page

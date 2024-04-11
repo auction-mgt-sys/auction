@@ -65,23 +65,24 @@ include('header.php');
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=home"><img src="images/Home.png" class="ic"> Home</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> About Organization</a></li>
                     <li class="nav-item notification-icon">
-    <a class="nav-link js-scroll-trigger" href="index.php?page=event">
-        <img src="images/auction_32px.png" class="ic"> Events
-        <?php
-        // Get current datetime
-        $current_datetime = date('Y-m-d H:i:s');
+                    <a class="nav-link js-scroll-trigger" href="index.php?page=event">
+    <img src="images/auction_32px.png" class="ic"> Events
+    <?php
+    // Get current date without time
+    $current_date = date('Y-m-d');
 
-        // Count the number of events from the product table that occur on or after the current datetime
-        $event_count_query = $conn->query("SELECT COUNT(*) AS event_count FROM products WHERE bid_end_datetime >= '$current_datetime'");
-        $event_count_row = $event_count_query->fetch_assoc();
-        $event_count = $event_count_row['event_count'];
+    // Count the number of events from the product table that occur on or after the current date
+    $event_count_query = $conn->query("SELECT COUNT(*) AS event_count FROM products WHERE DATE(bid_end_datetime) >= '$current_date'");
+    $event_count_row = $event_count_query->fetch_assoc();
+    $event_count = $event_count_row['event_count'];
 
-        // Display the number of events in the notification icon if count is greater than 0
-        if ($event_count > 0) {
-            echo '<span class="notification-count">' . $event_count . '</span>';
-        }
-        ?>
-    </a>
+    // Display the number of events in the notification icon if count is greater than 0
+    if ($event_count > 0) {
+        echo '<span class="notification-count">' . $event_count . '</span>';
+    }
+    ?>
+</a>
+
 </li>
 
 
