@@ -30,8 +30,9 @@
         </div>
         <div class="d-flex justify-content-start">
             <div class="p-1 col-6">
-                <input type="text" name="contact" class="form-control" value="" placeholder="Phone Number" required="">
-            </div>
+    <input type="text" name="contact" class="form-control" value="+251" placeholder="Phone Number" required="">
+</div>
+
             <div class="p-1 col-6">
                 <input type="email" name="email" class="form-control" value="" placeholder="@Email" required="">
             </div>
@@ -70,8 +71,8 @@
         justify-content: start;
     }
     img#img_preview {
-        max-height: 150px;
-        max-width: 150px;
+        max-height: 50px;
+        max-width: 50px;
     }
 </style>
 <script>

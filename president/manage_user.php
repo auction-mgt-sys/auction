@@ -36,8 +36,8 @@ foreach($user->fetch_array() as $k =>$v){
 			<small><i>Leave this blank if you dont want to change your password.</i></small>
 		<?php endif; ?>
 		</div>
-		<?php if(isset($meta['type']) && $meta['type'] == 4): ?>
-			<input type="hidden" name="type" value="4">
+		<?php if(isset($meta['type']) && $meta['type'] == 7): ?>
+			<input type="hidden" name="type" value="7">
 		<?php else: ?>
 		<?php if(!isset($_GET['mtype'])): ?>
 		<div class="form-group">
@@ -47,6 +47,9 @@ foreach($user->fetch_array() as $k =>$v){
 				<option value="3" <?php echo isset($meta['type']) && $meta['type'] == 3 ? 'selected': '' ?>>Auctioneer</option>
 				<option value="1" <?php echo isset($meta['type']) && $meta['type'] == 1 ? 'selected': '' ?>>Admin</option>
 				<option value="4" <?php echo isset($meta['type']) && $meta['type'] == 4 ? 'selected': '' ?>>Committee</option>
+				<option value="5" <?php echo isset($meta['type']) && $meta['type'] == 5 ? 'selected': '' ?>>Department</option>
+				<option value="7" <?php echo isset($meta['type']) && $meta['type'] == 7 ? 'selected': '' ?>>President</option>
+				<option value="6" <?php echo isset($meta['type']) && $meta['type'] == 6 ? 'selected': '' ?>>Finance</option>
 			</select>
 		</div>
 		<?php endif; ?>

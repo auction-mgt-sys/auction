@@ -66,7 +66,7 @@
       </div>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-3" id="mainNav">
             <div class="container-fluid">
-                <a class="navbar-brand js-scroll-trigger" href="#"><img src="images/wpcsc.png" class="wpcsc"><?php echo $_SESSION['system']['name'] ?></a>
+                <a class="navbar-brand js-scroll-trigger" href="#"><img src="images/logo.jpg" class="wpcsc"><?php echo $_SESSION['system']['name'] ?></a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
@@ -165,7 +165,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                              <?php echo "<h4>Welcome ".$_SESSION['login_username']."</h4>"?>
                                <?php echo "</div>"; ?> 
                              <?php else:
-                             echo "<img src='images/wkcsc.png' id='wpcsc'>
+                             echo "<img src='images/wpcsc.jpg' id='wpcsc'>
                         <h1>WOLKITE POLYTECHNIC COLLEGE </h1>
                         <h3>WELCOME TO AUCTION AND BIDDING SYSTEM</h3>    
                           <h3></h3>"; ?>

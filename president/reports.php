@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            position: relative; /* Added */
         }
 
         .container {
@@ -19,6 +20,7 @@
             background-color: #f4f4f4;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* Added */
         }
 
         .card {
@@ -57,10 +59,63 @@
             display: table;
             clear: both;
         }
+
+        .search-bar {
+            margin-bottom: 10px;
+        }
+
+        .search-bar select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
+
+        .success-message {
+    background-color: lightgreen;
+    color: green;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 0 auto;
+    max-width: 300px; /* Adjust the maximum width as needed */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    text-align: center;
+}
+
+      
+.error-message {
+    background-color: #ffcccc;
+    color: red;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 0 auto;
+    max-width: 300px; /* Adjust the maximum width as needed */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    text-align: center;
+}
     </style>
 </head>
 <body>
+    
 <div class="container">
+    <div class="search-bar">
+        <span>Show:</span>
+        <select onchange="changePerPage(this)">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+        </select>
+    </div>
+
     <?php
     // Replace these variables with your actual database connection details
     include("db_connect.php");
@@ -73,7 +128,7 @@
         // Output data of each row
         while ($row = $result->fetch_assoc()) {
             ?>
-            <div class="card">
+            <div class="card" id="report-<?php echo $row['id']; ?>">
                 <div class="card-header">
                     Item ID: <?php echo $row['id']; ?>
                 </div>
@@ -91,24 +146,46 @@
             </div>
             <?php
         }
+       // Check if the approve button is clicked
+if (isset($_POST['approve'])) {
+    // Perform approval action here (e.g., update database, send notification)
+    $item_id = $_POST['item_id'];
+    $conn->query("UPDATE report SET auctionstatus = 1 WHERE id = $item_id");
+    ?>
+    <script>
+        document.getElementById('report-<?php echo $item_id; ?>').remove();
+        const successMessage = document.createElement('div');
+        successMessage.className = 'success-message';
+        successMessage.textContent = 'Successfully approved auction!';
+        document.body.appendChild(successMessage);
+        setTimeout(function() {
+            successMessage.remove();
+        }, 2000);
+    </script>
+    <?php
+}
+
+// Check if the cancel button is clicked
+if (isset($_POST['cancel'])) {
+    // Perform cancellation action here (e.g., update database, send notification)
+    $item_id = $_POST['item_id'];
+    $conn->query("UPDATE report SET auctionstatus = 2 WHERE id = $item_id");
+    ?>
+    <script>
+        document.getElementById('report-<?php echo $item_id; ?>').remove();
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'error-message';
+        errorMessage.textContent = 'Auction cancelled!';
+        document.body.appendChild(errorMessage);
+        setTimeout(function() {
+            errorMessage.remove();
+        }, 2000);
+    </script>
+    <?php
+}
+
     } else {
         echo "<p>No reports available now.</p>";
-    }
-
-    // Check if the approve button is clicked
-    if (isset($_POST['approve'])) {
-        // Perform approval action here (e.g., update database, send notification)
-        $item_id = $_POST['item_id'];
-        $conn->query("UPDATE report SET auctionstatus = 1 WHERE id = $item_id");
-        echo "<script>alert('Successfully approved auction!');</script>";
-    }
-
-    // Check if the cancel button is clicked
-    if (isset($_POST['cancel'])) {
-        // Perform cancellation action here (e.g., update database, send notification)
-        $item_id = $_POST['item_id'];
-        $conn->query("UPDATE report SET auctionstatus = 2 WHERE id = $item_id");
-        echo "<script>alert('Auction cancelled!');</script>";
     }
 
     // Close connection
@@ -116,5 +193,14 @@
     ?>
     <div class="clearfix"></div>
 </div>
+
+<script>
+    function changePerPage(select) {
+        var perPage = select.value;
+        // Implement logic to change the number of items per page
+        // For example, you can reload the page with a query parameter indicating the number of items per page
+        // window.location.href = window.location.pathname + '?perPage=' + perPage;
+    }
+</script>
 </body>
 </html>

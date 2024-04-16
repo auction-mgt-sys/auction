@@ -1,75 +1,99 @@
 <?php
-// Assuming the connection to the database is already established
-include 'db_connect.php';
+include 'db_connect.php';   
 
-// Initialize message variable
-$message = '';
+// Assuming you have set the user_id in the session (replace it with your actual way of identifying the user)
+$userId = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : 0; // Replace 'login_id' with your session variable name
 
-// Check if ID and action parameters are provided
-if (isset($_GET['id']) && isset($_GET['action'])) {
-    $itemId = $_GET['id'];
-    $action = $_GET['action'];
+// Fetch department name associated with the logged-in user
+$departmentName = "";
+if ($userId != 0) {
+    $query = "SELECT deptname FROM users WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $stmt->bind_result($departmentName);
+    $stmt->fetch();
+    $stmt->close();
+}
 
-    // Update status based on action
-    switch ($action) {
-        case 'verify':
-            $message = updateStatus($itemId, 1, "Item successfully verified");
-            break;
-        case 'reject':
-            // If reject action, check if reason is provided
-            if (isset($_POST['reason']) && !empty(trim($_POST['reason']))) {
-                $reason = $_POST['reason'];
-                $message = updateStatus($itemId, 2, "Item successfully rejected with reason: $reason", $reason);
-            } else {
-                $message = "";
-            }
-            break;
-        default:
-            $message = "Invalid action";
+// Fetch rejected items from the requesteditem table for the department associated with the logged-in user
+$rejectedItems = array();
+$query = "SELECT id, name, type, measurment, quantity, reason FROM requesteditem WHERE status = 2 AND deptname = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("s", $departmentName);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $rejectedItems[] = $row;
     }
 }
 
-// Function to update status and insert reason in the database
-function updateStatus($itemId, $status, $successMessage, $reason = "") {
-    global $conn;
-    // Update status for the specified item ID
-    $sql = "UPDATE requesteditem SET status = $status";
-    if (!empty($reason)) {
-        $sql .= ", reason = '$reason'";
-    }
-    $sql .= " WHERE id = $itemId";
-    
-    // Execute the SQL query to update status and insert reason
-    if ($conn->query($sql) === TRUE) {
-        return $successMessage;
-    } else {
-        return "Error updating status: " . $conn->error;
-    }
-}
+$stmt->close();
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejected Item View</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
 
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
 
+        th {
+            background-color: #f2f2f2;
+        }
 
-<div id="message" class="toast" style="display: <?php echo $message ? 'block' : 'none'; ?>;">
-    <?php echo $message; ?>
-</div>
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
 
-<!-- Form for rejecting with reason -->
-<div id="rejectForm" style="display: <?php echo isset($_GET['action']) && $_GET['action'] == 'reject' ? 'block' : 'none'; ?>;">
-    <form action="<?php echo $_SERVER['PHP_SELF'] . '?id=' . $_GET['id'] . '&action=reject'; ?>" method="post">
-        <label for="reason">Reason for rejection:</label><br>
-        <textarea id="reason" name="reason" rows="4" cols="50"></textarea><br>
-        <input type="submit" value="Reject">
-    </form>
-</div>
-
-<script>
-    // Function to hide the message after some time
-    function hideMessage() {
-        var messageBox = document.getElementById('message');
-        messageBox.style.display = 'none';
-    }
-
-    // Call hideMessage function after 5 seconds
-    setTimeout(hideMessage, 5000);
-</script>
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h2>Rejected Items</h2>
+    <?php if (!empty($rejectedItems)): ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Measurement</th>
+                    <th>Quantity</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($rejectedItems as $item): ?>
+                    <tr>
+                        <td><?php echo $item['id']; ?></td>
+                        <td><?php echo $item['name']; ?></td>
+                        <td><?php echo $item['type']; ?></td>
+                        <td><?php echo $item['measurment']; ?></td>
+                        <td><?php echo $item['quantity']; ?></td>
+                        <td><?php echo $item['reason']; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>No rejected items found.</p>
+    <?php endif; ?>
+    <!-- Your HTML content here -->
+</body>
+</html>
