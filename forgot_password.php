@@ -1,20 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</head>
-<body>
-
 <?php
 session_start();
 
@@ -34,21 +17,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO password (email, verification_code, created_at) VALUES ('$email', '$verification_code', NOW())";
         
         if (mysqli_query($conn, $sql)) {
-            // Send the email with the verification code
-            $to = $email;
-            $subject = 'Password Reset Verification Code';
-            $message = 'Your verification code is: ' . $verification_code;
+            // Send the email with PHPMailer
+            $mail = new PHPMailer\PHPMailer\PHPMailer();
+            $mail->IsSMTP();
+            $mail->Host = 'smtp.example.com'; // Your SMTP server address
+            $mail->SMTPAuth = true;
+            $mail->Username = 'your-email@example.com'; // SMTP username
+            $mail->Password = 'your-password'; // SMTP password
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+            
+            $mail->setFrom('webmaster@example.com', 'Webmaster');
+            $mail->addAddress($to);
+            $mail->Subject = 'Password Reset Verification Code';
+            $mail->Body    = 'Your verification code is: ' . $verification_code;
 
-            // Additional headers
-            $headers = 'From: webmaster@example.com' . "\r\n" .
-                       'Reply-To: webmaster@example.com' . "\r\n" .
-                       'X-Mailer: PHP/' . phpversion();
-
-            // Send the email
-            if (mail($to, $subject, $message, $headers)) {
+            if($mail->send()) {
                 echo json_encode(['status' => 'success', 'message' => 'Verification code sent to your email!']);
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Failed to send email']);
+                echo json_encode(['status' => 'error', 'message' => 'Failed to send email: ' . $mail->ErrorInfo]);
             }
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Database error']);
@@ -60,6 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
 }
 ?>
+
 
 <div class="container-fluid">
     <form action="" method="post" id="forgot-password-frm">
@@ -113,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $('#messageModal .modal-body').html('<div class="alert alert-success">' + resp.message + '</div>');
                     $('#messageModal').modal('show');
                     setTimeout(function(){
-                        window.location.href = 'reset.php'; // Redirect to reset password page
+                        location.reload();
                     }, 4000);
                 } else if(resp.status === 'email_not_found'){
                     $('#messageModal .modal-body').html('<div class="alert alert-danger">Email not found!</div>');
@@ -128,6 +116,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
     });
 </script>
-
-</body>
-</html>
+<html></html>
