@@ -27,40 +27,40 @@ $result = $conn->query($query);
 <html>
 <head>
     <style>
-        body {
+      body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
         }
 
-        .report-card {
-            display: inline-block;
-            width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            margin: 10px;
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
             background-color: #fff;
+            border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        .report-card h3 {
-            margin: 0;
-            padding: 0;
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
 
-        .report-card p {
-            margin: 0;
-            padding: 0;
-            font-size: 14px;
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
         }
 
-        .report-card .status-rejected {
+        .status-rejected {
             color: red;
         }
 
-        .report-card .status-accepted {
+        .status-accepted {
             color: green;
         }
 
@@ -75,12 +75,25 @@ $result = $conn->query($query);
             margin: 10px auto;
             cursor: pointer;
         }
+        h2 {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <h2>Reports</h2>
+    <h2>Your History</h2>
+<div class="container">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Count</th>
+            <th>Price</th>
+            <th>Total Price</th>
+        </tr>
 
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <?php
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -93,23 +106,24 @@ $result = $conn->query($query);
                 $itemPrice = $row['price'];
                 $itemTotalPrice = $row['total_price'];
 
-                echo "<div class='report-card'>";
-                echo "<h3>$itemName</h3>";
-                echo "<p>Type: $itemType</p>";
-                echo "<p>Description: $itemDescription</p>";
-                echo "<p>Status: <span class='status-" . ($itemStatus == 1 ? 'accepted' : 'rejected') . "'>" . ($itemStatus == 1 ? 'Accepted' : 'Rejected') . "</span></p>";
-                echo "<p>Count: $itemCount</p>";
-                echo "<p>Price: $itemPrice</p>";
-                echo "<p>Total Price: $itemTotalPrice</p>";
-                echo "</div>";
+                echo "<tr>";
+                echo "<td>$itemName</td>";
+                echo "<td>$itemType</td>";
+                echo "<td>$itemDescription</td>";
+                echo "<td><span class='status-" . ($itemStatus == 1 ? 'accepted' : 'rejected') . "'>" . ($itemStatus == 1 ? 'Accepted' : 'Rejected') . "</span></td>";
+                echo "<td>$itemCount</td>";
+                echo "<td>$itemPrice</td>";
+                echo "<td>$itemTotalPrice</td>";
+                echo "</tr>";
             }
-            echo "<button type='submit' class='report-button'>Submit Report for All Items</button>";
+            
         } else {
-            echo "No data available.";
+            echo "<tr><td colspan='7'>No data available.</td></tr>";
         }
 
         $conn->close();
         ?>
-    </form>
+    </table>
+    </div>
 </body>
 </html>
