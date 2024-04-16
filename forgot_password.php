@@ -17,25 +17,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO password (email, verification_code, created_at) VALUES ('$email', '$verification_code', NOW())";
         
         if (mysqli_query($conn, $sql)) {
-            // Send the email with PHPMailer
-            $mail = new PHPMailer\PHPMailer\PHPMailer();
-            $mail->IsSMTP();
-            $mail->Host = 'smtp.example.com'; // Your SMTP server address
-            $mail->SMTPAuth = true;
-            $mail->Username = 'your-email@example.com'; // SMTP username
-            $mail->Password = 'your-password'; // SMTP password
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
-            
-            $mail->setFrom('webmaster@example.com', 'Webmaster');
-            $mail->addAddress($to);
-            $mail->Subject = 'Password Reset Verification Code';
-            $mail->Body    = 'Your verification code is: ' . $verification_code;
+            // Send the email with the verification code
+            $to = $email;
+            $subject = 'Password Reset Verification Code';
+            $message = 'Your verification code is: ' . $verification_code;
 
-            if($mail->send()) {
+            // Additional headers
+            $headers = 'From: webmaster@example.com' . "\r\n" .
+                       'Reply-To: webmaster@example.com' . "\r\n" .
+                       'X-Mailer: PHP/' . phpversion();
+
+            // Send the email
+            if (mail($to, $subject, $message, $headers)) {
                 echo json_encode(['status' => 'success', 'message' => 'Verification code sent to your email!']);
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Failed to send email: ' . $mail->ErrorInfo]);
+                echo json_encode(['status' => 'error', 'message' => 'Failed to send email']);
             }
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Database error']);
@@ -47,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
 }
 ?>
-
 
 <div class="container-fluid">
     <form action="" method="post" id="forgot-password-frm">
@@ -116,4 +111,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
     });
 </script>
-<html></html>
