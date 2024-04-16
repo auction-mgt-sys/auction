@@ -25,8 +25,8 @@
                 </div>
             </div>
             <div class="p-1 col-6">
-                <input type="number" min="18" name="age" class="form-control" placeholder="Age" required="">
-            </div>
+        <input type="number" min="18" max="80" name="age" class="form-control" placeholder="Age" required="">
+    </div>
         </div>
         <div class="d-flex justify-content-start">
             <div class="p-1 col-6">
