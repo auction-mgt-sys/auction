@@ -68,20 +68,21 @@ include('header.php');
                     <a class="nav-link js-scroll-trigger" href="index.php?page=event">
     <img src="images/auction_32px.png" class="ic"> Events
     <?php
-    // Get current date without time
-    $current_date = date('Y-m-d');
+    // Get current date and time with microseconds
+    $current_datetime = date('Y-m-d H:i:s.u');
 
-    // Count the number of events from the product table that occur on or after the current date
-    $event_count_query = $conn->query("SELECT COUNT(*) AS event_count FROM products WHERE DATE(bid_end_datetime) >= '$current_date'");
+    // Check if there are any ongoing events based on the current date and time
+    $event_count_query = $conn->query("SELECT COUNT(*) AS event_count FROM products WHERE bid_end_datetime >= '$current_datetime'");
     $event_count_row = $event_count_query->fetch_assoc();
     $event_count = $event_count_row['event_count'];
 
-    // Display the number of events in the notification icon if count is greater than 0
+    // Display the number of ongoing events in the notification icon if count is greater than 0
     if ($event_count > 0) {
         echo '<span class="notification-count">' . $event_count . '</span>';
     }
     ?>
 </a>
+
 
 </li>
 
@@ -99,8 +100,8 @@ include('header.php');
 <!-- Translation Code here -->
 
 
-
                 </ul>
+                
             </div>
         </div>
     </nav>
