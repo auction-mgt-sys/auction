@@ -96,6 +96,51 @@
             transform: translate(-50%, -50%); /* Added */
             z-index: 9999; /* Added */
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .dropdown-arrow::after {
+            content: '\25BE'; /* Unicode character for downward arrow */
+            margin-left: 5px;
+        }
+
+        .history-dropdown {
+            position: relative;
+            display: inline-block;
+            margin-top: 20px; /* Added */
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .history-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .history-dropdown:hover .dropdown-arrow::after {
+            content: '\25B4'; /* Unicode character for upward arrow */
+        }
     </style>
 </head>
 <body>
@@ -112,28 +157,26 @@
     </div>
 
     <?php
-    // Replace these variables with your actual database connection details
+    // Fetch current reports
     include("db_connect.php");
 
-    // Example query to fetch reports from the database
-    $sql = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, price, total_price, id FROM report where status = 1 and auctionstatus = 0";
-    $result = $conn->query($sql);
+    $sql_current = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, price, total_price, id FROM report where status = 1 and auctionstatus = 0";
+    $result_current = $conn->query($sql_current);
 
-    if ($result->num_rows > 0) {
-        // Output data of each row
-        while ($row = $result->fetch_assoc()) {
+    if ($result_current->num_rows > 0) {
+        while ($row_current = $result_current->fetch_assoc()) {
             ?>
             <div class="card">
                 <div class="card-header">
-                    Item ID: <?php echo $row['id']; ?>
+                    Item ID: <?php echo $row_current['id']; ?>
                 </div>
                 <div class="card-body">
-                    <p><strong>Name:</strong> <?php echo $row['requesteditem_name']; ?></p>
-                    <p><strong>Quantity:</strong> <?php echo $row['requesteditem_quantity']; ?></p>
-                    <p><strong>Price:</strong> <?php echo $row['price']; ?></p>
-                    <p><strong>Total Price:</strong> <?php echo $row['total_price']; ?></p>
+                    <p><strong>Name:</strong> <?php echo $row_current['requesteditem_name']; ?></p>
+                    <p><strong>Quantity:</strong> <?php echo $row_current['requesteditem_quantity']; ?></p>
+                    <p><strong>Price:</strong> <?php echo $row_current['price']; ?></p>
+                    <p><strong>Total Price:</strong> <?php echo $row_current['total_price']; ?></p>
                     <form method="post">
-                        <input type="hidden" name="item_id" value="<?php echo $row['id']; ?>">
+                        <input type="hidden" name="item_id" value="<?php echo $row_current['id']; ?>">
                         <button type="submit" name="approve">Approve Auction</button>
                         <button type="submit" name="cancel">Cancel Auction</button>
                     </form>
@@ -147,7 +190,6 @@
 
     // Check if the approve button is clicked
     if (isset($_POST['approve'])) {
-        // Perform approval action here (e.g., update database, send notification)
         $item_id = $_POST['item_id'];
         $conn->query("UPDATE report SET auctionstatus = 1 WHERE id = $item_id");
         echo '<div class="success-message">Successfully approved auction!</div>';
@@ -155,34 +197,67 @@
 
     // Check if the cancel button is clicked
     if (isset($_POST['cancel'])) {
-        // Perform cancellation action here (e.g., update database, send notification)
         $item_id = $_POST['item_id'];
         $conn->query("UPDATE report SET auctionstatus = 2 WHERE id = $item_id");
         echo '<div class="error-message">Auction cancelled!</div>';
     }
 
-    // Close connection
     $conn->close();
     ?>
     <div class="clearfix"></div>
+
+    <div class="history-dropdown">
+        <button onclick="toggleHistory()" class="dropdown-arrow">History</button>
+        <div id="history" class="dropdown-content">
+            <table id="history-table">
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    // Fetch previous reports history from the database
+                    include("db_connect.php");
+
+                    $sql_history = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, price, total_price, id FROM report where status = 1 and auctionstatus != 0";
+                    $result_history = $conn->query($sql_history);
+
+                    if ($result_history->num_rows > 0) {
+                        while ($row_history = $result_history->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>" . $row_history['id'] . "</td>";
+                            echo "<td>" . $row_history['requesteditem_name'] . "</td>";
+                            echo "<td>" . $row_history['requesteditem_quantity'] . "</td>";
+                            echo "<td>" . $row_history['price'] . "</td>";
+                            echo "<td>" . $row_history['total_price'] . "</td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='5'>No history available</td></tr>";
+                    }
+
+                    $conn->close();
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script>
-    // Remove success message after 2 seconds
-    setTimeout(function() {
-        var successMessage = document.querySelector('.success-message');
-        if (successMessage) {
-            successMessage.remove();
+    function toggleHistory() {
+        var historyTable = document.getElementById("history");
+        if (historyTable.style.display === "none") {
+            historyTable.style.display = "block";
+        } else {
+            historyTable.style.display = "none";
         }
-    }, 2000);
-
-    // Remove error message after 2 seconds
-    setTimeout(function() {
-        var errorMessage = document.querySelector('.error-message');
-        if (errorMessage) {
-            errorMessage.remove();
-        }
-    }, 2000);
+    }
 
     function changePerPage(select) {
         var perPage = select.value;
