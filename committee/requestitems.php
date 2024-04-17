@@ -1,3 +1,5 @@
+<?php include("db_connect.php"); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -243,7 +245,7 @@ $conn->close();
                     // Hide the toast after 3 seconds
                     setTimeout(function() {
                         toast.style.display = 'none';
-                    }, 9000);
+                    }, 3000);
                 } else {
                     // Show a toast alert for successful rejection
                     var toast = document.getElementById('toastReject');
@@ -252,7 +254,7 @@ $conn->close();
                     // Hide the toast after 3 seconds
                     setTimeout(function() {
                         toast.style.display = 'none';
-                    }, 9000);
+                    }, 3000);
                 }
                 // Reload the page after status update
                 location.reload();

@@ -9,7 +9,7 @@
     <style>
         /* CSS styles */
         .cancelled-table {
-            width: 100%;
+            width: 80%; /* Adjust the width as needed */
             border-collapse: collapse;
             margin: 20px auto; /* Center the table horizontally */
         }
@@ -47,11 +47,11 @@
             echo "<table class='cancelled-table'>";
             echo "<thead>";
             echo "<tr>";
-            echo "<th>Item ID</th>";
-            echo "<th>Name</th>";
-            echo "<th>Quantity</th>";
-            echo "<th>Price</th>";
-            echo "<th>Total Price</th>";
+            echo "<th style='width: 10%;'>Item ID</th>"; 
+            echo "<th style='width: 30%;'>Name</th>";
+            echo "<th style='width: 10%;'>Quantity</th>";
+            echo "<th style='width: 20%;'>Price</th>";
+            echo "<th style='width: 20%;'>Total Price</th>";
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";

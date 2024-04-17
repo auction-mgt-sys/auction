@@ -34,7 +34,7 @@
     <div>
         <?php
         // Approved items
-        $sql_approved = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_type, requesteditem_measurment, price, total_price, id FROM report WHERE status = 1 AND auctionstatus != 0";
+        $sql_approved = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, price, total_price, id FROM report WHERE status = 1";
         $result_approved = $conn->query($sql_approved);
 
         if ($result_approved->num_rows > 0) {
@@ -45,8 +45,6 @@
             echo "<th>Item ID</th>";
             echo "<th>Name</th>";
             echo "<th>Quantity</th>";
-            echo "<th>Type</th>";
-            echo "<th>Measurment</th>";
             echo "<th>Price</th>";
             echo "<th>Total Price</th>";
             echo "</tr>";
@@ -57,8 +55,6 @@
                 echo "<td>" . $row_approved['id'] . "</td>";
                 echo "<td>" . $row_approved['requesteditem_name'] . "</td>";
                 echo "<td>" . $row_approved['requesteditem_quantity'] . "</td>";
-                echo "<td>" . $row_approved['requesteditem_type'] . "</td>";
-                echo "<td>" . $row_approved['requesteditem_measurment'] . "</td>";
                 echo "<td>" . $row_approved['price'] . "</td>";
                 echo "<td>" . $row_approved['total_price'] . "</td>";
                 echo "</tr>";

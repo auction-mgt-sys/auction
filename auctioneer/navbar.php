@@ -16,7 +16,7 @@ include 'db_connect.php';
 		<div class="sidebar-list">
 				<a href="index.php?page=home" class="nav-item nav-home"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
 				<a href="index.php?page=categories" class="nav-item nav-categories"><span class='icon-field'><i class="fa fa-list"></i></span> Categories</a>
-				<a href="index.php?page=approveditems" class="nav-item nav-approveditems"><span class='icon-field'><i class="fa fa-list"></i></span> Approved Items</a>
+				<a href="index.php?page=approved" class="nav-item nav-approved"><span class='icon-field'><i class="fa fa-list"></i></span> Approved Items</a>
 				<a href="index.php?page=products" class="nav-item nav-products"><span class='icon-field'><i class="fa fa-th-list"></i></span> Auctions</a>
 				<a href="index.php?page=bids" class="nav-item nav-bids"> ▓ Bids</a>
 			<a class="nav-item nav-active_payment nav-requested_payment nav-expired_payments" id="btn1"><span class='icon-field' id="btn1"><i class="fa fa-money-bill-alt"></i> Payments&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sp"> <small></>new <?php //echo $count ?></small>&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;▼</a>
