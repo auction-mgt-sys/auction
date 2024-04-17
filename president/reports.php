@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
-            position: relative; /* Added */
+            position: relative;
         }
 
         .container {
@@ -20,7 +20,7 @@
             background-color: #f4f4f4;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative; /* Added */
+            position: relative;
         }
 
         .card {
@@ -77,11 +77,11 @@
             padding: 10px;
             border-radius: 4px;
             margin-bottom: 10px;
-            position: absolute; /* Added */
-            top: 50%; /* Added */
-            left: 50%; /* Added */
-            transform: translate(-50%, -50%); /* Added */
-            z-index: 9999; /* Added */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
         }
 
         .error-message {
@@ -90,11 +90,11 @@
             padding: 10px;
             border-radius: 4px;
             margin-bottom: 10px;
-            position: absolute; /* Added */
-            top: 50%; /* Added */
-            left: 50%; /* Added */
-            transform: translate(-50%, -50%); /* Added */
-            z-index: 9999; /* Added */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
         }
 
         table {
@@ -115,31 +115,8 @@
         }
 
         .dropdown-arrow::after {
-            content: '\25BE'; /* Unicode character for downward arrow */
+            content: '\25BE';
             margin-left: 5px;
-        }
-
-        .history-dropdown {
-            position: relative;
-            display: inline-block;
-            margin-top: 20px; /* Added */
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-
-        .history-dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .history-dropdown:hover .dropdown-arrow::after {
-            content: '\25B4'; /* Unicode character for upward arrow */
         }
     </style>
 </head>
@@ -205,60 +182,9 @@
     $conn->close();
     ?>
     <div class="clearfix"></div>
-
-    <div class="history-dropdown">
-        <button onclick="toggleHistory()" class="dropdown-arrow">History</button>
-        <div id="history" class="dropdown-content">
-            <table id="history-table">
-                <thead>
-                    <tr>
-                        <th>Item ID</th>
-                        <th>Name</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    // Fetch previous reports history from the database
-                    include("db_connect.php");
-
-                    $sql_history = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, price, total_price, id FROM report where status = 1 and auctionstatus != 0";
-                    $result_history = $conn->query($sql_history);
-
-                    if ($result_history->num_rows > 0) {
-                        while ($row_history = $result_history->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td>" . $row_history['id'] . "</td>";
-                            echo "<td>" . $row_history['requesteditem_name'] . "</td>";
-                            echo "<td>" . $row_history['requesteditem_quantity'] . "</td>";
-                            echo "<td>" . $row_history['price'] . "</td>";
-                            echo "<td>" . $row_history['total_price'] . "</td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='5'>No history available</td></tr>";
-                    }
-
-                    $conn->close();
-                    ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
 </div>
 
 <script>
-    function toggleHistory() {
-        var historyTable = document.getElementById("history");
-        if (historyTable.style.display === "none") {
-            historyTable.style.display = "block";
-        } else {
-            historyTable.style.display = "none";
-        }
-    }
-
     function changePerPage(select) {
         var perPage = select.value;
         // Implement logic to change the number of items per page
