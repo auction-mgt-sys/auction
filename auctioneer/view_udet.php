@@ -53,7 +53,7 @@ foreach($qry->fetch_array() as $k => $val){
 				<hr>
 				<h5>Tax payment ID: <b><?php echo $TIN_number ?></b></h5>
 				<hr>
-				<h5>Joined Us On: <b><?php echo date('F j, Y, g:i a',strtotime($date_created)) ?></b></h5>
+				<h5>Joined Us On: <b><?php echo date('F j, Y, g:i a',strtotime($data_created)) ?></b></h5>
 			</div>
 		</div>
 	</div>

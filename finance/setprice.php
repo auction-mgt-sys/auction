@@ -82,7 +82,8 @@ ob_end_flush();
                 // Fetch data from the report table
                 $select_sql = "SELECT * FROM report WHERE status = 0"; // Select only rows with status = 0
                 $result = $conn->query($select_sql);
-                if ($result->num_rows > 0) {
+
+if ($result->num_rows > 0) {
                     echo "<form id='submitPriceForm' method='post' action=''>
                             <table>
                                 <tr>
@@ -111,7 +112,7 @@ ob_end_flush();
                         <button type='submit' name='submit_price'>Submit Price</button>
                         </form>";
                 } else {
-                    echo "Item hasn't been requested<br>";
+                    echo " No Item hasn't been requested<br>";
                 }
             } else {
                 echo "Error inserting data into report table: " . $conn->error;
