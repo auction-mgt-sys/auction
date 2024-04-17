@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
-            position: relative;
+            position: relative; /* Added */
         }
 
         .container {
@@ -20,7 +20,7 @@
             background-color: #f4f4f4;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
+            position: relative; /* Added */
         }
 
         .card {
@@ -72,52 +72,35 @@
         }
 
         .success-message {
-            background-color: lightgreen;
-            color: green;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-        }
+    background-color: lightgreen;
+    color: green;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 0 auto;
+    max-width: 300px; /* Adjust the maximum width as needed */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    text-align: center;
+}
 
-        .error-message {
-            background-color: #ffcccc;
-            color: red;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #3498db;
-            color: #fff;
-        }
-
-        .dropdown-arrow::after {
-            content: '\25BE';
-            margin-left: 5px;
-        }
+      
+.error-message {
+    background-color: #ffcccc;
+    color: red;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 0 auto;
+    max-width: 300px; /* Adjust the maximum width as needed */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    text-align: center;
+}
     </style>
 </head>
 <body>
@@ -134,26 +117,28 @@
     </div>
 
     <?php
-    // Fetch current reports
+    // Replace these variables with your actual database connection details
     include("db_connect.php");
 
-    $sql_current = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, price, total_price, id FROM report where status = 1 and auctionstatus = 0";
-    $result_current = $conn->query($sql_current);
+    // Example query to fetch reports from the database
+    $sql = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, price, total_price, id FROM report where status = 1 and auctionstatus = 0";
+    $result = $conn->query($sql);
 
-    if ($result_current->num_rows > 0) {
-        while ($row_current = $result_current->fetch_assoc()) {
+    if ($result->num_rows > 0) {
+        // Output data of each row
+        while ($row = $result->fetch_assoc()) {
             ?>
-            <div class="card">
+            <div class="card" id="report-<?php echo $row['id']; ?>">
                 <div class="card-header">
-                    Item ID: <?php echo $row_current['id']; ?>
+                    Item ID: <?php echo $row['id']; ?>
                 </div>
                 <div class="card-body">
-                    <p><strong>Name:</strong> <?php echo $row_current['requesteditem_name']; ?></p>
-                    <p><strong>Quantity:</strong> <?php echo $row_current['requesteditem_quantity']; ?></p>
-                    <p><strong>Price:</strong> <?php echo $row_current['price']; ?></p>
-                    <p><strong>Total Price:</strong> <?php echo $row_current['total_price']; ?></p>
+                    <p><strong>Name:</strong> <?php echo $row['requesteditem_name']; ?></p>
+                    <p><strong>Quantity:</strong> <?php echo $row['requesteditem_quantity']; ?></p>
+                    <p><strong>Price:</strong> <?php echo $row['price']; ?></p>
+                    <p><strong>Total Price:</strong> <?php echo $row['total_price']; ?></p>
                     <form method="post">
-                        <input type="hidden" name="item_id" value="<?php echo $row_current['id']; ?>">
+                        <input type="hidden" name="item_id" value="<?php echo $row['id']; ?>">
                         <button type="submit" name="approve">Approve Auction</button>
                         <button type="submit" name="cancel">Cancel Auction</button>
                     </form>
@@ -161,24 +146,49 @@
             </div>
             <?php
         }
+       // Check if the approve button is clicked
+if (isset($_POST['approve'])) {
+    // Perform approval action here (e.g., update database, send notification)
+    $item_id = $_POST['item_id'];
+    $conn->query("UPDATE report SET auctionstatus = 1 WHERE id = $item_id");
+    ?>
+    <script>
+        document.getElementById('report-<?php echo $item_id; ?>').remove();
+        const successMessage = document.createElement('div');
+        successMessage.className = 'success-message';
+        successMessage.textContent = 'Successfully approved auction!';
+        document.body.appendChild(successMessage);
+        setTimeout(function() {
+            successMessage.remove();
+        }, 2000);
+    </script>
+    <?php
+}
+
+// Check if the cancel button is clicked
+if (isset($_POST['cancel'])) {
+    // Perform cancellation action here (e.g., update database, send notification)
+    $item_id = $_POST['item_id'];
+    $conn->query("UPDATE report SET auctionstatus = 2 WHERE id = $item_id");
+    ?>
+    <script>
+        document.getElementById('report-<?php echo $item_id; ?>').remove();
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'error-message';
+        errorMessage.textContent = 'Auction cancelled!';
+        document.body.appendChild(errorMessage);
+        setTimeout(function() {
+            errorMessage.remove();
+        }, 2000);
+    </script>
+    <?php
+}
+
     } else {
         echo "<p>No reports available now.</p>";
     }
 
-    // Check if the approve button is clicked
-    if (isset($_POST['approve'])) {
-        $item_id = $_POST['item_id'];
-        $conn->query("UPDATE report SET auctionstatus = 1 WHERE id = $item_id");
-        echo '<div class="success-message">Successfully approved auction!</div>';
-    }
-
-    // Check if the cancel button is clicked
-    if (isset($_POST['cancel'])) {
-        $item_id = $_POST['item_id'];
-        $conn->query("UPDATE report SET auctionstatus = 2 WHERE id = $item_id");
-        echo '<div class="error-message">Auction cancelled!</div>';
-    }
-
+    // Close connection
     $conn->close();
     ?>
     <div class="clearfix"></div>

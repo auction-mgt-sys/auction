@@ -88,66 +88,6 @@ $event_count = $event_count_row['event_count'];
                     <?php else : ?>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="javascript:void(0)" id="login_now"><img src='images/Login.png' class='ic'> Login</a></li>
                     <?php endif; ?>
-
-<!-- Translation Code here -->
-<span>
-    <div class="translate" id="google_translate_element"></div>
-    <!-- This <div> element will be replaced by the Google Translate widget. -->
-
-    <script type="text/javascript">
-        // This function initializes the Google Translate widget.
-        function googleTranslateElementInit() {  
-            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-        }
-    </script>
-
-    <!-- This script includes the Google Translate API -->
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<!-- Inline CSS -->
-<style>
-  /* Define styles for the translate button */
-  .translate-button {
-    display: inline-block;
-    padding: 10px;
-    background-color: #f2f2f2; /* Light black background color */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-  }
-
-  .translate-button:hover {
-    background-color: #ddd; /* Darker background color on hover */
-  }
-
-  /* Style for the translate dropdown */
-  .translate-dropdown {
-    display: none;
-    position: absolute;
-    z-index: 1;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    animation: fadein 0.3s; /* Fade-in animation for the dropdown */
-  }
-
-  .translate-dropdown.show {
-    display: block;
-  }
-
-  /* Define animation */
-  @keyframes fadein {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-</style>
-
-
-
                 </ul>
             </div>
         </div>
