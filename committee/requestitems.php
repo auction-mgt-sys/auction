@@ -43,18 +43,30 @@
         z-index: 1;
     }
     .toast-success, .toast-reject {
-        position: fixed;
-        top: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #4CAF50; /* Green for success, red for rejection */
-        color: white;
-        padding: 16px;
-        border-radius: 5px;
-        z-index: 9999;
-        display: none; /* Hide initially */
-        animation: fade 20s ease-out; /* Animation for fade-in and fade-out */
-    }
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(76, 175, 80, 0.9); /* Semi-transparent green for success */
+    color: white;
+    padding: 16px;
+    border-radius: 5px;
+    z-index: 10000; /* Increased z-index for higher visibility */
+    display: none; /* Hide initially */
+    animation: fade 0.5s ease-in-out; /* Animation for fade-in and fade-out */
+    font-weight: bold; /* Make the text bold */
+    font-size: 16px; /* Adjust font size for better visibility */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for better contrast */
+}
+
+@keyframes fade {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+
     .search-container {
         margin-bottom: 20px;
     }
@@ -100,10 +112,7 @@
         text-align: center;
         margin-top: 20px;
     }
-    @keyframes fade {
-        0% { opacity: 100; }
-        100% { opacity: 50; }
-    }
+   
 </style>
 </head>
 <body>
@@ -111,7 +120,7 @@
 // PHP code to fetch requested items from database
 include 'db_connect.php'; 
 
-$sql = "SELECT id, name, type, measurment, description, quantity, depname FROM requesteditem WHERE status = 0";
+$sql = "SELECT id, name, type, measurment, description, quantity, deptname FROM requesteditem WHERE status = 0";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -137,7 +146,7 @@ if ($result->num_rows > 0) {
         echo "<td>" . $row["measurment"] . "</td>";
         echo "<td>" . $row["description"] . "</td>";
         echo "<td>" . $row["quantity"] . "</td>";
-        echo "<td>" . $row["depname"] . "</td>";
+        echo "<td>" . $row["deptname"] . "</td>";
         echo "<td>";
         echo "<button class='verify-btn' onclick='showVerifyPopup(\"" . $row["name"] . "\", " . $row["id"] . ")'>Verify</button>";
         echo "<button class='reject-btn' onclick='showRejectPopup(\"" . $row["name"] . "\", " . $row["id"] . ")'>Reject</button>";
@@ -232,7 +241,7 @@ $conn->close();
                     // Hide the toast after 3 seconds
                     setTimeout(function() {
                         toast.style.display = 'none';
-                    }, 2000);
+                    }, 9000);
                 } else {
                     // Show a toast alert for successful rejection
                     var toast = document.getElementById('toastReject');
@@ -241,7 +250,7 @@ $conn->close();
                     // Hide the toast after 3 seconds
                     setTimeout(function() {
                         toast.style.display = 'none';
-                    }, 2000);
+                    }, 9000);
                 }
                 // Reload the page after status update
                 location.reload();

@@ -9,6 +9,7 @@
 			<label for="" class="control-label">Password</label>
 			<input type="password" name="password" required="" class="form-control">
 			<a href="javascript:void(0)" id="new_account">Create New Account</a>
+			<a href="javascript:void(0)" id="forgot_password" class="ml-2">Forgot your Password?</a>
 		</div>
 		<button class="button btn btn-primary btn-sm">Login</button>
 		<button class="button btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancel</button>
@@ -24,7 +25,9 @@
 <script>
 	$('#new_account').click(function(){
 		uni_modal("Account Page",'signup.php?redirect=index.php?page=checkout')
-	})
+	});	$('#forgot_password').click(function(){
+		uni_modal("Forgot Password",'forgot_password.php');
+	});
 	$('#login-frm').submit(function(e){
 		e.preventDefault()
 		start_load()
