@@ -13,7 +13,6 @@
             border-collapse: collapse;
             margin-top: 20px;
         }
-
         .history-table th,
         .history-table td {
             border: 1px solid #ddd;
