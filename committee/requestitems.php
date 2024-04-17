@@ -172,7 +172,7 @@ $conn->close();
 <div id="verifyPopup" class="popup">
     <h2>Verification</h2>
     <p>Are you sure you want to verify <span id="verifyItemName"></span>?</p>
-    <button onclick="updateStatus('verify')">Yes</button> <!-- Fixed -->
+    <button onclick="updateStatus('verify')">Yes</button>
     <button onclick="hidePopup()">No</button>
 </div>
 
@@ -243,7 +243,7 @@ $conn->close();
                     // Hide the toast after 3 seconds
                     setTimeout(function() {
                         toast.style.display = 'none';
-                    }, 3000);
+                    }, 9000);
                 } else {
                     // Show a toast alert for successful rejection
                     var toast = document.getElementById('toastReject');
@@ -252,7 +252,7 @@ $conn->close();
                     // Hide the toast after 3 seconds
                     setTimeout(function() {
                         toast.style.display = 'none';
-                    }, 3000);
+                    }, 9000);
                 }
                 // Reload the page after status update
                 location.reload();
