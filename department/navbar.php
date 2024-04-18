@@ -11,7 +11,7 @@
 				<a href="index.php?page=home" class="nav-item nav-home"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
 				<a href="index.php?page=itemrequest" class="nav-item itemrequest"><span class='icon-field'><i class="fa fa-itemrequest"></i></span> Request item </a>
 				<a href="index.php?page=rejecteditem" class="nav-item rejecteditem"><span class='icon-field'><i class="fa fa-itemrequest"></i></span> veiw rejecteditem  </a>
-				
+				<a href="index.php?page=approved" class="nav-item approved"><span class='icon-field'><i class="fa fa-approved"></i></span> View ApprovedItems  </a>	
 			</div>
 
 </nav>

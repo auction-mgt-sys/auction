@@ -9,9 +9,9 @@
     <style>
         /* CSS styles */
         .history-table {
-            width: 100%;
+            width: 80%; /* Reduced width */
             border-collapse: collapse;
-            margin-top: 20px;
+            margin: 20px auto; /* Center the table */
         }
         .history-table th,
         .history-table td {
@@ -34,7 +34,7 @@
     <div>
         <?php
         // Approved items
-        $sql_approved = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, price, total_price, id FROM report WHERE status = 1";
+        $sql_approved = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, price, total_price, id FROM report WHERE auctionstatus = 1";
         $result_approved = $conn->query($sql_approved);
 
         if ($result_approved->num_rows > 0) {
