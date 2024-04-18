@@ -117,7 +117,7 @@
                 } else {
                     alert_toast("Registered! Please login.", 'success')
                     setTimeout(function () {
-                        location.reload()
+                        location.reload()   
                     }, 3000)
                 }
             }
