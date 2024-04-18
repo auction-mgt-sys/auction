@@ -50,12 +50,12 @@ $conn->close();
             <a href="index.php?page=cancelled_items" class="nav-item nav-cancelled_items"><span class='icon-field'><i class="fa fa-file"></i></span> Cancelled Items</a>
         </div>
     </nav>
-	<script>
-	$('.nav_collapse').click(function(){
-		console.log($(this).attr('href'))
-		$($(this).attr('href')).collapse()
-	})
-	$('.nav-<?php echo isset($_GET['page']) ? $_GET['page'] : '' ?>').addClass('active')
-</script>
+    <script>
+        $('.nav_collapse').click(function(){
+            console.log($(this).attr('href'))
+            $($(this).attr('href')).collapse()
+        })
+        $('.nav-<?php echo isset($_GET['page']) ? $_GET['page'] : '' ?>').addClass('active')
+    </script>
 </body>
 </html>

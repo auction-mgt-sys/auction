@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
-            position: relative; /* Added */
+            position: relative;
         }
 
         .container {
@@ -20,7 +20,7 @@
             background-color: #f4f4f4;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative; /* Added */
+            position: relative;
         }
 
         .card {
@@ -72,35 +72,34 @@
         }
 
         .success-message {
-    background-color: lightgreen;
-    color: green;
-    padding: 10px;
-    border-radius: 4px;
-    margin: 0 auto;
-    max-width: 300px; /* Adjust the maximum width as needed */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-    text-align: center;
-}
+            background-color: lightgreen;
+            color: green;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 0 auto;
+            max-width: 300px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            text-align: center;
+        }
 
-      
-.error-message {
-    background-color: #ffcccc;
-    color: red;
-    padding: 10px;
-    border-radius: 4px;
-    margin: 0 auto;
-    max-width: 300px; /* Adjust the maximum width as needed */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-    text-align: center;
-}
+        .error-message {
+            background-color: #ffcccc;
+            color: red;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 0 auto;
+            max-width: 300px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -121,7 +120,7 @@
     include("db_connect.php");
 
     // Example query to fetch reports from the database
-    $sql = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, price, total_price, id FROM report where status = 1 and auctionstatus = 0";
+    $sql = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, price, total_price, id FROM report WHERE status = 1 AND auctionstatus = 0";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -135,6 +134,7 @@
                 <div class="card-body">
                     <p><strong>Name:</strong> <?php echo $row['requesteditem_name']; ?></p>
                     <p><strong>Quantity:</strong> <?php echo $row['requesteditem_quantity']; ?></p>
+                    <p><strong>Department:</strong> <?php echo $row['requesteditem_deptname']; ?></p>
                     <p><strong>Price:</strong> <?php echo $row['price']; ?></p>
                     <p><strong>Total Price:</strong> <?php echo $row['total_price']; ?></p>
                     <form method="post">
@@ -146,43 +146,44 @@
             </div>
             <?php
         }
-       // Check if the approve button is clicked
-if (isset($_POST['approve'])) {
-    // Perform approval action here (e.g., update database, send notification)
-    $item_id = $_POST['item_id'];
-    $conn->query("UPDATE report SET auctionstatus = 1 WHERE id = $item_id");
-    ?>
-    <script>
-        document.getElementById('report-<?php echo $item_id; ?>').remove();
-        const successMessage = document.createElement('div');
-        successMessage.className = 'success-message';
-        successMessage.textContent = 'Successfully approved auction!';
-        document.body.appendChild(successMessage);
-        setTimeout(function() {
-            successMessage.remove();
-        }, 2000);
-    </script>
-    <?php
-}
+        
+        // Check if the approve button is clicked
+        if (isset($_POST['approve'])) {
+            // Perform approval action here (e.g., update database, send notification)
+            $item_id = $_POST['item_id'];
+            $conn->query("UPDATE report SET auctionstatus = 1 WHERE id = $item_id");
+            ?>
+            <script>
+                document.getElementById('report-<?php echo $item_id; ?>').remove();
+                const successMessage = document.createElement('div');
+                successMessage.className = 'success-message';
+                successMessage.textContent = 'Successfully approved auction!';
+                document.body.appendChild(successMessage);
+                setTimeout(function() {
+                    successMessage.remove();
+                }, 2000);
+            </script>
+            <?php
+        }
 
-// Check if the cancel button is clicked
-if (isset($_POST['cancel'])) {
-    // Perform cancellation action here (e.g., update database, send notification)
-    $item_id = $_POST['item_id'];
-    $conn->query("UPDATE report SET auctionstatus = 2 WHERE id = $item_id");
-    ?>
-    <script>
-        document.getElementById('report-<?php echo $item_id; ?>').remove();
-        const errorMessage = document.createElement('div');
-        errorMessage.className = 'error-message';
-        errorMessage.textContent = 'Auction cancelled!';
-        document.body.appendChild(errorMessage);
-        setTimeout(function() {
-            errorMessage.remove();
-        }, 2000);
-    </script>
-    <?php
-}
+        // Check if the cancel button is clicked
+        if (isset($_POST['cancel'])) {
+            // Perform cancellation action here (e.g., update database, send notification)
+            $item_id = $_POST['item_id'];
+            $conn->query("UPDATE report SET auctionstatus = 2 WHERE id = $item_id");
+            ?>
+            <script>
+                document.getElementById('report-<?php echo $item_id; ?>').remove();
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'error-message';
+                errorMessage.textContent = 'Auction cancelled!';
+                document.body.appendChild(errorMessage);
+                setTimeout(function() {
+                    errorMessage.remove();
+                }, 2000);
+            </script>
+            <?php
+        }
 
     } else {
         echo "<p>No reports available now.</p>";

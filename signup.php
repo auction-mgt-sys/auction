@@ -20,18 +20,19 @@
                     <select name="gender" class="form-select form-control" required="">
                         <option value="" selected="">Select Gender</option>
                         <option value="Male">Male</option>
-                        <option value="Femal">Female</option>
+                        <option value="Femal">Femal</option>
                     </select>
                 </div>
             </div>
             <div class="p-1 col-6">
-                <input type="number" min="18" name="age" class="form-control" placeholder="Age" required="">
+                <input type="number" min="18" max="80" name="age" class="form-control" placeholder="Age" required="">
             </div>
         </div>
         <div class="d-flex justify-content-start">
             <div class="p-1 col-6">
-                <input type="text" name="contact" class="form-control" value="" placeholder="Phone Number" required="">
-            </div>
+    <input type="text" name="contact" class="form-control" value="+251" placeholder="Phone Number" required="">
+</div>
+
             <div class="p-1 col-6">
                 <input type="email" name="email" class="form-control" value="" placeholder="@Email" required="">
             </div>
@@ -70,8 +71,8 @@
         justify-content: start;
     }
     img#img_preview {
-        max-height: 150px;
-        max-width: 150px;
+        max-height: 50px;
+        max-width: 50px;
     }
 </style>
 <script>

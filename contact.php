@@ -8,6 +8,7 @@
         body {
             font-family: Arial, Helvetica, sans-serif;
             margin: 0;
+            overflow: hidden; /* Remove scrolling */
         }
 
         html {
@@ -24,6 +25,7 @@
 
         h2 {
             text-align: center;
+            margin-top: 10px; /* Adjusted margin */
         }
 
         .row {
@@ -31,6 +33,7 @@
             justify-content: space-around;
             align-items: center;
             flex-wrap: wrap;
+            margin-top: 20px; /* Adjusted margin */
         }
 
         .column {
