@@ -6,6 +6,7 @@ if (!isset($_SESSION['system'])) {
     foreach ($system as $k => $v) {
         $_SESSION['system'][$k] = $v;
     }
+    
 }
 ob_end_flush();
 ?>
@@ -26,7 +27,7 @@ ob_end_flush();
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 2000px;
             margin: 20px auto;
             padding: 20px;
             background-color: #fff;
@@ -74,16 +75,14 @@ ob_end_flush();
             include("db_connect.php");
 
             // Insert data into the report table
-            $insert_sql = "INSERT INTO report (requesteditem_name, requesteditem_type, requesteditem_description, requesteditem_measurment, requesteditem_quantity, requesteditem_id)
-                            SELECT DISTINCT name, type, description, measurment, quantity, id FROM requesteditem 
+            $insert_sql = "INSERT INTO report (requesteditem_name, requesteditem_type, requesteditem_description, requesteditem_measurment, requesteditem_quantity,requesteditem_deptname, requesteditem_id)
+                            SELECT DISTINCT name, type, description, measurment, quantity,deptname, id FROM requesteditem 
                             WHERE status = 1 and  id NOT IN (SELECT requesteditem_id FROM report)";
-
-            if ($conn->query($insert_sql) === TRUE) {
+               if ($conn->query($insert_sql) === TRUE) {
                 // Fetch data from the report table
                 $select_sql = "SELECT * FROM report WHERE status = 0"; // Select only rows with status = 0
                 $result = $conn->query($select_sql);
-
-if ($result->num_rows > 0) {
+                if ($result->num_rows > 0) {
                     echo "<form id='submitPriceForm' method='post' action=''>
                             <table>
                                 <tr>
@@ -92,6 +91,7 @@ if ($result->num_rows > 0) {
                                     <th>Description</th>
                                     <th>Measurement</th>
                                     <th>Quantity</th>
+                                    <th>Deptname</th>
                                     <th>ID</th>
                                     <th>Price</th>
                                     <th>Total Price</th>
@@ -103,6 +103,7 @@ if ($result->num_rows > 0) {
                                 <td>" . $row["requesteditem_description"] . "</td>
                                 <td>" . $row["requesteditem_measurment"] . "</td>
                                 <td>" . $row["requesteditem_quantity"] . "</td>
+                                <td>" . $row["requesteditem_deptname"] . "</td>
                                 <td>" . $row["requesteditem_id"] . "</td>
                                 <td><input type='text' name='price[" . $row["requesteditem_id"] . "]' id='price_" . $row["requesteditem_id"] . "' value='" . $row["price"] . "' oninput='calculateTotalPrice(" . $row["requesteditem_id"] . ", " . $row["requesteditem_quantity"] . ")'></td>
                                 <td><input type='text' name='total_price[" . $row["requesteditem_id"] . "]' id='total_price_" . $row["requesteditem_id"] . "' value='" . ($row["price"] * $row["requesteditem_quantity"]) . "'></td>
@@ -117,7 +118,6 @@ if ($result->num_rows > 0) {
             } else {
                 echo "Error inserting data into report table: " . $conn->error;
             }
-
             if (isset($_POST['submit_price'])) {
                 $prices = $_POST['price'];
                 $totalPrices = $_POST['total_price'];
@@ -146,7 +146,6 @@ if ($result->num_rows > 0) {
             
         ?>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script>
         // JavaScript function to calculate total price
@@ -158,4 +157,4 @@ if ($result->num_rows > 0) {
     </script>
 </body>
 
-</html>
+</html>0            

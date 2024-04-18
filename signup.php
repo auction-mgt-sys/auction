@@ -29,12 +29,11 @@
             </div>
         </div>
         <div class="d-flex justify-content-start">
+              <div class="p-1 col-6">
+                <input type="text" name="contact" class="form-control" value="+251" placeholder="Phone Number" required="" maxlength="13">
+            </div>
             <div class="p-1 col-6">
-    <input type="text" name="contact" class="form-control" value="+251" placeholder="Phone Number" required="">
-</div>
-
-            <div class="p-1 col-6">
-                <input type="email" name="email" class="form-control" value="" placeholder="@Email" required="">
+                <input type="email" name="email" class="form-control" value="@gmail.com" placeholder="@Email" required="" >
             </div>
         </div>
         <div class="d-flex justify-content-start">
@@ -111,6 +110,9 @@
                     end_load()
                 } else if (resp == 10) {
                     $('#signup-frm').prepend('<div class="alert alert-danger">Passwords did not match!</div>')
+                    end_load()
+                } else if (resp == 8) {
+                    $('#signup-frm').prepend('<div class="alert alert-danger">phone number already exist!</div>')
                     end_load()
                 } else {
                     alert_toast("Registered! Please login.", 'success')
