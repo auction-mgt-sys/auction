@@ -47,9 +47,9 @@ function updateStatus($itemId, $status, $successMessage, $reason = "") {
     }
 }
 
-// Fetch rejected items from the database ordered by ID in descending order
-$sql_rejected = "SELECT id, name, quantity FROM requesteditem WHERE status = 2 ORDER BY id DESC";
-$result_rejected = $conn->query($sql_rejected);
+// Fetch requested items from the database ordered by ID in descending order
+$sql_requested = "SELECT id, name, quantity FROM requesteditem ORDER BY id DESC";
+$result_requested = $conn->query($sql_requested);
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +57,7 @@ $result_rejected = $conn->query($sql_rejected);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rejected Items</title>
+    <title>Requested Items</title>
     <style>
         /* CSS styles */
         .container {
@@ -69,20 +69,20 @@ $result_rejected = $conn->query($sql_rejected);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .rejected-table {
+        .requested-table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .rejected-table th,
-        .rejected-table td {
+        .requested-table th,
+        .requested-table td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
         }
 
-        .rejected-table th {
-            background-color: #e74c3c;
+        .requested-table th {
+            background-color: #3498db;
             color: #fff;
         }
 
@@ -95,9 +95,9 @@ $result_rejected = $conn->query($sql_rejected);
 <body>
     <div class="container">
         <?php
-        if ($result_rejected->num_rows > 0) {
-            echo "<h2>Rejected Items</h2>";
-            echo "<table class='rejected-table'>";
+        if ($result_requested->num_rows > 0) {
+            echo "<h2>Requested Items</h2>";
+            echo "<table class='requested-table'>";
             echo "<thead>";
             echo "<tr>";
             echo "<th>ID</th>";
@@ -107,18 +107,18 @@ $result_rejected = $conn->query($sql_rejected);
             echo "</thead>";
             echo "<tbody>";
 
-            while ($row_rejected = $result_rejected->fetch_assoc()) {
+            while ($row_requested = $result_requested->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td>" . $row_rejected['id'] . "</td>";
-                echo "<td>" . $row_rejected['name'] . "</td>";
-                echo "<td>" . $row_rejected['quantity'] . "</td>";
+                echo "<td>" . $row_requested['id'] . "</td>";
+                echo "<td>" . $row_requested['name'] . "</td>";
+                echo "<td>" . $row_requested['quantity'] . "</td>";
                 echo "</tr>";
             }
 
             echo "</tbody>";
             echo "</table>";
         } else {
-            echo "<p class='message'>No rejected items available</p>";
+            echo "<p class='message'>No requested items available</p>";
         }
         ?>
     </div>

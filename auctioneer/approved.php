@@ -40,7 +40,7 @@
 
         .message {
             margin-top: 20px;
-            text-align: center;
+            text-align: left;
         }
     </style>
 </head>
@@ -48,7 +48,7 @@
     <div class="container">
         <?php
         // Approved items
-        $sql_approved = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, price, total_price, id FROM report WHERE auctionstatus = 1";
+        $sql_approved = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, price, total_price, id FROM report WHERE auctionstatus = 1 ORDER BY id DESC";
         $result_approved = $conn->query($sql_approved);
 
         if ($result_approved->num_rows > 0) {
@@ -65,6 +65,7 @@
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
+
             while ($row_approved = $result_approved->fetch_assoc()) {
                 // Add bold class to the new entries
                 $bold_class = $row_approved['id'] > 1000 ? 'bold-entry' : '';
@@ -78,13 +79,14 @@
                 echo "<td>" . $row_approved['total_price'] . "</td>";
                 echo "</tr>";
             }
+
             echo "</tbody>";
             echo "</table>";
         } else {
             echo "<p class='message'>No approved items available</p>";
         }
         ?>
+        <p class="message">Since these items have been confirmed by the president, the auction can proceed!</p>
     </div>
-    <p class="message">Since these items have been confirmed by the president, the auction can proceed!</p>
 </body>
 </html>
