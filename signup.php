@@ -50,9 +50,10 @@
         <div class="justify-content-start">
 			<div class="p-1 col-4">
 				<!--<input type="file"  accept="image/*" name="image" id="file" onchange="loadFile(event)" required="" />-->
-				<input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this))">
+				<input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this))"placeholder="Upload image" style="width: 300px;">
 			</div>
 			<div class="p-1 col-6">
+				<!-- <img  src="" alt="" id="img_path-field"> -->
 				<img src="<?php echo isset($photo) ? 'pho/'.$photo :'' ?>" alt="" id="img_path-field">
 			</div>
 		</div>
@@ -63,6 +64,9 @@
     </form>
 </div>
 <style>
+    #img_path-field{
+        width: 100px;
+    }
     #uni_modal .modal-footer {
         display: none;
     }
@@ -180,7 +184,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET['action']) && $_GET['act
         }
 
         // Check file size
-        if ($_FILES["img"]["size"] > 500000) {
+        if ($_FILES["img"]["size"] > 5000) {
             $uploadOk = 0;
         }
 
