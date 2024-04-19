@@ -1,21 +1,10 @@
-<?php
-include 'db_connect.php'; 
-$sql_reports = "SELECT COUNT(*) AS reports_count FROM report WHERE auctionstatus = 0";
-$result_reports = $conn->query($sql_reports);
-$reports_count = 0; // Default value
-
-if ($result_reports) {
-    // Fetch result
-    $row_reports = $result_reports->fetch_assoc();
-    $reports_count = $row_reports["reports_count"];
-} else {
-    // Error handling
-    echo "Error: " . $conn->error;
-}
-
-// Close connection
-$conn->close();
-?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         /* CSS styles */
         .collapse a {
@@ -40,7 +29,24 @@ $conn->close();
             <a href="index.php?page=reports" class="nav-item nav-reports">
                 <span class='icon-field'><i class="fa fa-file"></i></span> View Reports
                 <?php
-                // PHP code to display notification count for requested items
+                include 'db_connect.php'; 
+                $sql_reports = "SELECT COUNT(*) AS reports_count FROM report WHERE auctionstatus = 0";
+                $result_reports = $conn->query($sql_reports);
+                $reports_count = 0; // Default value
+
+                if ($result_reports) {
+                    // Fetch result
+                    $row_reports = $result_reports->fetch_assoc();
+                    $reports_count = $row_reports["reports_count"];
+                } else {
+                    // Error handling
+                    echo "Error: " . $conn->error;
+                }
+
+                // Close connection
+                $conn->close();
+
+                // Display notification count
                 if ($reports_count > 0) {
                     echo "<span class='notification-count'>$reports_count</span>";
                 }
@@ -50,12 +56,26 @@ $conn->close();
             <a href="index.php?page=cancelled_items" class="nav-item nav-cancelled_items"><span class='icon-field'><i class="fa fa-file"></i></span> Cancelled Items</a>
         </div>
     </nav>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $('.nav_collapse').click(function(){
-            console.log($(this).attr('href'))
-            $($(this).attr('href')).collapse()
-        })
-        $('.nav-<?php echo isset($_GET['page']) ? $_GET['page'] : '' ?>').addClass('active')
+        // Function to update notification count
+        function updateNotificationCount() {
+            $.ajax({
+                url: 'index.php', // Same page
+                type: 'GET',
+                data: { refresh: true }, // Send a parameter to identify the AJAX request
+                success: function(data) {
+                    var notificationCount = $(data).find('.notification-count').text(); // Extract notification count from the returned HTML
+                    $('.notification-count').text(notificationCount); // Update the notification count
+                }
+            });
+        }
+
+        // Update notification count every 10 seconds
+        setInterval(updateNotificationCount, 10000);
+
+        // Highlight active page
+        $('.nav-<?php echo isset($_GET['page']) ? $_GET['page'] : '' ?>').addClass('active');
     </script>
 </body>
 </html>

@@ -29,12 +29,11 @@
             </div>
         </div>
         <div class="d-flex justify-content-start">
+              <div class="p-1 col-6">
+                <input type="text" name="contact" class="form-control" value="+251" placeholder="Phone Number" required="" maxlength="13">
+            </div>
             <div class="p-1 col-6">
-    <input type="text" name="contact" class="form-control" value="+251" placeholder="Phone Number" required="">
-</div>
-
-            <div class="p-1 col-6">
-                <input type="email" name="email" class="form-control" value="" placeholder="@Email" required="">
+                <input type="email" name="email" class="form-control" value="@gmail.com" placeholder="@Email" required="" >
             </div>
         </div>
         <div class="d-flex justify-content-start">
@@ -49,14 +48,15 @@
             <input type="text" name="TIN" class="form-control" placeholder="Taxpayment ID (TIN)" required="">
         </div>
         <div class="justify-content-start">
-			<div class="p-1 col-4">
-				<!--<input type="file"  accept="image/*" name="image" id="file" onchange="loadFile(event)" required="" />-->
-				<input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this))">
-			</div>
-			<div class="p-1 col-6">
-				<img src="<?php echo isset($photo) ? 'pho/'.$photo :'' ?>" alt="" id="img_path-field">
-			</div>
-		</div>
+      <div class="p-1 col-4">
+        <!--<input type="file"  accept="image/*" name="image" id="file" onchange="loadFile(event)" required="" />-->
+        <input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this))"placeholder="Upload image" style="width: 300px;">
+      </div>
+      <div class="p-1 col-6">
+        <!-- <img  src="" alt="" id="img_path-field"> -->
+        <img src="<?php echo isset($photo) ? 'pho/'.$photo :'' ?>" alt="" id="img_path-field">
+      </div>
+    </div>
         <div> <a href="javascript:void(0)" id="login"> ◄ Back to login</a></div>
        
         <button class="button btn btn-primary btn-sm">Create</button>
@@ -64,6 +64,9 @@
     </form>
 </div>
 <style>
+    #img_path-field{
+        width: 100px;
+    }
     #uni_modal .modal-footer {
         display: none;
     }
@@ -79,7 +82,6 @@
     $('#login').click(function () {
         uni_modal("Login", 'login.php?redirect=index.php?page=checkout')
     })
-
     $('#signup-frm').submit(function (e) {
         e.preventDefault()
         start_load()
@@ -112,10 +114,13 @@
                 } else if (resp == 10) {
                     $('#signup-frm').prepend('<div class="alert alert-danger">Passwords did not match!</div>')
                     end_load()
+                } else if (resp == 8) {
+                    $('#signup-frm').prepend('<div class="alert alert-danger">phone number already exist!</div>')
+                    end_load()
                 } else {
                     alert_toast("Registered! Please login.", 'success')
                     setTimeout(function () {
-                        location.reload()
+                        location.reload()   
                     }, 3000)
                 }
             }
@@ -126,7 +131,7 @@
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-        	$('#img_path-field').attr('src', e.target.result);
+          $('#img_path-field').attr('src', e.target.result);
         }
 
         reader.readAsDataURL(input.files[0]);
@@ -178,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET['action']) && $_GET['act
         }
 
         // Check file size
-        if ($_FILES["img"]["size"] > 500000) {
+        if ($_FILES["img"]["size"] > 5000) {
             $uploadOk = 0;
         }
 
@@ -186,7 +191,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET['action']) && $_GET['act
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
             $uploadOk = 0;
         }
-
         // Check if $uploadOk is set to 0 by an error
         if ($uploadOk == 0) {
             // File upload failed
@@ -208,4 +212,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET['action']) && $_GET['act
 }
 
 ?>
-
