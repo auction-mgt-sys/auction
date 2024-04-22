@@ -60,8 +60,8 @@ if(isset($_POST['name'])){
             <input type="text" name="lname" id="lname" class="form-control" value="<?php echo isset($meta['lname']) ? $meta['lname']: '' ?>" required>
         </div>
         <div class="form-group">
-            <label for="lname">age</label>
-            <input type="number" name="age" id="age" class="form-control" value="<?php echo isset($meta['age']) ? $meta['age']: '' ?>" required>
+            <label for="age">age</label>
+            <input type="number"min="25" max="65" name="age" id="age" class="form-control" value="<?php echo isset($meta['age']) ? $meta['age']: '' ?>" required>
         </div>
         <div class="form-group">
             <label for="username">Username</label>

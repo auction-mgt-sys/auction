@@ -2,12 +2,14 @@
 <script src="sweetalert.min.js"></script>
 <div class="container-fluid">
     <form action="" id="signup-frm" enctype="multipart/form-data">
-        <div class="form-group">
-            <input type="text" name="name" class="form-control" required="" placeholder="First Name">
-        </div>
-        <div class="form-group">
-            <input type="text" name="lname" class="form-control" required="" placeholder="Last Name">
-        </div>
+    <div class="form-group">
+    <input type="text" name="name" class="form-control" required="" pattern="[a-zA-Z]{3,15}" title="Please enter a valid name (no numbers or special characters)" placeholder="First Name">
+</div>
+
+<div class="form-group">
+    <input type="text" name="lname" class="form-control" required="" pattern="[a-zA-Z]{3,15}" title="Please enter a valid last name (no numbers or special characters)" placeholder="Last Name">
+</div>
+
         <div class="form-group">
             <textarea cols="20" rows="2" name="address" required="" class="form-control" placeholder="Address"></textarea>
         </div>
@@ -29,33 +31,305 @@
             </div>
         </div>
         <div class="d-flex justify-content-start">
-            <div class="p-1 col-6">
-    <input type="text" name="contact" class="form-control" value="+251" placeholder="Phone Number" required="">
+        <div class="p-1 col-6">
+    <div class="custom-input-container">
+        <span class="country-code">+251</span>
+        <input type="text" name="contact" class="custom-input" value="" oninput="this.value = this.value.replace(/[^790-9]/g, '').substring(0, 9);" required="" pattern="^[790][0-9]{8}$" title="Please enter a valid Ethiopian phone number starting with 9 or 7 followed by 8 digits" placeholder="Phone Number">
+    </div>
 </div>
 
-            <div class="p-1 col-6">
-                <input type="email" name="email" class="form-control" value="" placeholder="@Email" required="">
-            </div>
+<style>
+    .custom-input-container {
+        position: relative;
+    }
+
+    .country-code {
+        position: absolute;
+        left: 0px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #f4f4f4;
+        padding: 5px 10px;
+        border-radius: 4px 0 0 4px;
+        border-right: 1px solid #ccc;
+    }
+
+    .custom-input {
+        padding-left: 60px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 0 4px 4px 0;
+        height: 38px;
+        font-size: 16px;
+    }
+
+    .custom-input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+</style>
+<div class="p-1 col-6">
+    <input type="text" name="email" id="emailInput" class="form-control" value="" placeholder="Email" required="" oninput="checkEmailValidity()" title="Please enter a valid Gmail email address (e.g., sss@gmail.com)">
+    <div id="emailError" style="color: red;"></div>
+</div>
+
+<script>
+    function checkEmailValidity() {
+        const emailInput = document.getElementById('emailInput');
+        const emailError = document.getElementById('emailError');
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+        if (!emailPattern.test(emailInput.value)) {
+            emailError.textContent = 'Please enter a valid Gmail email address (e.g., sss@gmail.com)';
+            emailInput.setCustomValidity('Invalid Gmail format');
+        } else {
+            emailError.textContent = '';
+            emailInput.setCustomValidity('');
+        }
+    }
+</script>
+
+
         </div>
         <div class="d-flex justify-content-start">
-            <div class="p-1 col-6">
-                <input type="password" name="password" class="form-control" placeholder="password" required="">
-            </div>
-            <div class="p-1 justify-content-start">
-                <input type="password" name="con-password" class="form-control" placeholder="confirm password" required="">
-            </div>
+        <div class="p-1 col-6">
+    <div class="password-container">
+        <input type="password" name="password" class="form-control password-input" id="passwordInput" placeholder="Password" required="" oninput="checkPasswordStrength(this.value)">
+        <span class="toggle-password" onclick="togglePasswordVisibility()">
+            <i class="fas fa-eye" id="toggleIcon"></i>
+        </span>
+    </div>
+    <div id="passwordStrength" style="margin-top: 10px;"></div>
+</div>
+
+<style>
+    .password-container {
+        position: relative;
+    }
+
+    .password-input {
+        padding-right: 40px;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+    .toggle-password i {
+        font-size: 18px;
+        color: #777;
+    }
+
+    .toggle-password i:hover {
+        color: #333;
+    }
+
+    #passwordStrength {
+        color: #333;
+        font-size: 14px;
+    }
+
+    .weak {
+        color: red;
+    }
+
+    .medium {
+        color: orange;
+    }
+
+    .strong {
+        color: green;
+    }
+</style>
+
+<script>
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('passwordInput');
+        const toggleIcon = document.getElementById('toggleIcon');
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = "password";
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+
+    function checkPasswordStrength(password) {
+        const strengthText = document.getElementById('passwordStrength');
+        const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})");
+
+        if (strongRegex.test(password)) {
+            strengthText.innerHTML = 'Strong password';
+            strengthText.className = 'strong';
+            document.getElementById('passwordInput').setCustomValidity('');
+        } else {
+            strengthText.innerHTML = 'Password must contain at least uppercase letter,lowercase letter, one digit, special character, and be at least 8 characters long.';
+            strengthText.className = 'weak';
+            document.getElementById('passwordInput').setCustomValidity('Password is not strong enough');
+        }
+    }
+</script>
+
+<div class="p-1 justify-content-start">
+    <div class="password-container">
+        <input type="password" name="con-password" class="form-control password-input" id="confirmPasswordInput" placeholder="Confirm Password" required="" oninput="checkConfirmPassword()">
+        <span class="toggle-password" onclick="toggleConfirmPasswordVisibility()">
+            <i class="fas fa-eye" id="toggleConfirmIcon"></i>
+        </span>
+    </div>
+    <div id="confirmPasswordStrength" style="margin-top: 10px;"></div>
+</div>
+
+<style>
+    .password-container {
+        position: relative;
+    }
+
+    .password-input {
+        padding-right: 40px;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+    .toggle-password i {
+        font-size: 18px;
+        color: #777;
+    }
+
+    .toggle-password i:hover {
+        color: #333;
+    }
+
+    #confirmPasswordStrength {
+        color: #333;
+        font-size: 14px;
+    }
+
+    .weak {
+        color: red;
+    }
+
+    .medium {
+        color: orange;
+    }
+
+    .strong {
+        color: green;
+    }
+</style>
+
+<script>
+    function toggleConfirmPasswordVisibility() {
+        const confirmPasswordInput = document.getElementById('confirmPasswordInput');
+        const toggleConfirmIcon = document.getElementById('toggleConfirmIcon');
+
+        if (confirmPasswordInput.type === "password") {
+            confirmPasswordInput.type = "text";
+            toggleConfirmIcon.classList.remove('fa-eye');
+            toggleConfirmIcon.classList.add('fa-eye-slash');
+        } else {
+            confirmPasswordInput.type = "password";
+            toggleConfirmIcon.classList.remove('fa-eye-slash');
+            toggleConfirmIcon.classList.add('fa-eye');
+        }
+    }
+
+    function checkConfirmPassword() {
+        const confirmPassword = document.getElementById('confirmPasswordInput').value;
+        const password = document.getElementById('passwordInput').value;
+        const confirmPasswordStrength = document.getElementById('confirmPasswordStrength');
+
+        if (confirmPassword === password && password.length >= 8) {
+            confirmPasswordStrength.innerHTML = 'Passwords match';
+            confirmPasswordStrength.className = 'strong';
+            document.getElementById('confirmPasswordInput').setCustomValidity('');
+        } else {
+            confirmPasswordStrength.innerHTML = 'Passwords do not match or are not strong enough';
+            confirmPasswordStrength.className = 'weak';
+            document.getElementById('confirmPasswordInput').setCustomValidity('Passwords do not match or are not strong enough');
+        }
+    }
+</script>
+
         </div>
         <div class="form-group">
             <input type="text" name="TIN" class="form-control" placeholder="Taxpayment ID (TIN)" required="">
         </div>
         <div class="justify-content-start">
-			<div class="p-1 col-4">
-				<!--<input type="file"  accept="image/*" name="image" id="file" onchange="loadFile(event)" required="" />-->
-				<input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this))">
-			</div>
-			<div class="p-1 col-6">
-				<img src="<?php echo isset($photo) ? 'pho/'.$photo :'' ?>" alt="" id="img_path-field">
-			</div>
+        <div class="p-1 col-4">
+    <input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this))" required>
+</div>
+<div class="p-1 col-6">
+    <div class="image-container">
+        <img src="<?php echo isset($photo) ? 'pho/'.$photo :'' ?>" alt="" id="img_path-field">
+        <span id="img_error" style="color: red; display: none;">Please upload an image.</span>
+    </div>
+</div>
+
+<style>
+    .image-container {
+        border: 2px solid #ccc;
+        padding: 10px;
+        max-width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .image-container img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const imgField = document.getElementById('img_path-field');
+        const imgError = document.getElementById('img_error');
+
+        // Function to check if the image source is empty or contains a placeholder
+        function validateImage() {
+            if (!imgField.src || imgField.src.indexOf('placeholder') !== -1) {
+                imgError.style.display = 'block';
+                return false;
+            } else {
+                imgError.style.display = 'none';
+                return true;
+            }
+        }
+
+        // Add an event listener to the file input to validate the image before form submission
+        const fileInput = document.querySelector('input[name="img"]');
+        fileInput.addEventListener('change', function() {
+            if (validateImage()) {
+                // If the image is valid, automatically submit the form
+                this.closest('form').submit();
+            }
+        });
+    });
+</script>
+
+
 		</div>
         <div> <a href="javascript:void(0)" id="login"> ◄ Back to login</a></div>
        
