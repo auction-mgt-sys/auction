@@ -20,7 +20,7 @@
                     <select name="gender" class="form-select form-control" required="">
                         <option value="" selected="">Select Gender</option>
                         <option value="Male">Male</option>
-                        <option value="Femal">Femal</option>
+                        <option value="Femal">Female</option>
                     </select>
                 </div>
             </div>
@@ -29,9 +29,39 @@
             </div>
         </div>
         <div class="d-flex justify-content-start">
-              <div class="p-1 col-6">
-                <input type="text" name="contact" class="form-control" value="+251" placeholder="Phone Number" required="" maxlength="13">
-            </div>
+    <div class="p-1 col-6">
+        <input type="text" name="contact" id="contact" class="form-control" value="+251" placeholder="Phone Number" required="" maxlength="13">
+        <div id="error-message" style="color: red; display: none;">Please enter numbers only.</div>
+    </div>
+</div>
+
+<script>
+    // Get the input element
+    var inputElement = document.getElementById('contact');
+    var errorMessage = document.getElementById('error-message');
+
+    // Add event listener to input element
+    inputElement.addEventListener('input', function(event) {
+        // Get the input value
+        var inputValue = event.target.value;
+
+        // Check if input contains alphabets
+        if (/[a-zA-Z]/.test(inputValue)) {
+            errorMessage.style.display = 'block';
+            event.target.setCustomValidity("Please enter numbers only.");
+        } else {
+            errorMessage.style.display = 'none';
+            event.target.setCustomValidity("");
+        }
+
+        // Remove any non-numeric characters from the input value
+        var numericValue = inputValue.replace(/\D/g, '');
+
+        // Update the input value with only numeric characters
+        event.target.value = numericValue;
+    });
+</script>
+
             <div class="p-1 col-6">
                 <input type="email" name="email" class="form-control" value="@gmail.com" placeholder="@Email" required="" >
             </div>
