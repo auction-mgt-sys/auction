@@ -21,7 +21,7 @@ if (isset($_GET['id']) && isset($_GET['action'])) {
                 $reason = $_POST['reason'];
                 $message = updateStatus($itemId, 2, "Item successfully rejected with reason: $reason", $reason);
             } else {
-                $message = "";
+                $message = "Reason for rejection is required";
             }
             break;
         default:
@@ -46,9 +46,8 @@ function updateStatus($itemId, $status, $successMessage, $reason = "") {
         return "Error updating status: " . $conn->error;
     }
 }
-
 // Fetch requested items from the database ordered by ID in descending order
-$sql_requested = "SELECT id, name, quantity FROM requesteditem ORDER BY id DESC";
+$sql_requested = "SELECT id, name, type, description, quantity, deptname, measurment FROM requesteditem ORDER BY id DESC";
 $result_requested = $conn->query($sql_requested);
 ?>
 
@@ -102,7 +101,11 @@ $result_requested = $conn->query($sql_requested);
             echo "<tr>";
             echo "<th>ID</th>";
             echo "<th>Name</th>";
+            echo "<th>Type</th>";
+            echo "<th>Description</th>";
             echo "<th>Quantity</th>";
+            echo "<th>Department</th>";
+            echo "<th>Measurement</th>";
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
@@ -111,7 +114,11 @@ $result_requested = $conn->query($sql_requested);
                 echo "<tr>";
                 echo "<td>" . $row_requested['id'] . "</td>";
                 echo "<td>" . $row_requested['name'] . "</td>";
+                echo "<td>" . $row_requested['type'] . "</td>";
+                echo "<td>" . $row_requested['description'] . "</td>";
                 echo "<td>" . $row_requested['quantity'] . "</td>";
+                echo "<td>" . $row_requested['deptname'] . "</td>";
+                echo "<td>" . $row_requested['measurment'] . "</td>";
                 echo "</tr>";
             }
 
