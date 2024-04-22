@@ -85,8 +85,21 @@
         } else {
             echo "<p class='message'>No approved items available</p>";
         }
+
+        $approved_items = []; // Assuming $approved_items is an array containing approved items
+        
+        if (!empty($approved_items)) {
+            ?>
+            <div class="container">
+                <p class="message">Since these items have been confirmed by the president, the auction can proceed!</p>
+                <?php
+                foreach ($approved_items as $item) {
+                    echo "<p>$item</p>"; // Displaying each approved item
+                }
+                ?>
+            </div>
+        <?php
+        }
         ?>
-        <p class="message">Since these items have been confirmed by the president, the auction can proceed!</p>
-    </div>
 </body>
 </html>
