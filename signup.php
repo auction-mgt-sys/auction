@@ -20,7 +20,7 @@
                     <select name="gender" class="form-select form-control" required="">
                         <option value="" selected="">Select Gender</option>
                         <option value="Male">Male</option>
-                        <option value="Femal">Female</option>
+                        <option value="Femal">Femal</option>
                     </select>
                 </div>
             </div>
@@ -61,7 +61,6 @@
         event.target.value = numericValue;
     });
 </script>
-
             <div class="p-1 col-6">
                 <input type="email" name="email" class="form-control" value="@gmail.com" placeholder="@Email" required="" >
             </div>
@@ -78,15 +77,15 @@
             <input type="text" name="TIN" class="form-control" placeholder="Taxpayment ID (TIN)" required="">
         </div>
         <div class="justify-content-start">
-      <div class="p-1 col-4">
-        <!--<input type="file"  accept="image/*" name="image" id="file" onchange="loadFile(event)" required="" />-->
-        <input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this))"placeholder="Upload image" style="width: 300px;">
-      </div>
-      <div class="p-1 col-6">
-        <!-- <img  src="" alt="" id="img_path-field"> -->
-        <img src="<?php echo isset($photo) ? 'pho/'.$photo :'' ?>" alt="" id="img_path-field">
-      </div>
-    </div>
+			<div class="p-1 col-4">
+				<!--<input type="file"  accept="image/*" name="image" id="file" onchange="loadFile(event)" required="" />-->
+				<input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this))"placeholder="Upload image" style="width: 300px;">
+			</div>
+			<div class="p-1 col-6">
+				<!-- <img  src="" alt="" id="img_path-field"> -->
+				<img src="<?php echo isset($photo) ? 'pho/'.$photo :'' ?>" alt="" id="img_path-field">
+			</div>
+		</div>
         <div> <a href="javascript:void(0)" id="login"> ◄ Back to login</a></div>
        
         <button class="button btn btn-primary btn-sm">Create</button>
@@ -112,6 +111,7 @@
     $('#login').click(function () {
         uni_modal("Login", 'login.php?redirect=index.php?page=checkout')
     })
+
     $('#signup-frm').submit(function (e) {
         e.preventDefault()
         start_load()
@@ -161,7 +161,7 @@
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-          $('#img_path-field').attr('src', e.target.result);
+        	$('#img_path-field').attr('src', e.target.result);
         }
 
         reader.readAsDataURL(input.files[0]);
@@ -221,6 +221,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET['action']) && $_GET['act
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
             $uploadOk = 0;
         }
+
         // Check if $uploadOk is set to 0 by an error
         if ($uploadOk == 0) {
             // File upload failed
@@ -242,3 +243,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET['action']) && $_GET['act
 }
 
 ?>
+
