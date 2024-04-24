@@ -472,7 +472,7 @@ accordion style start
                 </div>
             </div>
             <br>
-            <div class="container"><div class="small text-center text-muted">Copyright © 2021 - <?php echo $_SESSION['system']['name'] ?> | <a href="https://www.wpcsc.edu.et//" target="_blank">Wolkite polythecnc</a></div></div>
+            <div class="container"><div class="small text-center text-muted">Copyright © 2024 - <?php echo $_SESSION['system']['name'] ?> | <a href="https://www.wpcsc.edu.et//" target="_blank">Wolkite polythecnc</a></div></div>
         </footer>
         
        <?php include('footer.php') ?>

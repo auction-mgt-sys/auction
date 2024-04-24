@@ -68,8 +68,6 @@ $conn->close();
                                     <th>Description</th>
                                     <th>Measurement</th>
                                     <th>Quantity</th>
-                                    <th>Department</th>
-                                    <th>Department Head</th>
                                     <th>Sent Date</th>
                                 </tr>
                             </thead>
@@ -84,8 +82,6 @@ $conn->close();
                                         <td><?php echo htmlspecialchars($item['description']); ?></td>
                                         <td><?php echo htmlspecialchars($item['measurment']); ?></td>
                                         <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                                        <td><?php echo htmlspecialchars($item['deptname']); ?></td>
-                                        <td><?php echo htmlspecialchars($item['depheadname']); ?></td>
                                         <td><?php echo htmlspecialchars($item['sent_date']); ?></td>
                                     </tr>
                                 <?php endforeach; ?>

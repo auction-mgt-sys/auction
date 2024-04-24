@@ -273,12 +273,12 @@
         </div>
         <div class="justify-content-start">
         <div class="p-1 col-4">
-    <input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this))" required>
+    <input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this)), img_path-field1" required>
 </div>
 <div class="p-1 col-6">
     <div class="image-container">
         <img src="<?php echo isset($photo) ? 'pho/'.$photo :'' ?>" alt="" id="img_path-field">
-        <span id="img_error" style="color: red; display: none;">Please upload an image.</span>
+        <span id="img_error1" style="color: red; display: none;">Please upload an image.</span>
     </div>
 </div>
 
@@ -302,31 +302,61 @@
     }
 </style>
 
+<div class="justify-content-start">
+        <div class="p-1 col-4">
+    <input type="file" class="form-control" name="bphoto" onchange="displayImg2(this,$(this), img_path-field2)" required>
+</div>
+<div class="p-1 col-6">
+    <div class="image-container">
+        <img src="<?php echo isset($bphoto) ? 'pho/'.$bphoto :'' ?>" alt="" id="img_path-field">
+        <span id="img_error2" style="color: red; display: none;">Please upload an image.</span>
+    </div>
+</div>
+
+<style>
+    .image-container {
+    border: 2px solid #ccc;
+    padding: 10px;
+    max-width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 15px; /* Optional margin for spacing between image containers */
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+</style>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const imgField = document.getElementById('img_path-field');
-        const imgError = document.getElementById('img_error');
+   function displayImg2(input, element, imgId) {
+        const img = document.getElementById(imgId);
+        const error = document.getElementById(imgId.replace('img_path', 'img_error'));
 
-        // Function to check if the image source is empty or contains a placeholder
-        function validateImage() {
-            if (!imgField.src || imgField.src.indexOf('placeholder') !== -1) {
-                imgError.style.display = 'block';
-                return false;
-            } else {
-                imgError.style.display = 'none';
-                return true;
-            }
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                img.src = e.target.result;
+                img.style.display = 'block'; // Make sure the image is visible
+                error.style.display = 'none'; // Hide the error message
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            img.src = ''; // Clear the image source
+            img.style.display = 'none'; // Hide the image
+            error.style.display = 'block'; // Show the error message
         }
-
-        // Add an event listener to the file input to validate the image before form submission
-        const fileInput = document.querySelector('input[name="img"]');
-        fileInput.addEventListener('change', function() {
-            if (validateImage()) {
-                // If the image is valid, automatically submit the form
-                this.closest('form').submit();
-            }
-        });
-    });
+    }
+       
 </script>
 
 

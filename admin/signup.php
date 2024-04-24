@@ -58,11 +58,21 @@
 		<div class="justify-content-start">
 			<div class="p-1 col-4">
 				<!--<input type="file"  accept="image/*" name="image" id="file" onchange="loadFile(event)" required="" />-->
-				<input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this))">
+				<input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this), 'img_path-field1')">
 			</div>
 			<div class="p-1 col-6">
-				<img src="<?php echo isset($img_fname) ? 'photos/'.$img_fname :'' ?>" alt="" id="img_path-field">
+				<img src="<?php echo isset($img_fname) ? 'photos/'.$img_fname :'' ?>" alt="" id="img_path-field1">
 			</div>
+
+			<div class="justify-content-start">
+			<div class="p-1 col-4">
+				<!--<input type="file"  accept="image/*" name="image" id="file" onchange="loadFile(event)" required="" />-->
+				<input type="file" class="form-control" name="bphoto" onchange="displayImg2(this,$(this), 'img_path-field2')">
+			</div>
+			<div class="p-1 col-6">
+				<img src="<?php echo isset($b_img_fname) ? 'photos/'.$b_img_fname :'' ?>" alt="" id="img_path-field2">
+			</div>
+		</div>
 		</div>
 		<button class="button btn btn-primary btn-sm">Create</button>
 		<button class="button btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancel</button>

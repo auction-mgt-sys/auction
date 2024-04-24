@@ -5,7 +5,7 @@ if(isset($_GET['id'])){
     $qry = $conn->query("SELECT * FROM users where id= $id");
     $data = $qry->fetch_assoc();
     foreach($data as $k => $val){
-        $$k=$val;
+        $$k = htmlspecialchars($val);
     }
 }
 ?>
@@ -22,7 +22,7 @@ if(isset($_GET['id'])){
         max-height: 27vh;
     }
     .user-info {
-        text-align: center;
+        text-align: left; /* Aligning user info to the left */
         margin-top: 20px;
     }
     .user-info p {
@@ -53,7 +53,7 @@ if ($status == 1) {
                     <?php 
                     if(!empty($photo)) { 
                         if (file_exists('../admin/'.$photo)) {
-                            echo '<img src="../admin/'.$photo.'" alt="User Photo">'; 
+                            echo '<img src="../admin/'.htmlspecialchars($photo).'" alt="User Photo">'; 
                         } else {
                             echo '<img src="data:image/jpeg;base64,'.base64_encode($photo).'" alt="User Photo">'; 
                         }
@@ -61,20 +61,30 @@ if ($status == 1) {
                         echo 'No photo available';
                     }
                     ?>
+                    <?php 
+                    if(!empty($bphoto)) { 
+                        if (file_exists('../admin/'.$bphoto)) {
+                            echo '<img src="../admin/'.htmlspecialchars($bphoto).'" alt="User Photo">'; 
+                        } else {
+                            echo '<img src="data:image/jpeg;base64,'.base64_encode($bphoto).'" alt="User Photo">'; 
+                        }
+                    } else {
+                        echo 'No photo available';
+                    }
+                    ?>
                 </div>
                 <div class="user-info">
-                    <p>Full Name: <b><?php echo $name." ".$lname ?></b> </p>
-                    <p>username: <b><?php echo $username ?></b></p>
-
-                    <p>Gender: <b><?php echo $gender ?></b></p>
-                    <p>Age: <b><?php echo $age ?></b></p>
-                    <p>Contact: <b><?php echo $contact ?></b></p>
-                    <p>Email: <b><?php echo $email ?></b></p>
-                    <p>Address: <b><?php echo $address ?></b></p>
-                    <p>User Type: <b><?php echo $userType ?></b></p>
-                    <p>Registration Date: <b><?php echo $data_created ?></b></p>
-                    <p>Tax Payment ID: <b><?php echo $TIN_number ?></b></p>
-                    <p>Image: <b><?php echo $photo ?></b></p>
+                    <p>Full Name: <b><?php echo htmlspecialchars($name)." ".htmlspecialchars($lname) ?></b> </p>
+                    <p>Username: <b><?php echo htmlspecialchars($username) ?></b></p>
+                    <p>Gender: <b><?php echo htmlspecialchars($gender) ?></b></p>
+                    <p>Age: <b><?php echo htmlspecialchars($age) ?></b></p>
+                    <p>Contact: <b><?php echo htmlspecialchars($contact) ?></b></p>
+                    <p>Email: <b><?php echo htmlspecialchars($email) ?></b></p>
+                    <p>Address: <b><?php echo htmlspecialchars($address) ?></b></p>
+                    <p>User Type: <b><?php echo htmlspecialchars($userType) ?></b></p>
+                    <p>Registration Date: <b><?php echo htmlspecialchars($data_created) ?></b></p>
+                    <p>Tax Payment ID: <b><?php echo htmlspecialchars($TIN_number) ?></b></p>
+                    <p>Image: <b><?php echo htmlspecialchars($photo) ?></b></p>
                 </div>
             </div>
         </div>

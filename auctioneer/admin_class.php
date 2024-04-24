@@ -115,9 +115,21 @@ Class Action {
 	#save payment
 	function save_payment(){
 		extract($_POST);
+		$img_name = $_FILES['img']['name'];
+		$input_img = $_FILES['img']['tmp_name'];
+		$img_query = "auctioner/".$img_name;
+		$b_img_name = $_FILES['bphoto']['name'];
+		$b_input_img = $_FILES['bphoto']['tmp_name'];
+		$b_img_query = "auctioner/".$b_img_name;
+		
 		$data = " transaction_id = '$transaction_id' ";
 		$data .= ", amount = '$amount' ";
 		$data .= ", reason = '$reason' ";
+		$data .= ", photo = '$img_query' ";
+      $data .= ", bphoto = '$b_img_query' ";
+
+	  move_uploaded_file($input_img, $img_query);
+	  move_uploaded_file($b_input_img, $b_img_query);
 		$data .= ", status = 1 ";
 		$chk = $this->db->query("Select * from payment where transaction_id = '$transaction_id'  and id !='$id' ")->num_rows;
 		if($chk > 0){
