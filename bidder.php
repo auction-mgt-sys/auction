@@ -165,7 +165,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                              <?php echo "<h4>Welcome ".$_SESSION['login_username']."</h4>"?>
                                <?php echo "</div>"; ?> 
                              <?php else:
-                             echo "<img src='images/wpcsc.jpg' id='wpcsc'>
+                             echo "<img src='images/img.jpg' id='wpcsc'>
                         <h1>WOLKITE POLYTECHNIC COLLEGE </h1>
                         <h3>WELCOME TO AUCTION AND BIDDING SYSTEM</h3>    
                           <h3></h3>"; ?>
@@ -472,7 +472,7 @@ accordion style start
                 </div>
             </div>
             <br>
-            <div class="container"><div class="small text-center text-muted">Copyright © 2021 - <?php echo $_SESSION['system']['name'] ?> | <a href="https://www.wpcsc.edu.et//" target="_blank">Wolkite polythecnc</a></div></div>
+            <div class="container"><div class="small text-center text-muted">Copyright © 2024 - <?php echo $_SESSION['system']['name'] ?> | <a href="https://www.wpcsc.edu.et//" target="_blank">Wolkite polythecnc</a></div></div>
         </footer>
         
        <?php include('footer.php') ?>

@@ -52,6 +52,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                                         < h1>WPCSC AUCTION SYSTEM</h1>
                                         <div class='text-center'>
                                             <h4>Welcome <?php echo $_SESSION['login_name'] ?></h4>
+                                            <?php  echo "<img src='auction/img.png' id='wpcsc'";?>
                                         </div>
                                     <?php else: ?>
                                         <h1></h1>

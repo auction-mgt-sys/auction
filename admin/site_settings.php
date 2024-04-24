@@ -36,6 +36,9 @@ if($qry->num_rows > 0){
 				<div class="form-group">
 					<img src="<?php echo isset($meta['cover_img']) ? 'assets/uploads/'.$meta['cover_img'] :'' ?>" alt="" id="cimg">
 				</div>
+				<div class="form-group">
+    <img src="<?php echo isset($meta['cover_img']) ? 'C:\xampp\htdocs\auction\admin\assets\uploads'.$meta['cover_img'] : '' ?>" alt="" id="cimg">
+</div>
 				<center>
 					<button class="btn btn-info btn-primary btn-block col-md-2">Save</button>
 				</center>

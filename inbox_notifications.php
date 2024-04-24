@@ -52,16 +52,17 @@ if ($result && $result->num_rows > 0) {
                     <div class="card-body">
                         <table class="table table-condensed table-bordered table-hover">
                             <?php
-                            $users = $conn->query("SELECT * FROM comment where reciver_id =$bidder_id  order by 'id' asc");
+                            $users = $conn->query("SELECT * FROM comment where reciver_id =$bidder_id  order by id DESC");
                             while($row = $users->fetch_assoc()) {
 
-                                $get = $conn->query("SELECT * FROM users where id =" . $row['sender_id'] . "  order by 'date' asc limit 1");
+                                $get = $conn->query("SELECT * FROM users where id =" . $row['sender_id'] . "  order by id DESC limit 1");
                                 $uname = $get->num_rows > 0 ? $get->fetch_array()['name'] : '';
 
                                 $d = date('g:i a', strtotime($row['date'])); // Move this line inside the loop
 
                             ?>
-                                <a style ="<?php if($row['status']=='unread'){ echo "font-weight:bold; font-size: 20px;"; } ?>" class="dropdown-item view_detail" href="javascript:void(0)" data-id='<?php echo $row['id'] ?>'>
+                                <a style ="<?php if($row['status']=='unread'){ echo "font-weight:bold; font-size: 20px;"; } ?>" class="dropdown-item view_detail" 
+                                href="javascript:void(0)" data-id='<?php echo $row['id'] ?>'>
                                     <small><i><?php echo date('F j, Y, g:i a', strtotime($row['date'])) ?></i></small><br>
                                     <?php echo $row['title'] ; ?><br>
                                     <small><i><?php echo 'From:- '.$uname ?></i></small><hr>
