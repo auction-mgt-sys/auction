@@ -6,10 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Approved Items</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
     <style>
         /* CSS styles */
         .container {
-            width: 80%;
+            width: 100%;
             margin: 20px auto;
             background-color: #fff;
             padding: 20px;
@@ -40,7 +43,14 @@
 
         .message {
             margin-top: 20px;
-            text-align: left;
+            text-align: center;
+        }
+
+        .approval-message {
+            margin-top: 20px;
+            text-align: center;
+            font-style: italic;
+            color: #007bff;
         }
     </style>
 </head>
@@ -53,7 +63,7 @@
 
         if ($result_approved->num_rows > 0) {
             echo "<h2>Approved Items</h2>";
-            echo "<table class='history-table'>";
+            echo "<table class='history-table' id='approved-table'>";
             echo "<thead>";
             echo "<tr>";
             echo "<th>Item ID</th>";
@@ -82,24 +92,29 @@
 
             echo "</tbody>";
             echo "</table>";
-        } else {
-            echo "<p class='message'>No approved items available</p>";
-        }
 
-        $approved_items = []; // Assuming $approved_items is an array containing approved items
-        
-        if (!empty($approved_items)) {
-            ?>
-            <div class="container">
-                <p class="message">Since these items have been confirmed by the president, the auction can proceed!</p>
-                <?php
-                foreach ($approved_items as $item) {
-                    echo "<p>$item</p>"; // Displaying each approved item
-                }
-                ?>
-            </div>
-        <?php
+            // Show approval message
+            echo "<p class='approval-message'>These items have been approved by the president. The auction can proceed now.</p>";
+
+            // DataTables initialization script
+            echo "<script>
+                $(document).ready(function() {
+                    $('#approved-table').DataTable({
+                        'paging': true,
+                        'lengthChange': true,
+                        'searching': true,
+                        'ordering': true,
+                        'info': true,
+                        'autoWidth': false,
+                        'pageLength': 5, // Default number of rows per page
+                        'lengthMenu': [5, 10, 25, 50, 100] // Dropdown for changing number of rows per page
+                    });
+                });
+            </script>";
+        } else {
+            echo "<p class='message'>No approved items found</p>";
         }
         ?>
+    </div>
 </body>
 </html>

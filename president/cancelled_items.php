@@ -6,10 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cancelled Items</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
     <style>
         /* CSS styles */
         .container {
-            width: 80%;
+            width: 100%;
             margin: 20px auto;
             background-color: #fff;
             padding: 20px;
@@ -25,12 +28,12 @@
         .cancelled-table th,
         .cancelled-table td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 8px; /* Adjusted padding for better spacing */
             text-align: left;
         }
 
         .cancelled-table th {
-            background-color:  #3498db;
+            background-color: #3498db;
             color: #fff;
         }
 
@@ -49,15 +52,15 @@
             $result_cancelled = $conn->query($sql_cancelled);
 
             if ($result_cancelled->num_rows > 0) {
-                echo "<table class='cancelled-table'>";
+                echo "<table class='cancelled-table' id='cancelled-table'>";
                 echo "<thead>";
                 echo "<tr>";
-                echo "<th style='width: 10%;'>Item ID</th>"; 
-                echo "<th style='width: 30%;'>Name</th>";
+                echo "<th style='width: 10%; padding: 8px;'>Item ID</th>"; // Adjusted padding for Item ID
+                echo "<th style='width: 20%; padding: 4px;'>Name</th>"; // Reduced padding for Name
                 echo "<th style='width: 10%;'>Quantity</th>";
                 echo "<th style='width: 20%;'>Department</th>"; // Added Department column
                 echo "<th style='width: 20%;'>Price</th>";
-                echo "<th style='width: 20%;'>Total Price</th>";
+                echo "<th style='width: 25%;'>Total Price</th>"; 
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
@@ -74,6 +77,22 @@
                 }
                 echo "</tbody>";
                 echo "</table>";
+
+                // DataTables initialization script
+                echo "<script>
+                    $(document).ready(function() {
+                        $('#cancelled-table').DataTable({
+                            'paging': true,
+                            'lengthChange': true,
+                            'searching': true,
+                            'ordering': true,
+                            'info': true,
+                            'autoWidth': false,
+                            'pageLength': 5, // Default number of rows per page
+                            'lengthMenu': [5, 10, 25, 50, 100] // Dropdown for changing number of rows per page
+                        });
+                    });
+                </script>";
             } else {
                 echo "<p class='message'>No cancelled items found.</p>";
             }
