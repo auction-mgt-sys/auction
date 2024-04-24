@@ -78,8 +78,7 @@ ob_end_flush();
             $insert_sql = "INSERT INTO report (requesteditem_name, requesteditem_type, requesteditem_description, requesteditem_measurment, requesteditem_quantity,requesteditem_deptname, requesteditem_id)
                             SELECT DISTINCT name, type, description, measurment, quantity,deptname, id FROM requesteditem 
                             WHERE status = 1 and  id NOT IN (SELECT requesteditem_id FROM report)";
-
-            if ($conn->query($insert_sql) === TRUE) {
+               if ($conn->query($insert_sql) === TRUE) {
                 // Fetch data from the report table
                 $select_sql = "SELECT * FROM report WHERE status = 0"; // Select only rows with status = 0
                 $result = $conn->query($select_sql);
@@ -119,7 +118,6 @@ ob_end_flush();
             } else {
                 echo "Error inserting data into report table: " . $conn->error;
             }
-
             if (isset($_POST['submit_price'])) {
                 $prices = $_POST['price'];
                 $totalPrices = $_POST['total_price'];
@@ -159,4 +157,4 @@ ob_end_flush();
     </script>
 </body>
 
-</html>
+</html>            

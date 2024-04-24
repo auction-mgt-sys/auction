@@ -20,6 +20,7 @@
 					<th class="text-center">Name</th>
 					<th class="text-center">Username</th>
 					<th class="text-center">Type</th>
+					<th class="text-center">deptname</th>
 					<th class="text-center">Action</th>
 				</tr>
 			</thead>
@@ -44,6 +45,10 @@
 				 	</td>
 				 	<td>
 				 		<?php echo $type[$row['type']] ?>
+						
+				 	</td>
+					 <td>
+				 		<?php echo $row['deptname'] ?>
 				 	</td>
 				 	<td>
 				 		<center>

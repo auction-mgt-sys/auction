@@ -224,8 +224,12 @@ Class Action {
 		$data .= ", age = '$age' ";
 		$data .= ", username = '$username' ";
 		if(!empty($password))
-		$data .= ", password = '".md5($password)."' ";
+			$data .= ", password = '".md5($password)."' ";
 		$data .= ", type = '$type' ";
+		// Check if the user type is "department" and deptname is set
+		if($type == 5 && isset($deptname)){
+			$data .= ", deptname = '$deptname' ";
+		}
 		if($type == 1)
 			$establishment_id = 0;
 		$chk = $this->db->query("Select * from users where username = '$username' and id !='$id' ")->num_rows;
@@ -242,6 +246,7 @@ Class Action {
 			return 1;
 		}
 	}
+	
 	function save_comment(){
 		extract($_POST);
 		$sender_id = $_SESSION['login_id'];

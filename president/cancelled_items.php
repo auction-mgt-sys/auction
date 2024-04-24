@@ -30,7 +30,7 @@
         }
 
         .cancelled-table th {
-            background-color: #e74c3c;
+            background-color:  #3498db;
             color: #fff;
         }
 
