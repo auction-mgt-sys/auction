@@ -13,10 +13,8 @@ ob_end_flush();
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Request</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css">
+   
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -35,24 +33,6 @@ ob_end_flush();
             position: relative;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        th {
-            background-color: #3498db;
-            color: #fff;
-        }
-
         .success-message {
             background-color: lightgreen;
             color: green;
@@ -65,6 +45,29 @@ ob_end_flush();
             transform: translate(-50%, -50%);
             text-align: center;
             display: none;
+        }
+
+        th {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .total-price-input {
+            width: 100px; /* Adjust the width of the total price input */
+        }
+        .price-input {
+            width: 100px; /* Adjust the width of the total price input */
+        }
+        tr.even {
+            background-color: #f2f2f2;
+            height: 30px; /* Decrease row height */
+        }
+        tr.odd {
+            background-color: #ffffff;
+            height: 30px; /* Decrease row height */
+        }
+        .bold{
+            font weight: bold;
         }
     </style>
 </head>
@@ -84,7 +87,8 @@ ob_end_flush();
             $result = $conn->query($select_sql);
             if ($result->num_rows > 0) {
                 echo "<form id='submitPriceForm' method='post' action=''>
-                        <table>
+                        <table id='reportTable' class='display'>
+                        <h2 id= 'h2' class='bold' >Set price</h2>
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -99,6 +103,7 @@ ob_end_flush();
                                 </tr>
                             </thead>
                             <tbody>";
+                            
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr id='row_" . $row["requesteditem_id"] . "'>
                             <td>" . $row["requesteditem_name"] . "</td>
@@ -108,8 +113,8 @@ ob_end_flush();
                             <td>" . $row["requesteditem_quantity"] . "</td>
                             <td>" . $row["requesteditem_deptname"] . "</td>
                             <td>" . $row["requesteditem_id"] . "</td>
-                            <td><input type='text' name='price[" . $row["requesteditem_id"] . "]' id='price_" . $row["requesteditem_id"] . "' value='" . $row["price"] . "' oninput='calculateTotalPrice(" . $row["requesteditem_id"] . ", " . $row["requesteditem_quantity"] . ")'></td>
-                            <td><input type='text' name='total_price[" . $row["requesteditem_id"] . "]' id='total_price_" . $row["requesteditem_id"] . "' value='" . ($row["price"] * $row["requesteditem_quantity"]) . "'></td>
+                            <td><input type='text' class='price-input' name='price[" . $row["requesteditem_id"] . "]' id='price_" . $row["requesteditem_id"] . "' value='" . $row["price"] . "' oninput='calculateTotalPrice(" . $row["requesteditem_id"] . ", " . $row["requesteditem_quantity"] . ")'></td>
+                            <td><input type='text' class='total-price-input' name='total_price[" . $row["requesteditem_id"] . "]' id='total_price_" . $row["requesteditem_id"] . "' value='" . ($row["price"] * $row["requesteditem_quantity"]) . "'></td>
                         </tr>";
                 }
                 echo "</tbody>
@@ -149,9 +154,21 @@ ob_end_flush();
         }
         ?>
     </div>
-
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $('#reportTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                scrollY: false, // Disable vertical scrolling
+            });
+        });
+
         // JavaScript function to calculate total price
         function calculateTotalPrice(requesteditemId, quantity) {
             var price = parseFloat(document.getElementById('price_' + requesteditemId).value);
