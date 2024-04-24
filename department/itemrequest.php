@@ -47,6 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<!-- The rest of your HTML code remains unchanged -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
