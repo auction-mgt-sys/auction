@@ -11,8 +11,24 @@ if (isset($_SESSION['login_id'])) {
         <a href="bidder.php" class="text-start"><b><img src="images/Backspace.png" style="width: 50px; height: 50px;"> BACK To HOME</b></a>
         <ul class='list-group ' id='opp-list'>
             <a href="index.php?page=write_notifications" class='list-group-item list-write_notifications list' id="sids"> Write New</a>
-            <a href="index.php?page=inbox_notifications" class='list-group-item list-inbox_notifications list' id="sids" >Inbox</a>
-            <a href="index.php?page=sent_notification" class='list-group-item list-sent_notification list' id="sids">Sent</a>
+            <?php
+// Assuming you have a database connection established
+
+// Fetch the count of unread inbox notifications from the comment table
+$query = "SELECT COUNT(*) AS count FROM comment WHERE status = 'unread' AND user_type = 2 AND sender_id = 5";
+$result = $conn->query($query);
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $inbox_count = $row['count'];
+} else {
+    $inbox_count = 0;
+}
+?>
+
+<a href="index.php?page=inbox_notifications" class='list-group-item list-inbox_notifications list' id="sids">
+    Inbox
+    <span class="badge"><?php echo $inbox_count ?></span>
+</a>            <a href="index.php?page=sent_notification" class='list-group-item list-sent_notification list' id="sids">Sent</a>
         </ul>
     </div>
 
