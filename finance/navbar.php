@@ -36,6 +36,17 @@ $conn->close();
         padding: 2px 5px;
         border-radius: 50%;
     }
+    .notification-count {
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 5px;
+        font-size: 12px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
 </style>
 
 <nav id="sidebar" class="mx-lt-6 bg-dark">
@@ -48,9 +59,7 @@ $conn->close();
         </a>
         <a href="index.php?page=setprice" class="nav-item nav-setprice">
             <span class="icon-field"><i class="fas fa-dollar-sign"></i></span> Set price
-            <!-- Add notification badge for new items -->
-            <span class="notification-badge"><?php echo $setprice_count; ?></span>
-            
+            <span class="notification-count"><?php echo $setprice_count; ?></span>
         </a>
         <a href="index.php?page=generatereport" class="nav-item nav-generatereport">
             <span class="icon-field"><i class="fas fa-history"></i></span> History
@@ -61,7 +70,7 @@ $conn->close();
 <script>
     // Function to update the notification count
     function updateNotificationCount(count) {
-        $('.nav-setprice .notification-badge').text(count);
+        $('.nav-setprice .notification-count').text(count);
     }
 
     // Function to check for new items in the requesteditem table
@@ -86,12 +95,29 @@ $conn->close();
     // Add event listener to periodically check for new items
     setInterval(checkForNewItems, 60000); // Check every minute
 
+    // Add event listener to the form submission
+    $('form').submit(function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        // Make an AJAX request to decrease the price and update the notification count
+        $.ajax({
+            url: 'backend/decrease_price.php', // Replace with your backend endpoint
+            method: 'POST',
+            data: $(this).serialize(), // Serialize the form data
+            success: function(response) {
+                var count = parseInt(response); // Assuming the response is the updated count of new items
+                updateNotificationCount(count);
+            },
+            error: function() {
+                console.error('Error occurred while updating the price.');
+            }
+        });
+    });
+
     $('.nav_collapse').click(function() {
         console.log($(this).attr('href'));
         $($(this).attr('href')).collapse();
     });
 
-    $('.nav-<?php echo isset($_GET['page']) ? $_GET['page'] : '' ?>').addClass('active');
+    $('.nav-<?php echo isset($_GET['page']) ? $_GET['page'] : ''; ?>').addClass('active');
 </script>
-</body>
-</html>
