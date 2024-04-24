@@ -113,11 +113,11 @@ $conn->close();
 <style>
     tr.even {
         background-color: #f2f2f2;
-        height: 30px; /* Decrease row height */
+        height: 15px; /* Decrease row height */
     }
     tr.odd {
         background-color: #ffffff;
-        height: 30px; /* Decrease row height */
+        height: 15px; /* Decrease row height */
     }
 </style>
 
