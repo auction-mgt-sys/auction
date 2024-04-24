@@ -104,6 +104,7 @@ if($action == "save_bid"){
 	$save = $crud->save_bid();
 	if($save)
 		echo $save;
+	
 }
 if($action == "delete_book"){
 	$save = $crud->delete_book();
