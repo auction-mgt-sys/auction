@@ -16,7 +16,7 @@
                 <span class='icon-field'><i class="fas fa-dollar-sign"></i></span> Set price
             </a>
             <a href="index.php?page=generatereport" class="nav-item nav-generatereport">
-                <span class='icon-field'><i class="fa fa-file"></i></span> Generate report
+                <span class='icon-field'><i class="fa fa-file"></i></span> History
             </a>
 			
         </div>

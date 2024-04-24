@@ -42,11 +42,12 @@ $stmt->close();
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+div class="row">
             <!-- Table Panel -->
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <b>Rejected item </b>
+                        <b>Rejected item</b>
                     </div>
             <div class="row">
                 <!-- Table Panel -->

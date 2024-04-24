@@ -4,7 +4,7 @@
 include('./db_connect.php');
 ob_start();
 if(!isset($_SESSION['system'])){
-    $system = $conn->query("SELECT * FROM requsteditem limit 1")->fetch_array();
+    $system = $conn->query("SELECT * FROM requesteditem limit 1")->fetch_array();
     foreach($system as $k => $v){
         $_SESSION['system'][$k] = $v;
     }
@@ -16,7 +16,7 @@ ob_end_flush();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Request</title>
     <style>
-       body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -48,18 +48,36 @@ ob_end_flush();
             background-color: #3498db;
             color: #fff;
         }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type=text] {
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+
+        .entries {
+            margin-top: 10px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <table>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for items..." onkeyup="filterTable()">
+        </div>
+        <table id="dataTable">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Type</th>
                     <th>Description</th>
-                    <th>Measurment</th>
+                    <th>Measurement</th>
                     <th>Quantity</th>
                 </tr>
             </thead>
@@ -90,6 +108,31 @@ ob_end_flush();
                 ?>
             </tbody>
         </table>
+        <div class="entries" id="entries"></div>
     </div>
+
+    <script>
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue, entries = 0;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
+            
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1]; // Filter by the 'Name' column
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                        entries++;
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+            document.getElementById("entries").innerHTML = "Showing " + entries + " entries.";
+        }
+    </script>
 </body>
 </html>
