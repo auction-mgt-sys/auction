@@ -26,7 +26,26 @@ $payments = $conn->query("SELECT * FROM payment where status = 0 ");
 						<a href="index.php?page=expired_payments" class="nav-item nav-expired_payments a">Expired Payments</a>
 					</ul>
 				<a href="index.php?page=winers" class="nav-item nav-winers"><span class='icon-field'><i class="fa fa-users"></i></span> winners</a>
-				<a href="index.php?page=feedback" class="nav-item nav-feedback">Feedback</a>
+				<?php
+// Assuming you have a database connection established
+
+// Fetch the count of unread feedback from the comment table
+$query = "SELECT COUNT(*) AS count FROM comment WHERE comment_type = 1 and status = 'unread'";
+$result = $conn->query($query);
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $comment_count = $row['count'];
+} else {
+    $comment_count = 0;
+}
+?>
+
+<a href="index.php?page=feedback" class="nav-item nav-feedback">
+    Feedback&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="sp">
+        <small><?php echo $comment_count ?></small>
+    </span>
+</a>
 		</div>
 
 </nav>

@@ -20,7 +20,7 @@
   		
   		</div>
       <div class="col-md-9 float-left text-white d-flex">
-        <large><h5><b>WKU Auction System</b></h5></large>
+        <large><h5><b>WPCSC Auction System</b></h5></large>
         <p class="t"><b>Auctioneer Page</b></p>
       </div>
 	  	<div class="float-right">
