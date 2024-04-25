@@ -6,7 +6,21 @@ foreach($qry->fetch_array() as $k => $val){
 	$$k=$val;
 }
 }
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = $_POST['id'];
+    // Update auctionstatus to 1
+    $conn->query("UPDATE report SET auction = 1 WHERE id = {$id}");
+}
+$qry_report = $conn->query("SELECT requesteditem_name, requesteditem_quantity, requesteditem_measurment, total_price ,price FROM report WHERE auctionstatus = 1 and auction = 0  ORDER BY id ASC LIMIT 1");
+$report_row = $qry_report->fetch_assoc();
+$auto_name = isset($report_row['requesteditem_name']) ? $report_row['requesteditem_name'] : '';
+$auto_quantity = isset($report_row['requesteditem_quantity']) ? $report_row['requesteditem_quantity'] : 1;
+$auto_measurement = isset($report_row['requesteditem_measurment']) ? $report_row['requesteditem_measurment'] : '';
+$auto_total_price = isset($report_row['total_price']) ? $report_row['total_price'] : 0;
+$auto_price = isset($report_row['price']) ? $report_row['price'] : 0;
+
 ?>
+
 <style>
 	
 	.jqte_editor{
@@ -131,18 +145,18 @@ img#img_path-field{
 					<h4><b><?php echo !isset($id) ? "Add Items" : "Manage Product" ?></b></h4>
 					<hr>
 					<div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="" class="control-label">Name</label>
+                            <input type="text" class="form-control" name="name"  value="<?php echo $auto_name; ?>" readonly>
+                        </div>
 						<div class="col-md-4">
-							<label for="" class="control-label">Name</label>
-							<input type="text" class="form-control" name="name"  value="<?php echo isset($name) ? $name :'' ?>" required>
-						</div>
-						<div class="col-md-4">
-								<label for="" class="control-label">measurement</label>
-								<input type="text" class="form-control" name="measurement"  value="<?php echo isset($measurement) ? $measurement :'' ?>" required>
-							</div>
-						<div class="col-md-4">
-								<label for="" class="control-label">quantity</label>
-								<input type="text" class="form-control" name="quantity"  value="<?php echo isset($quantity) ? $quantity : 1 ?>" required>
-						</div>
+                            <label for="" class="control-label">Measurement</label>
+                            <input type="text" class="form-control" name="measurement"  value="<?php echo $auto_measurement; ?>" readonly>
+                        </div>
+							<div class="col-md-4">
+                            <label for="" class="control-label">Quantity</label>
+                            <input type="text" class="form-control" name="quantity"  value="<?php echo $auto_quantity; ?>" readonly>
+                        </div>
 					</div>
 
 					<div class="form-group row">
@@ -162,10 +176,11 @@ img#img_path-field{
 								<label for="" class="control-label">Price to get the form</label>
 								<input type="text" class="form-control" name="price_for_form"  value="<?php echo isset($price_for_form) ? $price_for_form :'' ?>" required>
 						</div>
-						<div class="col-md-4">
-								<label for="" class="control-label">Total Price</label>
-								<input type="text" class="form-control" name="total_price"  value="<?php echo isset($total_price) ? $total_price : 0 ?>" required> 
-						</div>
+						<div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="" class="control-label">Total Price</label>
+                            <input type="text" class="form-control" name="total_price"  value="<?php echo $auto_total_price; ?>" readonly>
+                        </div>
 						
 					</div>
 
@@ -177,10 +192,11 @@ img#img_path-field{
 					</div>
 
 					<div class="form-group row">
-						<div class="col-md-4">
-							<label for="" class="control-label">Regular Price</label>
-							<input type="number" class="form-control text-right" name="regular_price" value="<?php echo isset($regular_price) ? $regular_price : 0 ?>" required>
-						</div>
+					<div class="col-md-4">
+                            <label for="" class="control-label">Regular Price</label>
+                            <input type="text" class="form-control" name="regular_price"  value="<?php echo $auto_price; ?>" readonly>
+                        </div>
+
 						<div class="col-md-4">
 							<label for="" class="control-label">Starting Bidding Amount</label>
 							<input type="number" class="form-control text-right" name="start_bid" value="<?php echo isset($start_bid) ? $start_bid : 0 ?>" required>
@@ -201,9 +217,9 @@ img#img_path-field{
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-12">
-							<button class="btn btn-sm btn-block btn-primary col-sm-2"> Save</button>
-						</div>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-sm btn-block btn-primary col-sm-2">Post</button>
+                        </div>
 					</div>
 				</form>
 			</div>
@@ -237,7 +253,7 @@ img#img_path-field{
 		    type: 'POST',
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully saved",'success')
+					alert_toast("Data successfully post",'success')
 					setTimeout(function(){
 						location.href = "index.php?page=products"
 					},1500)
