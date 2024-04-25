@@ -118,11 +118,11 @@
     <?php
     // Replace these variables with your actual database connection details
     include("db_connect.php");
-
+    
     // Example query to fetch reports from the database
-    $sql = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, price, total_price, id FROM report WHERE status = 1 AND auctionstatus = 0";
+    $sql = "SELECT r.requesteditem_id, r.requesteditem_name, r.requesteditem_quantity, r.requesteditem_deptname, r.price, r.total_price, r.id, r.requesteditem_description, r.requesteditem_measurment, r.requesteditem_type FROM report r WHERE r.status = 1 AND r.auctionstatus = 0";
     $result = $conn->query($sql);
-
+    
     if ($result->num_rows > 0) {
         // Output data of each row
         while ($row = $result->fetch_assoc()) {
@@ -133,6 +133,9 @@
                 </div>
                 <div class="card-body">
                     <p><strong>Name:</strong> <?php echo $row['requesteditem_name']; ?></p>
+                    <p><strong>Type:</strong> <?php echo $row['requesteditem_type']; ?></p>
+                    <p><strong>Description:</strong> <?php echo $row['requesteditem_description']; ?></p>
+                    <p><strong>Measurement:</strong> <?php echo $row['requesteditem_measurment']; ?></p>
                     <p><strong>Quantity:</strong> <?php echo $row['requesteditem_quantity']; ?></p>
                     <p><strong>Department:</strong> <?php echo $row['requesteditem_deptname']; ?></p>
                     <p><strong>Price:</strong> <?php echo $row['price']; ?></p>

@@ -4,7 +4,7 @@
 include('./db_connect.php');
 ob_start();
 if(!isset($_SESSION['system'])){
-    $system = $conn->query("SELECT * FROM requsteditem limit 1")->fetch_array();
+    $system = $conn->query("SELECT * FROM requesteditem limit 1")->fetch_array();
     foreach($system as $k => $v){
         $_SESSION['system'][$k] = $v;
     }
@@ -15,6 +15,7 @@ ob_end_flush();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Request</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
     <style>
        body {
             font-family: Arial, sans-serif;
@@ -52,14 +53,14 @@ ob_end_flush();
 </head>
 <body>
     <div class="container">
-        <table>
+        <table id="requestTable" class="display">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
                     <th>Type</th>
                     <th>Description</th>
-                    <th>Measurment</th>
+                    <th>Measurement</th>
                     <th>Quantity</th>
                 </tr>
             </thead>
@@ -91,5 +92,18 @@ ob_end_flush();
             </tbody>
         </table>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#requestTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true
+            });
+        });
+    </script>
 </body>
 </html>

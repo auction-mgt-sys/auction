@@ -45,12 +45,8 @@
             margin-top: 20px;
             text-align: center;
         }
-
         .approval-message {
-            margin-top: 20px;
-            text-align: center;
-            font-style: italic;
-            color: #007bff;
+            font-weight: bold; /* Make the message bold */
         }
     </style>
 </head>
@@ -58,7 +54,7 @@
     <div class="container">
         <?php
         // Approved items
-        $sql_approved = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, price, total_price, id FROM report WHERE auctionstatus = 1 ORDER BY id DESC";
+        $sql_approved = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_type, requesteditem_description, requesteditem_measurment, price, total_price, id FROM report WHERE auctionstatus = 1 ORDER BY id DESC";
         $result_approved = $conn->query($sql_approved);
 
         if ($result_approved->num_rows > 0) {
@@ -68,8 +64,10 @@
             echo "<tr>";
             echo "<th>Item ID</th>";
             echo "<th>Name</th>";
+            echo "<th>Type</th>";
+            echo "<th>Description</th>";
+            echo "<th>Measurment</th>";
             echo "<th>Quantity</th>";
-            echo "<th>Department</th>"; // Added Department column
             echo "<th>Price</th>";
             echo "<th>Total Price</th>";
             echo "</tr>";
@@ -83,8 +81,10 @@
                 echo "<tr class='$bold_class'>";
                 echo "<td>" . $row_approved['id'] . "</td>";
                 echo "<td>" . $row_approved['requesteditem_name'] . "</td>";
+                echo "<td>" . $row_approved['requesteditem_type'] . "</td>";
+                echo "<td>" . $row_approved['requesteditem_description'] . "</td>";
+                echo "<td>" . $row_approved['requesteditem_measurment'] . "</td>";
                 echo "<td>" . $row_approved['requesteditem_quantity'] . "</td>";
-                echo "<td>" . $row_approved['requesteditem_deptname'] . "</td>"; // Added Department data
                 echo "<td>" . $row_approved['price'] . "</td>";
                 echo "<td>" . $row_approved['total_price'] . "</td>";
                 echo "</tr>";
@@ -95,6 +95,8 @@
 
             // Show approval message
             echo "<p class='approval-message'>These items have been approved by the president. The auction can proceed now.</p>";
+
+                                                          
 
             // DataTables initialization script
             echo "<script>
@@ -112,7 +114,7 @@
                 });
             </script>";
         } else {
-            echo "<p class='message'>No approved items found</p>";
+            echo "<p class='message'>No approved items available</p>";
         }
         ?>
     </div>
