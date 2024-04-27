@@ -30,7 +30,7 @@ $result = $conn->query($query);
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h2>Your History</h2>
+    <h2 style= "font-weight: bold;">Your History</h2>
     <div class="container">
         <table class="table table-condensed table-bordered table-hover">
             <thead>
@@ -59,11 +59,14 @@ $result = $conn->query($query);
                     $itemTotalPrice = $row['total_price'];
                     $reported_date = $row['reported_date'];
 
+                    $statusClass = ($itemStatus == 1) ? 'accepted' : 'rejected';
+                    $statusText = ($itemStatus == 1) ? 'Accepted' : 'Rejected';
+
                     echo "<tr class='" . ($result->num_rows % 2 == 0 ? 'even' : 'odd') . "'>";
                     echo "<td>$itemName</td>";
                     echo "<td>$itemType</td>";
                     echo "<td>$itemDescription</td>";
-                    echo "<td><span class='status-" . ($itemStatus == 1 ? 'accepted' : 'rejected') . "'>" . ($itemStatus == 1 ? 'Accepted' : 'Rejected') . "</span></td>";
+                    echo "<td><span class='status-{$statusClass}'>{$statusText}</span></td>";
                     echo "<td>$itemCount</td>";
                     echo "<td>$itemPrice</td>";
                     echo "<td>$itemTotalPrice</td>";
@@ -99,6 +102,12 @@ $result = $conn->query($query);
         tr.odd {
             background-color: #ffffff;
             height: 30px; /* Decrease row height */
+        }
+        .status-accepted {
+            color: green;
+        }
+        .status-rejected {
+            color: red;
         }
     </style>
 </body>
