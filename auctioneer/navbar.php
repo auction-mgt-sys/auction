@@ -61,14 +61,7 @@ if ($result && $result->num_rows > 0) {
 		cursor: pointer;
 	}
 	.sp{
-		background-color: red;
-        color: white;
-        border-radius: 50%;
-        padding: 2px 5px;
-        font-size: 12px;
-        position: absolute;
-        top: 0;
-        right: 0;
+		background:rgba(252, 253, 253, 0.527);
 	}
 	.notification-count {
         background-color: red;
