@@ -20,7 +20,8 @@ $payments = $conn->query("SELECT * FROM payment where status = 0 ");
 				<a href="index.php?page=approved" class="nav-item nav-approved"><span class='icon-field'><i class="fa fa-list"></i></span> Approved Items</a>
 				<a href="index.php?page=products" class="nav-item nav-products"><span class='icon-field'><i class="fa fa-th-list"></i></span> Auctions</a>
 				<a href="index.php?page=bids" class="nav-item nav-bids"> ▓ Bids</a>
-				<a class="nav-item nav-active_payment nav-requested_payment nav-expired_payments" id="btn1"><span class='icon-field' id="btn1"><i class="fa fa-money-bill-alt"></i> Payments&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sp"> <small></>new <?php echo $count ?></small>&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;▼</a>
+				<a class="nav-item nav-active_payment nav-requested_payment nav-expired_payments" id="btn1"><span class='icon-field' id="btn1"><i class="fa fa-money-bill-alt"></i> Payments&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<span class="sp"> <small></>new <?php echo $count ?></small>&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;▼</a>
 					<ul id="list">
 						<a href="index.php?page=requested_payment" class="nav-item nav-requested_payment a">New Requisted </>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $count ?></a>
 						<a href="index.php?page=active_payment" class="nav-item nav-active_payment a">Active Payments</a>
@@ -43,7 +44,7 @@ if ($result && $result->num_rows > 0) {
 
 <a href="index.php?page=feedback" class="nav-item nav-feedback">
     Feedback&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span class="sp">
+    <span class="notification-count">
         <small><?php echo $comment_count ?></small>
     </span>
 </a>
@@ -60,8 +61,25 @@ if ($result && $result->num_rows > 0) {
 		cursor: pointer;
 	}
 	.sp{
-		background:rgba(252, 253, 253, 0.527);
+		background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 5px;
+        font-size: 12px;
+        position: absolute;
+        top: 0;
+        right: 0;
 	}
+	.notification-count {
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 5px;
+        font-size: 12px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
 	
 </style>
 <script>

@@ -211,18 +211,3 @@ uni_modal("<small><i><?php echo 'at: - '.$d ?></i></small>",'view_comment_detail
 })
 $('.list-<?php echo isset($_GET['page']) ? $_GET['page'] : '' ?>').addClass('active')
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
