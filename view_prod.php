@@ -1,18 +1,44 @@
-<?php include 'admin/db_connect.php' ?>
+<?php include 'admin/db_connect.php'; ?>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $img_fname = $_FILES['img']['name'];
+    $b_img_fname = $_FILES['bphoto']['name'];
+
+    // Upload images
+    if ($_FILES['img']['tmp_name'] != '') {
+        $img_fname = strtotime(date('y-m-d H:i')).'_'.$img_fname;
+        move_uploaded_file($_FILES['img']['tmp_name'], 'auctioner/'.$img_fname);
+    }
+
+    if ($_FILES['bphoto']['tmp_name'] != '') {
+        $b_img_fname = strtotime(date('y-m-d H:i')).'_'.$b_img_fname;
+        move_uploaded_file($_FILES['bphoto']['tmp_name'], 'auctioner/'.$b_img_fname);
+    }
+
+    // Insert into payment table
+    $sql = "INSERT INTO payment (img_fname, b_img_fname) VALUES ('$img_fname', '$b_img_fname')";
+    // Execute SQL query
+    // Add your code to execute the SQL query here
+}
+?>
+
 <?php
 session_start();
 if(isset($_GET['id'])){
-$qry = $conn->query("SELECT * FROM products where id= ".$_GET['id']);
-$_SESSION['product_id'] = $_GET['id'];
+    $qry = $conn->query("SELECT * FROM products where id= ".$_GET['id']);
+    $_SESSION['product_id'] = $_GET['id'];
 
-foreach($qry->fetch_array() as $k => $val){
-    $$k=$val;
-}
-$cat_qry = $conn->query("SELECT * FROM categories where id = $category_id");
-$category = $cat_qry->num_rows > 0 ? $cat_qry->fetch_array()['name'] : '' ;
+    foreach($qry->fetch_array() as $k => $val){
+        $$k=$val;
+    }
+    $cat_qry = $conn->query("SELECT * FROM categories where id = $category_id");
+    $category = $cat_qry->num_rows > 0 ? $cat_qry->fetch_array()['name'] : '';
 }
 $_SESSION['pro_form_amount'] = $price_for_form;
 ?>
+
 <style type="text/css">
     #bid-frm{
         display: none
@@ -34,7 +60,7 @@ $_SESSION['pro_form_amount'] = $price_for_form;
 </style>
 <div class="container-fluid wh">
     <div class="payment_frm">
-    <img src="auctioneer/assets/imagess/logo.jpg" class="d-flex logo" alt="Logo">
+    <img src="admin/photos/logo.jpg" class="d-flex logo" alt="Logo">
     <h5 class="text-center">Payment For Bid Form</h5>
     <p >First you have to make a payment to get the bid-form by using <b>Mobile-Banking</b> or by <b>Tele-Birr</b> then after fill the form below with a correct information!</p>
     <h5 class="text-center" style="color: green">Name: <?php echo $name ?></h5>
@@ -54,6 +80,70 @@ $_SESSION['pro_form_amount'] = $price_for_form;
                     <label for="" class="control-label">Payment Reason</label>
                     <input type="text" class="form-control text-right" name="reason" required="">
         </div>
+        <div class="justify-content-start">
+    <div class="p-1 col-4">
+        <input type="file" class="form-control" name="img" onchange="displayImg2(this, $(this), 'img_path-field1')" required>
+    </div>
+    <div class="p-1 col-6">
+        <div class="image-container">
+            <img src="<?php echo isset($img_fname) ? 'auctioner/'.$img_fname : '' ?>" alt="" id="img_path-field1" style="display: none;">
+        </div>
+        <span id="img_error1" style="color: red; display: none;">Please upload an image.</span>
+    </div>
+
+    <div class="p-1 col-4">
+        <input type="file" class="form-control" name="bphoto" onchange="displayImg2(this, $(this), 'img_path-field2')" required>
+    </div>
+    <div class="p-1 col-6">
+        <div class="image-container">
+            <img src="<?php echo isset($b_img_fname) ? 'auctioner/'.$b_img_fname : '' ?>" alt="" id="img_path-field2" style="display: none;">
+        </div>
+        <span id="img_error2" style="color: red; display: none;">Please upload an image.</span>
+    </div>
+</div>
+<style>
+.image-container {
+    border: 2px solid #ccc;
+    padding: 10px;
+    max-width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 15px; /* Optional margin for spacing between image containers */
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+</style>
+<script>
+    function displayImg2(input, element, imgId) {
+        const img = document.getElementById(imgId);
+        const error = document.getElementById(imgId.replace('img_path', 'img_error'));
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                img.src = e.target.result;
+                img.style.display = 'block'; // Make sure the image is visible
+                error.style.display = 'none'; // Hide the error message
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            img.src = ''; // Clear the image source
+            img.style.display = 'none'; // Hide the image
+            error.style.display = 'block'; // Show the error message
+        }
+    }
+</script>
+
 <button class="btn btn-primary btn-block btn-sm ">Submit</button>
     </form>
     </div>   

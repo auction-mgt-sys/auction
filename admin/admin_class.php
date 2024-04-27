@@ -284,22 +284,31 @@ Class Action {
 		$status = 3;
 		extract($_POST);
 		$img_name = $_FILES['img']['name'];
-		$input_img = $_FILES['img']['tmp_name'];
-		$img_query = "photos/".$img_name;
+$input_img = $_FILES['img']['tmp_name'];
+$img_query = "photos/".$img_name;
 
-		$data = " name = '$name' ";
-		$data .= ", lname = '$lname' ";
-		$data .= ", gender = '$gender' ";
-		$data .= ", username = '$username' ";
-		$data .= ", email = '$email' ";
-		$data .= ", contact = '$contact' ";
-		$data .= ", address = '$address' ";
-		$data .= ", age = '$age' ";
-		$data .= ", TIN_number = '$TIN' ";
-		$data .= ", type = '$type' ";
-		$data .= ", status = '$status' ";
-		$data .= ", photo = '$img_query' ";
-		move_uploaded_file($input_img, $img_query);
+$b_img_name = $_FILES['bphoto']['name'];
+$b_input_img = $_FILES['bphoto']['tmp_name'];
+$b_img_query = "photos/".$b_img_name;
+
+$data = " name = '$name' ";
+$data .= ", lname = '$lname' ";
+$data .= ", gender = '$gender' ";
+$data .= ", username = '$username' ";
+$data .= ", email = '$email' ";
+$data .= ", contact = '$contact' ";
+$data .= ", address = '$address' ";
+$data .= ", age = '$age' ";
+$data .= ", TIN_number = '$TIN' ";
+$data .= ", type = '$type' ";
+$data .= ", status = '$status' ";
+$data .= ", photo = '$img_query' ";
+$data .= ", bphoto = '$b_img_query' ";
+
+move_uploaded_file($input_img, $img_query);
+move_uploaded_file($b_input_img, $b_img_query);
+
+
 		$data .= ", password = '".md5($password)."' ";
 		$chk = $this->db->query("SELECT * FROM users where username = '$username' ")->num_rows;
 		$chk2 = $this->db->query("SELECT * FROM users where contact = '$contact' ")->num_rows;

@@ -12,9 +12,11 @@ if(!isset($_SESSION['system'])){
 ob_end_flush();
 ?>
 <head>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Request</title>
     <style>
-       body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -22,7 +24,7 @@ ob_end_flush();
         }
         
         .container {
-            max-width: 2000px;
+            max-width: 1000px;
             margin: 20px auto;
             padding: 20px;
             background-color: #fff;
@@ -46,14 +48,32 @@ ob_end_flush();
             background-color: #3498db;
             color: #fff;
         }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type=text] {
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+
+        .entries {
+            margin-top: 10px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <table id="requestTable" class="display">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for items..." onkeyup="filterTable()">
+        </div>
+        <table id="dataTable">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Type</th>
                     <th>Description</th>
@@ -62,7 +82,6 @@ ob_end_flush();
                 </tr>
             </thead>
             <tbody>
-            <h2 style="font-weight: bold;"> View Request </h2>
                 <?php
                     // Fetch accepted items from the database where status = 1
                     $sql = "SELECT * FROM requesteditem WHERE status = 1";
@@ -89,19 +108,31 @@ ob_end_flush();
                 ?>
             </tbody>
         </table>
+        <div class="entries" id="entries"></div>
     </div>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
-        $(document).ready(function() {
-            $('#requestTable').DataTable({
-                paging: true,
-                searching: true,
-                ordering: true,
-                info: true
-            });
-        });
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue, entries = 0;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
+            
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1]; // Filter by the 'Name' column
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                        entries++;
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+            document.getElementById("entries").innerHTML = "Showing " + entries + " entries.";
+        }
     </script>
 </body>
 </html>
