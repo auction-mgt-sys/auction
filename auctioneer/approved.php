@@ -57,8 +57,10 @@
 <body>
     <div class="container">
         <?php
-        // Approved items
-        $sql_approved = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, price, total_price, id FROM report WHERE auctionstatus = 1 ORDER BY id DESC";
+        // Approved items with merged types
+        $sql_approved = "SELECT requesteditem_name, requesteditem_type,  requesteditem_measurment, SUM(requesteditem_quantity) as total_quantity, 
+                        SUM(price) as price, SUM(total_price) as total_price, GROUP_CONCAT(requesteditem_type) as merged_types 
+                        FROM report WHERE auctionstatus = 1 GROUP BY requesteditem_type ORDER BY id DESC";
         $result_approved = $conn->query($sql_approved);
 
         if ($result_approved->num_rows > 0) {
@@ -66,25 +68,26 @@
             echo "<table class='history-table' id='approved-table'>";
             echo "<thead>";
             echo "<tr>";
-            echo "<th>Item ID</th>";
-            echo "<th>Name</th>";
+            echo "<th>Item name</th>";
+
+            echo "<th>Type</th>";
+            echo "<th>measurement</th>";
+
             echo "<th>Quantity</th>";
-            echo "<th>Department</th>"; // Added Department column
-            echo "<th>Price</th>";
+            echo "<th>price</th>";
+
             echo "<th>Total Price</th>";
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
 
             while ($row_approved = $result_approved->fetch_assoc()) {
-                // Add bold class to the new entries
-                $bold_class = $row_approved['id'] > 1000 ? 'bold-entry' : '';
-                
-                echo "<tr class='$bold_class'>";
-                echo "<td>" . $row_approved['id'] . "</td>";
+                echo "<tr>";
                 echo "<td>" . $row_approved['requesteditem_name'] . "</td>";
-                echo "<td>" . $row_approved['requesteditem_quantity'] . "</td>";
-                echo "<td>" . $row_approved['requesteditem_deptname'] . "</td>"; // Added Department data
+
+                echo "<td>" . $row_approved['merged_types'] . "</td>";
+                echo "<td>" . $row_approved['requesteditem_measurment'] . "</td>";
+             echo "<td>" . $row_approved['total_quantity'] . "</td>";
                 echo "<td>" . $row_approved['price'] . "</td>";
                 echo "<td>" . $row_approved['total_price'] . "</td>";
                 echo "</tr>";

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type="text/css" href="admin/assets/font-awesome/css/all.css">
@@ -58,6 +59,7 @@
   margin-right: 10px;
 }
     </style>
+    
     <body id="page-top">
         <!-- Navigation-->
         <div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -72,16 +74,67 @@
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="bidder.php?page=home"><img src="images/Home.png" class="ic"> Home</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> About Organization</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="manageaccount.php?page=about"><img src="images/about.png" class="ic"> About</a></li>
                        
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> Contact Us</a></li>
                         <?php if(isset($_SESSION['login_id'])): ?>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Welcome ".$_SESSION['login_username'] ?> <i class="fa fa-power-off"></i></a></li>
                       <?php else: ?>
+                        
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="javascript:void(0)" id="login_now"><img src='images/Login.png' class='ic'> Login</a></li>
                       <?php endif; ?>
                        
                         
-                     
+                      <!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>Bidder Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <!-- Navigation Menu -->
+        <nav class="navbar">
+            <ul class="navbar-nav">
+                
+              
+    </header>
+
+    <!-- Profile Section -->
+    <section class="profile-section">
+        <form class="form" id="form" action="" enctype="multipart/form-data" method="post">
+            <div class="upload">
+                <img src="uploads/<?php echo isset($user['image']) ? $user['image'] : ''; ?>" width="125" height="125" title="<?php echo isset($user['image']) ? $user['image'] : ''; ?>">
+                <div class="round">
+                    <input type="hidden" name="id" value="<?php echo $sessionId; ?>">
+                    <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png" style="display: none;">
+                    <i class="fa fa-camera" style="color: #fff; cursor: pointer;" onclick="document.getElementById('image').click();"></i>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <!-- JavaScript for file upload -->
+    <script type="text/javascript">
+        document.getElementById("image").onchange = function(){
+            document.getElementById("form").submit();
+        };
+    </script>
+
+    <!-- PHP for handling file upload -->
+    <?php
+    if(isset($_FILES["image"]["name"])) {
+        // Handle file upload
+        // Ensure to validate, process, and store the uploaded image as shown in the provided PHP code snippet
+    }
+    ?>
+
+</body>
+</html>
+
                     </ul>
                 </div>
             </div>
@@ -89,6 +142,46 @@
   <main id="main-field">
         <!--#############################
           home page starts-->
+          <style>
+    .upload {
+        width: 60px; /* Adjust width as needed */
+        height: 60px; /* Adjust height as needed */
+        position: relative;
+        margin: auto;
+        border-radius: 50%; /* Make it circular */
+        overflow: hidden; /* Hide overflow content */
+        border: 2px solid #DCDCDC; /* Add border */
+    }
+
+    .upload img {
+        width: 100%; /* Make the image fill the container */
+        height: 100%; /* Make the image fill the container */
+    }
+
+    .upload .round {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background: #00B4FF;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .upload .round input[type="file"] {
+        position: absolute;
+        transform: scale(2);
+        opacity: 0;
+    }
+
+    input[type=file]::-webkit-file-upload-button {
+        cursor: pointer;
+    }
+</style>
+
           <style>
     #cat-list li{
         cursor: pointer;
@@ -165,7 +258,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                              <?php echo "<h4>Welcome ".$_SESSION['login_username']."</h4>"?>
                                <?php echo "</div>"; ?> 
                              <?php else:
-                             echo "<img src='images/wpcsc.jpg' id='wpcsc'>
+                             echo "<img src='images/1714388760_wpcsc.jpg' id='wpcsc'>
                         <h1>WOLKITE POLYTECHNIC COLLEGE </h1>
                         <h3>WELCOME TO AUCTION AND BIDDING SYSTEM</h3>    
                           <h3></h3>"; ?>
