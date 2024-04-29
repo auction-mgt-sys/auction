@@ -85,7 +85,102 @@
                       <?php endif; ?>
                        
                         
-    
+                      <!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>Bidder Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <!-- Navigation Menu -->
+        <nav class="navbar">
+            <ul class="navbar-nav">
+                
+              
+    </header>
+
+    <!-- Profile Section -->
+    <section class="profile-section">
+        <form class="form" id="form" action="" enctype="multipart/form-data" method="post">
+            <div class="upload">
+                <img src="uploads/<?php echo isset($user['image']) ? $user['image'] : ''; ?>" width="125" height="125" title="<?php echo isset($user['image']) ? $user['image'] : ''; ?>">
+                <div class="round">
+                    <input type="hidden" name="id" value="<?php echo $sessionId; ?>">
+                    <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png" style="display: none;">
+                    <i class="fa fa-camera" style="color: #fff; cursor: pointer;" onclick="document.getElementById('image').click();"></i>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <!-- JavaScript for file upload -->
+    <script type="text/javascript">
+        document.getElementById("image").onchange = function(){
+            document.getElementById("form").submit();
+        };
+    </script>
+
+    <!-- PHP for handling file upload -->
+    <?php
+    if(isset($_FILES["image"]["name"])) {
+        // Handle file upload
+        // Ensure to validate, process, and store the uploaded image as shown in the provided PHP code snippet
+    }
+    ?>
+
+</body>
+</html>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+  <main id="main-field">
+        <!--#############################
+          home page starts-->
+          <style>
+    .upload {
+        width: 60px; /* Adjust width as needed */
+        height: 60px; /* Adjust height as needed */
+        position: relative;
+        margin: auto;
+        border-radius: 50%; /* Make it circular */
+        overflow: hidden; /* Hide overflow content */
+        border: 2px solid #DCDCDC; /* Add border */
+    }
+
+    .upload img {
+        width: 100%; /* Make the image fill the container */
+        height: 100%; /* Make the image fill the container */
+    }
+
+    .upload .round {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background: #00B4FF;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .upload .round input[type="file"] {
+        position: absolute;
+        transform: scale(2);
+        opacity: 0;
+    }
+
+    input[type=file]::-webkit-file-upload-button {
+        cursor: pointer;
+    }
+</style>
 
           <style>
     #cat-list li{
