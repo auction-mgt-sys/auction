@@ -3,6 +3,12 @@ session_start();
 
 include('admin/db_connect.php');
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
 
@@ -18,20 +24,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if (mysqli_query($conn, $sql)) {
             // Send the email with the verification code
-            $to = $email;
-            $subject = 'Password Reset Verification Code';
-            $message = 'Your verification code is: ' . $verification_code;
+            $mail = new PHPMailer(true);
 
-            // Additional headers
-            $headers = 'From: webmaster@example.com' . "\r\n" .
-                       'Reply-To: webmaster@example.com' . "\r\n" .
-                       'X-Mailer: PHP/' . phpversion();
+            try {
+                //Server settings
+                $mail->isSMTP();
+                $mail->Host = 'smtp.example.com';  // Specify your SMTP server
+                $mail->SMTPAuth = true;
+                $mail->Username = 'your_username@example.com'; // SMTP username
+                $mail->Password = 'your_password'; // SMTP password
+                $mail->SMTPSecure = 'tls'; // Enable TLS encryption, `ssl` also accepted
+                $mail->Port = 587; // TCP port to connect to
 
-            // Send the email
-            if (mail($to, $subject, $message, $headers)) {
+                //Recipients
+                $mail->setFrom('your_email@example.com', 'Your Name');
+                $mail->addAddress($email); // Add a recipient
+
+                //Content
+                $mail->isHTML(true); // Set email format to HTML
+                $mail->Subject = 'Password Reset Verification Code';
+                $mail->Body = 'Your verification code is: ' . $verification_code;
+
+                $mail->send();
                 echo json_encode(['status' => 'success', 'message' => 'Verification code sent to your email!']);
-            } else {
-                echo json_encode(['status' => 'error', 'message' => 'Failed to send email']);
+            } catch (Exception $e) {
+                echo json_encode(['status' => 'error', 'message' => 'Failed to send email: ' . $mail->ErrorInfo]);
             }
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Database error']);
@@ -43,6 +60,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
 }
 ?>
+
+
+
 
 <div class="container-fluid">
     <form action="" method="post" id="forgot-password-frm">
