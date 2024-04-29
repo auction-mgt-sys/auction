@@ -52,15 +52,35 @@
             font-style: italic;
             color: #007bff;
         }
+
+        .action-btn {
+            padding: 6px 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <?php
         // Approved items with merged types
-        $sql_approved = "SELECT requesteditem_name, requesteditem_type,  requesteditem_measurment, SUM(requesteditem_quantity) as total_quantity, 
-                        SUM(price) as price, SUM(total_price) as total_price, GROUP_CONCAT(requesteditem_type) as merged_types 
-                        FROM report WHERE auctionstatus = 1 GROUP BY requesteditem_type ORDER BY id DESC";
+        $sql_approved = "SELECT id, requesteditem_name, requesteditem_type, requesteditem_measurment, 
+                    SUM(requesteditem_quantity) as total_quantity, 
+                    SUM(price) as price, 
+                    SUM(total_price) as total_price, 
+                    GROUP_CONCAT(requesteditem_type) as merged_types 
+                    FROM report 
+                    WHERE auctionstatus = 1 
+                    GROUP BY requesteditem_type 
+                    ORDER BY id DESC";
+
         $result_approved = $conn->query($sql_approved);
 
         if ($result_approved->num_rows > 0) {
@@ -69,30 +89,32 @@
             echo "<thead>";
             echo "<tr>";
             echo "<th>Item name</th>";
-
             echo "<th>Type</th>";
             echo "<th>measurement</th>";
-
             echo "<th>Quantity</th>";
             echo "<th>price</th>";
-
             echo "<th>Total Price</th>";
+            echo "<th>Action</th>"; // Action column
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
 
+        
+            
             while ($row_approved = $result_approved->fetch_assoc()) {
                 echo "<tr>";
                 echo "<td>" . $row_approved['requesteditem_name'] . "</td>";
                 echo "<td>" . $row_approved['merged_types'] . "</td>";
                 echo "<td>" . $row_approved['requesteditem_measurment'] . "</td>";
-             echo "<td>" . $row_approved['total_quantity'] . "</td>";
+                echo "<td>" . $row_approved['total_quantity'] . "</td>";
                 echo "<td>" . $row_approved['price'] . "</td>";
                 echo "<td>" . $row_approved['total_price'] . "</td>";
+                echo "<td><button class='action-btn' onclick='performAction(" . $row_approved['id'] . ")'>See</button></td>"; // Using 'id' from the row
                 echo "</tr>";
             }
-
-            echo "</tbody>";
+            
+            
+                        echo "</tbody>";
             echo "</table>";
 
             // Show approval message
@@ -112,6 +134,11 @@
                         'lengthMenu': [5, 10, 25, 50, 100] // Dropdown for changing number of rows per page
                     });
                 });
+
+                function performAction(id) {
+                    // Implement your action logic here, using the id parameter to identify the selected row
+                    console.log('Performing action for row with id:', id);
+                }
             </script>";
         } else {
             echo "<p class='message'>No approved items found</p>";
