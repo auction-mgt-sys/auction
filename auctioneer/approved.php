@@ -100,7 +100,7 @@
             echo "<tbody>";
 
         
-            
+        
             while ($row_approved = $result_approved->fetch_assoc()) {
                 echo "<tr>";
                 echo "<td>" . $row_approved['requesteditem_name'] . "</td>";
@@ -112,7 +112,7 @@
                 echo "<td><button class='action-btn' onclick='performAction(" . $row_approved['id'] . ")'>See</button></td>"; // Using 'id' from the row
                 echo "</tr>";
             }
-            
+        
             
                         echo "</tbody>";
             echo "</table>";
@@ -147,3 +147,25 @@
     </div>
 </body>
 </html>
+
+<script>
+    function performAction(id) {
+        // AJAX request to insert data into auctionitem table
+        $.ajax({
+            url: 'insert_auctionitem.php',
+            type: 'POST',
+            data: {
+                id: id
+            },
+            success: function(response) {
+                console.log(response);
+                alert('Item added to auctionitem table successfully!');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                alert('Error occurred while adding item to auctionitem table. Please try again.');
+            }
+        });
+    }
+</script>
+
