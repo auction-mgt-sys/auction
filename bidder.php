@@ -74,7 +74,6 @@
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="bidder.php?page=home"><img src="images/Home.png" class="ic"> Home</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> About Organization</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="manageaccount.php?page=about"><img src="images/about.png" class="ic"> About</a></li>
                        
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> Contact Us</a></li>
                         <?php if(isset($_SESSION['login_id'])): ?>

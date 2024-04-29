@@ -71,15 +71,26 @@
     <div class="container">
         <?php
         // Approved items with merged types
-        $sql_approved = "SELECT id, requesteditem_name, requesteditem_type, requesteditem_measurment, 
-                    SUM(requesteditem_quantity) as total_quantity, 
-                    SUM(price) as price, 
-                    SUM(total_price) as total_price, 
-                    GROUP_CONCAT(requesteditem_type) as merged_types 
-                    FROM report 
-                    WHERE auctionstatus = 1 
-                    GROUP BY requesteditem_type 
-                    ORDER BY id DESC";
+        $sql_approved = "SELECT 
+        id, 
+        requesteditem_name AS common_name, 
+        requesteditem_measurment AS common_measurment, 
+        requesteditem_type AS common_type, 
+        SUM(requesteditem_quantity) AS total_quantity, 
+        SUM(price) AS price, 
+        SUM(total_price) AS total_price
+    FROM 
+        report 
+    WHERE 
+        auctionstatus = 1 
+    GROUP BY 
+        requesteditem_name, 
+        requesteditem_measurment, 
+        requesteditem_type 
+    ORDER BY 
+        id DESC";
+
+
 
         $result_approved = $conn->query($sql_approved);
 
@@ -103,14 +114,15 @@
         
             while ($row_approved = $result_approved->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td>" . $row_approved['requesteditem_name'] . "</td>";
-                echo "<td>" . $row_approved['merged_types'] . "</td>";
-                echo "<td>" . $row_approved['requesteditem_measurment'] . "</td>";
+                echo "<td>" . $row_approved['common_name'] . "</td>"; // Use the directly selected column 'requesteditem_name'
+                echo "<td>" . $row_approved['common_type'] . "</td>"; // Use the directly selected column 'requesteditem_type'
+                echo "<td>" . $row_approved['common_measurment'] . "</td>"; // Use the directly selected column 'requesteditem_measurment'
                 echo "<td>" . $row_approved['total_quantity'] . "</td>";
                 echo "<td>" . $row_approved['price'] . "</td>";
                 echo "<td>" . $row_approved['total_price'] . "</td>";
-                echo "<td><button class='action-btn' onclick='performAction(" . $row_approved['id'] . ")'>See</button></td>"; // Using 'id' from the row
+                echo "<td><button class='action-btn' onclick='performAction(" . $row_approved['id'] . ")'>upload</button></td>"; // Using 'id' from the row
                 echo "</tr>";
+                
             }
         
             
@@ -146,26 +158,8 @@
         ?>
     </div>
 </body>
+
 </html>
 
-<script>
-    function performAction(id) {
-        // AJAX request to insert data into auctionitem table
-        $.ajax({
-            url: 'insert_auctionitem.php',
-            type: 'POST',
-            data: {
-                id: id
-            },
-            success: function(response) {
-                console.log(response);
-                alert('Item added to auctionitem table successfully!');
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                alert('Error occurred while adding item to auctionitem table. Please try again.');
-            }
-        });
-    }
-</script>
+<scrpt>
 
