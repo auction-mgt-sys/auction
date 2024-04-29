@@ -162,4 +162,51 @@
 </html>
 
 <scrpt>
+<script>
+    function performAction(id) {
+        // AJAX request to insert data into auctionitem table
+        $.ajax({
+            url: 'insert_auctionitem.php',
+            type: 'POST',
+            data: {
+                id: id
+            },
+            success: function(response) {
+                console.log(response);
+                // Display a toast message indicating success
+                showToast('Item added to auctionitem list successfully!', 'green');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                // Display a toast message indicating error
+                showToast('Error occurred while adding item to auctionitem table. Please try again.', 'red');
+            }
+        });
+    }
+
+    // Function to display toast messages
+    function showToast(message, color) {
+        // Create a toast element
+        var toast = document.createElement('div');
+        toast.textContent = message;
+        toast.style.backgroundColor = color;
+        toast.style.color = '#fff';
+        toast.style.padding = '10px';
+        toast.style.borderRadius = '4px';
+        toast.style.position = 'fixed';
+        toast.style.bottom = '20px';
+        toast.style.left = '50%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.zIndex = '9999';
+
+        // Append toast to body
+        document.body.appendChild(toast);
+
+        // Automatically remove toast after 3 seconds
+        setTimeout(function() {
+            toast.parentNode.removeChild(toast);
+        }, 3000);
+    }
+</script>
+
 
