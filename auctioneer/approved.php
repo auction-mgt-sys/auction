@@ -84,7 +84,6 @@
             while ($row_approved = $result_approved->fetch_assoc()) {
                 echo "<tr>";
                 echo "<td>" . $row_approved['requesteditem_name'] . "</td>";
-
                 echo "<td>" . $row_approved['merged_types'] . "</td>";
                 echo "<td>" . $row_approved['requesteditem_measurment'] . "</td>";
              echo "<td>" . $row_approved['total_quantity'] . "</td>";

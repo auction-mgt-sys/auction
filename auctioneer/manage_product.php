@@ -218,9 +218,11 @@ img#img_path-field{
 					</div>
 					<div class="row">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-sm btn-block btn-primary col-sm-2">Post</button>
-                        </div>
-					</div>
+                         <div class="d-flex justify-content-start">
+                          <button type="submit" class="btn btn-sm btn-primary">Post</button>
+                       </div>
+                     </div>
+                   </div>
 				</form>
 			</div>
 		</div>
