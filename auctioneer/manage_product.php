@@ -9,9 +9,9 @@ foreach($qry->fetch_array() as $k => $val){
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
     // Update auctionstatus to 1
-    $conn->query("UPDATE report SET auction = 1 WHERE id = {$id}");
+    $conn->query("UPDATE auctionitem SET statuss = 1 WHERE id = {$id}");
 }
-$qry_report = $conn->query("SELECT common_name, total_quantity, common_measurement, total_price ,price FROM auctionitem WHERE statuss = 0 ORDER BY id ASC LIMIT 1");
+$qry_report = $conn->query("SELECT common_name, total_quantity, common_measurement, total_price ,price FROM auctionitem WHERE statuss = 0 and staup = 1 ORDER BY id ASC LIMIT 1");
 $report_row = $qry_report->fetch_assoc();
 $auto_name = isset($report_row['common_name']) ? $report_row['common_name'] : '';
 $auto_quantity = isset($report_row['total_quantity']) ? $report_row['total_quantity'] : 1;
@@ -246,6 +246,7 @@ img#img_path-field{
 		e.preventDefault()
 		start_load()
 		$('#msg').html('')
+		
 		$.ajax({
 			url:'ajax.php?action=save_product',
 			data: new FormData($(this)[0]),
@@ -266,6 +267,7 @@ img#img_path-field{
 			}
 		})
 	})
+
 	if (window.FileReader) {
   var drop;
   addproductHandler(window, 'load', function() {
