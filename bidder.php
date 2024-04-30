@@ -60,9 +60,13 @@
         margin-top: 5rem!important;
       }
       .wpcsc {
-  width: 55px;
+  width: 90px;
+  height: 90px; /* Ensure height matches width for perfect circle */
   margin-right: 10px;
+  border-radius: 50%; /* Make it circular */
 }
+
+
     </style>
     
     <body id="page-top">
@@ -78,7 +82,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="bidder.php?page=home"><img src="images/Home.png" class="ic"> Home</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="bidder.php?page=about"><img src="images/about.png" class="ic"> About Organization</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> About Organization</a></li>
                         
                         <?php if(isset($_SESSION['login_id'])): ?>
                   <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Welcome ".$_SESSION['login_username'] ?> <i class="fa fa-power-off"></i></a></li>
@@ -91,7 +95,7 @@
                       <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle js-scroll-trigger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <div class="profile-image">
-        <img src="images/elshu.jpg" class="ic" id="profileImg">
+        <img src="images/el.png" class="ic" id="profileImg">
     </div>
     Settings
 </a>
@@ -115,6 +119,7 @@ document.getElementById('image').addEventListener('change', function(event) {
 
     reader.readAsDataURL(file);
 });
+
 </script>
 
 
@@ -135,45 +140,40 @@ document.getElementById('image').addEventListener('change', function(event) {
         <i class="fas fa-moon mr-2"></i>Dark Mode
     </a>
 
-    <!-- Your other HTML content -->
-    <a class="dropdown-item" href="#" onclick="updateProfile()">
-        <i class="fas fa-user-edit mr-2"></i>Update Profile
-    </a>
+
     <a class="dropdown-item" href="#" onclick="manageaccount()">
         <i class="fas fa-key mr-2"></i>manage account
     </a>
-    
-
-    
     <div class="dropdown-divider"></div>
 </div>
 </body>
 </html>
 
-
-
-
-    
-
 </div>
 
 </li>
-
-                       
-                
-            
-
                     </ul>
                 </div>
             </div>
         </nav>
   <main id="main-field">
-        
-    
-
-   
-
           <style>
+/* Centering individual navigation items horizontally, adding padding, top margin, and bottom border */
+
+
+/* Centering the navigation bar horizontally */
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+}
+
+/* Adjusting padding on the top and bottom */
+.navbar-nav {
+    padding-top: 5px; /* Adjust as needed */
+    padding-bottom: 5px; /* Adjust as needed */
+}
+
+
             .profile-image {
     width: 50px; /* Adjust according to your design */
     height: 50px; /* Adjust according to your design */
@@ -264,7 +264,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                              <?php echo "<h4>Welcome ".$_SESSION['login_username']."</h4>"?>
                                <?php echo "</div>"; ?> 
                              <?php else:
-                             echo "<img src='images/wpcsc.jpg' id='wpcsc'>
+                             echo "<img src='images/logo.jpg' id='wpcsc'>
                         <h1>WOLKITE POLYTECHNIC COLLEGE </h1>
                         <h3>WELCOME TO AUCTION AND BIDDING SYSTEM</h3>    
                           <h3></h3>"; ?>
@@ -287,6 +287,14 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
 </div> 
     
 <style>
+  img#wpc {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 #sids{
   margin-bottom: 5px;
 }
