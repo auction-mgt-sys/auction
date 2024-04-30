@@ -89,10 +89,34 @@
                       
                       
                       <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle js-scroll-trigger" href="#" id="navbarDropdown" role="button"
-   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <img src="images/about.png" class="ic"> Settings
+                      <a class="nav-link dropdown-toggle js-scroll-trigger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <div class="profile-image">
+        <img src="images/elshu.jpg" class="ic" id="profileImg">
+    </div>
+    Settings
 </a>
+
+<!-- Hidden file input -->
+<input type="file" name="image" id="image" accept=".jpg, .jpeg, .png" style="display: none;">
+
+<!-- Plus button -->
+<i class="fa fa-camera" style="color: #fff; cursor: pointer;" onclick="document.getElementById('image').click();"></i>
+
+<!-- Hidden field for storing user ID -->
+<input type="hidden" name="id" value="<?php echo $sessionId; ?>">
+<script>// Function to handle when an image is selected
+document.getElementById('image').addEventListener('change', function(event) {
+    var file = event.target.files[0];
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+        document.getElementById('profileImg').src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+});
+</script>
+
 
 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 <!DOCTYPE html>
@@ -103,6 +127,8 @@
     <title>j</title>
     <!-- Include darkmode.js -->
     <script src="darkmode.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 <body onload="checkDarkMode()"> <!-- Call checkDarkMode() here -->
     <a class="dropdown-item" href="#" onclick="toggleDarkMode()">
@@ -113,9 +139,12 @@
     <a class="dropdown-item" href="#" onclick="updateProfile()">
         <i class="fas fa-user-edit mr-2"></i>Update Profile
     </a>
-    <a class="dropdown-item" href="#" onclick="changePassword()">
-        <i class="fas fa-key mr-2"></i>Change Password
+    <a class="dropdown-item" href="#" onclick="manageaccount()">
+        <i class="fas fa-key mr-2"></i>manage account
     </a>
+    
+
+    
     <div class="dropdown-divider"></div>
 </div>
 </body>
@@ -145,6 +174,19 @@
    
 
           <style>
+            .profile-image {
+    width: 50px; /* Adjust according to your design */
+    height: 50px; /* Adjust according to your design */
+    border-radius: 50%; /* Make it circular */
+    overflow: hidden; /* Ensure the image stays within the circular container */
+}
+
+#profileImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio and cover the container */
+}
+
     #cat-list li{
         cursor: pointer;
     }
