@@ -213,8 +213,9 @@ img#img_path-field{
 						</div>
 
 						<div class="col-md-5">
-							<img src="<?php echo isset($img_fname) ? 'assets/uploads/'.$img_fname :'' ?>" alt="" id="img_path-field">
-						</div>
+    <img src="<?php echo isset($img_fname) ? 'assets/uploads/'.$img_fname :'' ?>" alt="" id="img_path-field" style="max-width: 100%; height: auto;">
+</div>
+
 					</div>
 					<div class="row">
                         <div class="col-md-12">

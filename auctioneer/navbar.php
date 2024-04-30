@@ -32,7 +32,8 @@ $payments = $conn->query("SELECT * FROM payment where status = 0 ");
 // Assuming you have a database connection established
 
 // Fetch the count of unread feedback from the comment table
-$query = "SELECT COUNT(*) AS count FROM comment WHERE comment_type = 1 and status = 'unread'";
+
+$query = "SELECT COUNT(*) AS count FROM comment WHERE comment_type = 1 AND status = 'unread'";
 $result = $conn->query($query);
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -44,8 +45,12 @@ if ($result && $result->num_rows > 0) {
 
 <a href="index.php?page=feedback" class="nav-item nav-feedback">
     Feedback&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span class="notification-count">
-        <small><?php echo $comment_count ?></small>
+    <?php if ($comment_count > 0): ?>
+        <span class="notification-count">
+            <small><?php echo $comment_count ?></small>
+        </span>
+    <?php endif; ?>
+
     </span>
 </a>
 		</div>

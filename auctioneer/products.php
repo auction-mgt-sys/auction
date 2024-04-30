@@ -50,9 +50,10 @@
 								<tr data-id= '<?php echo $row['id'] ?>'>
 									<td class="text-center"><?php echo $i++ ?></td>
 									<td class="">
-										 <div class="row justify-content-center">
-										 	<img src="<?php echo 'assets/uploads/'.$row['img_fname'] ?>" alt="">
-										 </div>
+									<div class="row justify-content-center">
+    <img src="<?php echo 'assets/uploads/'.$row['img_fname'] ?>" alt="" style="width: 200px; height: 200px; object-fit: cover;">
+</div>
+
 									</td>
 									<td>
 										 <p> <b><?php echo ucwords($cat[$row['category_id']]) ?></b></p>

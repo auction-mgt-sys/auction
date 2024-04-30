@@ -66,10 +66,17 @@
             background-color: #0056b3;
         }
     </style>
+    
 </head>
 <body>
     <div class="container">
         <?php
+    
+        include("db_connect.php");
+        
+        // Get the current month and year
+        $currentMonth = date('m');
+        $currentYear = date('Y');
         // Approved items with merged types
         $sql_approved = "SELECT 
         id, 
@@ -82,7 +89,8 @@
     FROM 
         report 
     WHERE 
-        auctionstatus = 1 
+        auctionstatus = 1 AND MONTH(dateapprove) = $currentMonth
+        AND YEAR(dateapprove) = $currentYear
     GROUP BY 
         requesteditem_name, 
         requesteditem_measurment, 

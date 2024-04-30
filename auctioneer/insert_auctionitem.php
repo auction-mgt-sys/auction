@@ -12,11 +12,11 @@ if (isset($_POST['itemName']) && isset($_POST['itemType']) && isset($_POST['item
     $totalPrice = $_POST['totalPrice'];
 
     // Insert data into auctionitem table
-    $sql_insert = "INSERT INTO auctionitem (common_name, common_type, common_measurement, total_quantity, price, total_price)
-                   VALUES ('$itemName', '$itemType', '$itemMeasurement', $quantity, $price, $totalPrice)";
+    $sql_insert = "INSERT INTO auctionitem (common_name, common_type, common_measurement, total_quantity, price, total_price, staup)
+                   VALUES ('$itemName', '$itemType', '$itemMeasurement', $quantity, $price, $totalPrice,1)";
 
     if ($conn->query($sql_insert) === TRUE) {
-        echo "Item added to auctionitem table successfully!";
+        echo "Item added to auctionitem list successfully!";
     } else {
         echo "Error: " . $sql_insert . "<br>" . $conn->error;
     }
