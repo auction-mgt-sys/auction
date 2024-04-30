@@ -3,7 +3,12 @@
 <html lang="en">
 <link rel="stylesheet" type="text/css" href="admin/assets/font-awesome/css/all.css">
 <script src="sweetalert.min.js"></script>
+<script src="darkmode.js"></script>
 
+<body>
+<body onload="checkDarkMode()">
+
+</body>
     <?php
     session_start();
     include('admin/db_connect.php');
@@ -73,114 +78,71 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="bidder.php?page=home"><img src="images/Home.png" class="ic"> Home</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> About Organization</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="manageaccount.php?page=about"><img src="images/about.png" class="ic"> About</a></li>
-                       
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="bidder.php?page=about"><img src="images/about.png" class="ic"> About Organization</a></li>
+                        
                         <?php if(isset($_SESSION['login_id'])): ?>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Welcome ".$_SESSION['login_username'] ?> <i class="fa fa-power-off"></i></a></li>
+                  <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Welcome ".$_SESSION['login_username'] ?> <i class="fa fa-power-off"></i></a></li>
                       <?php else: ?>
                         
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="javascript:void(0)" id="login_now"><img src='images/Login.png' class='ic'> Login</a></li>
                       <?php endif; ?>
-                       
-                        
-                      <!DOCTYPE html>
-<html lang="en" dir="ltr">
+                      
+                      
+                      <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle js-scroll-trigger" href="#" id="navbarDropdown" role="button"
+   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <img src="images/about.png" class="ic"> Settings
+</a>
+
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Bidder Profile</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>j</title>
+    <!-- Include darkmode.js -->
+    <script src="darkmode.js"></script>
 </head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <!-- Navigation Menu -->
-        <nav class="navbar">
-            <ul class="navbar-nav">
-                
-              
-    </header>
+<body onload="checkDarkMode()"> <!-- Call checkDarkMode() here -->
+    <a class="dropdown-item" href="#" onclick="toggleDarkMode()">
+        <i class="fas fa-moon mr-2"></i>Dark Mode
+    </a>
 
-    <!-- Profile Section -->
-    <section class="profile-section">
-        <form class="form" id="form" action="" enctype="multipart/form-data" method="post">
-            <div class="upload">
-                <img src="uploads/<?php echo isset($user['image']) ? $user['image'] : ''; ?>" width="125" height="125" title="<?php echo isset($user['image']) ? $user['image'] : ''; ?>">
-                <div class="round">
-                    <input type="hidden" name="id" value="<?php echo $sessionId; ?>">
-                    <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png" style="display: none;">
-                    <i class="fa fa-camera" style="color: #fff; cursor: pointer;" onclick="document.getElementById('image').click();"></i>
-                </div>
-            </div>
-        </form>
-    </section>
-
-    <!-- JavaScript for file upload -->
-    <script type="text/javascript">
-        document.getElementById("image").onchange = function(){
-            document.getElementById("form").submit();
-        };
-    </script>
-
-    <!-- PHP for handling file upload -->
-    <?php
-    if(isset($_FILES["image"]["name"])) {
-        // Handle file upload
-        // Ensure to validate, process, and store the uploaded image as shown in the provided PHP code snippet
-    }
-    ?>
-
+    <!-- Your other HTML content -->
+    <a class="dropdown-item" href="#" onclick="updateProfile()">
+        <i class="fas fa-user-edit mr-2"></i>Update Profile
+    </a>
+    <a class="dropdown-item" href="#" onclick="changePassword()">
+        <i class="fas fa-key mr-2"></i>Change Password
+    </a>
+    <div class="dropdown-divider"></div>
+</div>
 </body>
 </html>
+
+
+
+
+    
+
+</div>
+
+</li>
+
+                       
+                
+            
 
                     </ul>
                 </div>
             </div>
         </nav>
   <main id="main-field">
-        <!--#############################
-          home page starts-->
-          <style>
-    .upload {
-        width: 60px; /* Adjust width as needed */
-        height: 60px; /* Adjust height as needed */
-        position: relative;
-        margin: auto;
-        border-radius: 50%; /* Make it circular */
-        overflow: hidden; /* Hide overflow content */
-        border: 2px solid #DCDCDC; /* Add border */
-    }
+        
+    
 
-    .upload img {
-        width: 100%; /* Make the image fill the container */
-        height: 100%; /* Make the image fill the container */
-    }
-
-    .upload .round {
-        position: absolute;
-        bottom: 5px;
-        right: 5px;
-        background: #00B4FF;
-        width: 20px;
-        height: 20px;
-        line-height: 20px;
-        text-align: center;
-        border-radius: 50%;
-        overflow: hidden;
-    }
-
-    .upload .round input[type="file"] {
-        position: absolute;
-        transform: scale(2);
-        opacity: 0;
-    }
-
-    input[type=file]::-webkit-file-upload-button {
-        cursor: pointer;
-    }
-</style>
+   
 
           <style>
     #cat-list li{
@@ -198,6 +160,8 @@
     right: .5em;
 }
 </style>
+
+
 <?php 
 
 $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
@@ -258,7 +222,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                              <?php echo "<h4>Welcome ".$_SESSION['login_username']."</h4>"?>
                                <?php echo "</div>"; ?> 
                              <?php else:
-                             echo "<img src='images/1714388760_wpcsc.jpg' id='wpcsc'>
+                             echo "<img src='images/wpcsc.jpg' id='wpcsc'>
                         <h1>WOLKITE POLYTECHNIC COLLEGE </h1>
                         <h3>WELCOME TO AUCTION AND BIDDING SYSTEM</h3>    
                           <h3></h3>"; ?>
@@ -391,7 +355,54 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
         </div>
     </div>
 </div>
-       
+<style>
+.dark-mode {
+    background-color: #333; /* Example background color for dark mode */
+    color: #fff; /* Example text color for dark mode */
+    /* Add additional styles for dark mode as needed */
+}
+
+</style>
+<script>
+    // Function to toggle dark mode
+    // Function to toggle dark mode
+// Function to toggle dark mode
+function toggleDarkMode() {
+    // Toggle dark mode class on the body
+    document.body.classList.toggle('dark-mode');
+
+    // Check if dark mode is enabled
+    var isDarkMode = document.body.classList.contains('dark-mode');
+
+    // Save the user's preference to local storage
+    localStorage.setItem('darkMode', isDarkMode ? 'true' : 'false');
+}
+
+// Function to check and set initial dark mode state
+function checkDarkMode() {
+    // Check if dark mode preference is stored in local storage
+    var darkMode = localStorage.getItem('darkMode');
+
+    // Set dark mode based on stored preference
+    if (darkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+}
+
+
+    // Function to handle updating profile
+    <?php
+
+?>
+
+
+
+
+    // Function to handle changing password
+    
+</script>
+
+
 <script>
     $('#cat-list li').click(function(){
         location.href = $(this).attr('data-href')
