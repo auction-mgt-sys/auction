@@ -77,6 +77,8 @@
         // Get the current month and year
         $currentMonth = date('m');
         $currentYear = date('Y');
+
+        
         // Approved items with merged types
         $sql_approved = "SELECT 
         id, 
@@ -90,7 +92,8 @@
         report 
     WHERE 
         auctionstatus = 1 AND MONTH(dateapprove) = $currentMonth
-        AND YEAR(dateapprove) = $currentYear
+        AND YEAR(dateapprove) = $currentYear AND 
+        groupitem = 0
     GROUP BY 
         requesteditem_name, 
         requesteditem_measurment, 
@@ -148,43 +151,59 @@
                     });
                 });
 
-function performAction(id) {
-    // Get the item details of the clicked row
-    var itemName = $('#approved-table').DataTable().row('#row_' + id).data()[0];
-    var itemType = $('#approved-table').DataTable().row('#row_' + id).data()[1];
-    var itemMeasurement = $('#approved-table').DataTable().row('#row_' + id).data()[2];
-    var quantity = $('#approved-table').DataTable().row('#row_' + id).data()[3];
-    var price = $('#approved-table').DataTable().row('#row_' + id).data()[4];
-    var totalPrice = $('#approved-table').DataTable().row('#row_' + id).data()[5];
-
-    // AJAX request to insert data into auctionitem table
-    $.ajax({
-        url: 'insert_auctionitem.php',
-        type: 'POST',
-        data: {
-            itemName: itemName,
-            itemType: itemType,
-            itemMeasurement: itemMeasurement,
-            quantity: quantity,
-            price: price,
-            totalPrice: totalPrice
-        },
-        success: function(response) {
-            console.log(response);
-            // Remove the row from the table
-            $('#approved-table').DataTable().row('#row_' + id).remove().draw();
-            // Display a toast message indicating success
-            showToast('Item added to auctionitem list successfully!', 'green');
-        },
-        error: function(xhr, status, error) {
-            console.error(xhr.responseText);
-            // Display a toast message indicating error
-            showToast('Error occurred while adding item to auctionitem table. Please try again.', 'red');
-        }
-    });
-}
-
-
+                function performAction(id) {
+                    // Get the item details of the clicked row
+                    var itemName = $('#approved-table').DataTable().row('#row_' + id).data()[0];
+                    var itemType = $('#approved-table').DataTable().row('#row_' + id).data()[1];
+                    var itemMeasurement = $('#approved-table').DataTable().row('#row_' + id).data()[2];
+                    var quantity = $('#approved-table').DataTable().row('#row_' + id).data()[3];
+                    var price = $('#approved-table').DataTable().row('#row_' + id).data()[4];
+                    var totalPrice = $('#approved-table').DataTable().row('#row_' + id).data()[5];
+                
+                    // AJAX request to insert data into auctionitem table
+                    $.ajax({
+                        url: 'insert_auctionitem.php',
+                        type: 'POST',
+                        data: {
+                            itemName: itemName,
+                            itemType: itemType,
+                            itemMeasurement: itemMeasurement,
+                            quantity: quantity,
+                            price: price,
+                            totalPrice: totalPrice
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            // Remove the row from the table
+                            $('#approved-table').DataTable().row('#row_' + id).remove().draw();
+                            // Display a toast message indicating success
+                            showToast('Item added to auctionitem list successfully!', 'green');
+                
+                            // Update the report table
+                            $.ajax({
+                                url: 'update_report.php',
+                                type: 'POST',
+                                data: {
+                                    itemName: itemName,
+                                    itemType: itemType,
+                                    itemMeasurement: itemMeasurement
+                                },
+                                success: function(response) {
+                                    console.log(response);
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error(xhr.responseText);
+                                }
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            // Display a toast message indicating error
+                            showToast('Error occurred while adding item to auctionitem table. Please try again.', 'red');
+                        }
+                    });
+                }
+                
                 // Function to display toast messages
                 function showToast(message, color) {
                     // Create a toast element

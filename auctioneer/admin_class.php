@@ -420,10 +420,11 @@ Class Action {
 			$move = move_uploaded_file($_FILES['img']['tmp_name'],'assets/uploads/'. $fname);
 			$save = $this->db->query("UPDATE products set img_fname='$fname' where id = $id");
 			}
-			if(isset($statuss)){
-				$update_statuss = $this->db->query("UPDATE auctionitem SET statuss='$status' WHERE product_id = $id");
-				if(!$update_statuss){
+			if (isset($statuss)) {
+				$update_statuss = $this->db->query("UPDATE auctionitem SET statuss='$statuss' WHERE id = $id");
+				if (!$update_statuss) {
 					// Handle update failure
+					echo "Status update failed: " . $this->db->error; // Output error message
 					return 0;
 				}
 			}
