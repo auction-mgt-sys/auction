@@ -400,54 +400,38 @@ Class Action {
 					$data .= ", $k='$v' ";
 				}
 			}
-		}
-	
+			}
+		
 		if(empty($id)){
-			$save = $this->db->query("INSERT INTO products SET $data");
+			$save = $this->db->query("INSERT INTO products set $data");
 			$id = $this->db->insert_id;
 		}else{
-			$save = $this->db->query("UPDATE products SET $data WHERE id = $id");
+			$save = $this->db->query("UPDATE products set $data where id = $id");
 		}
-	
+
 		if($save){
-			// Check if img file is uploaded
+
 			if($_FILES['img']['tmp_name'] != ''){
-				$ftype = explode('.', $_FILES['img']['name']);
-				$ftype = end($ftype);
-				$fname = $id.'.'.$ftype;
-				if(is_file('assets/uploads/'. $fname))
-					unlink('assets/uploads/'. $fname);
-				$move = move_uploaded_file($_FILES['img']['tmp_name'], 'assets/uploads/'. $fname);
-				$save_img = $this->db->query("UPDATE products SET img_fname='$fname' WHERE id = $id");
-				if(!$save_img){
-					// Handle image save failure
-					echo "Image upload failed: " . $this->db->error; // Output error message
-					return 0;
-				}
-			}
-	
-			// Update auctionitem statuss to 1 based on matching values
-			$update_statuss = $this->db->query("
-				UPDATE auctionitem 
-				SET statuss = 1 
-				WHERE common_name = '$name' 
-				AND common_measurement = '$measurement' 
-				AND total_quantity = '$quantity' 
-				AND price = '$regular_price' 
-				AND total_price = '$total_price'
-			");
-			
-			if(!$update_statuss){
-				// Handle update failure
-				echo "Status update failed: " . $this->db->error; // Output error message
-				return 0;
-			}
-	
+			$ftype= explode('.',$_FILES['img']['name']);
+			$ftype= end($ftype);
+			$fname =$id.'.'.$ftype;
+			if(is_file('assets/uploads/'. $fname))
+				unlink('assets/uploads/'. $fname);
+			$move = move_uploaded_file($_FILES['img']['tmp_name'],'assets/uploads/'. $fname);
+			$save = $this->db->query("UPDATE products set img_fname='$fname' where id = $id");
+
+			}$update_statuss = $this->db->query("
+            UPDATE auctionitem 
+            SET statuss = 1 
+            WHERE common_name = '$name' 
+            AND common_measurement = '$measurement' 
+            AND total_quantity = '$quantity' 
+            AND price = '$regular_price' 
+            AND total_price = '$total_price'
+        ");
 			return 1;
 		}
-		return 0; // Return 0 if save operation fails
 	}
-		
 	function delete_product(){
 		extract($_POST);
 		$delete = $this->db->query("DELETE FROM products where id = ".$id);
@@ -486,6 +470,7 @@ Class Action {
 		}else{
 			$save = $this->db->query("UPDATE bids set ".$data." where id=".$id);
 		}
+		
 		if($save)
 			return 1;
 	}
