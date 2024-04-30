@@ -64,7 +64,7 @@ $conn->close();
 							<a href="index.php?page=accepted_users" class="nav-item nav-accepted_users"><span class='icon-field'><i class="fa fa-user"></i></span> Accepted Bidders <span class='icon-field'><img src="../admin/photos/Checkmark.png"> </span></a>
 				<a href="index.php?page=rejected_users" class="nav-item nav-rejected_users"><span class='icon-field'><i class="fa fa-user"></i></span> Rejected Bidders <span class='icon-field'><img src="../admin/photos/Unavailable3.png"> </span></a>
 				<a href="index.php?page=requestitems" class="nav-item nav-requestitems">
-    <span class='icon-field'><i class="fa fa-requestitems"></i></span> View Requested Items
+                <span class='icon-field'><i class="fa fa-eye"></i></span> View Requested Items
     <?php
     // PHP code to display notification count for requested items
     if ($requestitems_count > 0) {
