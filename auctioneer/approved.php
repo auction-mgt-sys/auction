@@ -74,7 +74,7 @@
         $sql_approved = "SELECT 
         id, 
         requesteditem_name AS common_name, 
-        requesteditem_measurment AS common_measurment, 
+        requesteditem_measurment AS common_measurement, 
         requesteditem_type AS common_type, 
         SUM(requesteditem_quantity) AS total_quantity, 
         SUM(price) AS price, 
@@ -90,8 +90,6 @@
     ORDER BY 
         id DESC";
 
-
-
         $result_approved = $conn->query($sql_approved);
 
         if ($result_approved->num_rows > 0) {
@@ -101,32 +99,27 @@
             echo "<tr>";
             echo "<th>Item name</th>";
             echo "<th>Type</th>";
-            echo "<th>measurement</th>";
+            echo "<th>Measurement</th>";
             echo "<th>Quantity</th>";
-            echo "<th>price</th>";
+            echo "<th>Price</th>";
             echo "<th>Total Price</th>";
             echo "<th>Action</th>"; // Action column
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
 
-        
-        
             while ($row_approved = $result_approved->fetch_assoc()) {
-                echo "<tr>";
+                echo "<tr id='row_" . $row_approved['id'] . "'>";
                 echo "<td>" . $row_approved['common_name'] . "</td>"; // Use the directly selected column 'requesteditem_name'
                 echo "<td>" . $row_approved['common_type'] . "</td>"; // Use the directly selected column 'requesteditem_type'
-                echo "<td>" . $row_approved['common_measurment'] . "</td>"; // Use the directly selected column 'requesteditem_measurment'
+                echo "<td>" . $row_approved['common_measurement'] . "</td>"; // Use the directly selected column 'requesteditem_measurement'
                 echo "<td>" . $row_approved['total_quantity'] . "</td>";
                 echo "<td>" . $row_approved['price'] . "</td>";
                 echo "<td>" . $row_approved['total_price'] . "</td>";
-                echo "<td><button class='action-btn' onclick='performAction(" . $row_approved['id'] . ")'>upload</button></td>"; // Using 'id' from the row
+                echo "<td><button class='action-btn' onclick='performAction(" . $row_approved['id'] . ")'>Upload</button></td>"; // Using 'id' from the row
                 echo "</tr>";
-                
             }
-        
-            
-                        echo "</tbody>";
+            echo "</tbody>";
             echo "</table>";
 
             // Show approval message
@@ -147,9 +140,65 @@
                     });
                 });
 
-                function performAction(id) {
-                    // Implement your action logic here, using the id parameter to identify the selected row
-                    console.log('Performing action for row with id:', id);
+function performAction(id) {
+    // Get the item details of the clicked row
+    var itemName = $('#approved-table').DataTable().row('#row_' + id).data()[0];
+    var itemType = $('#approved-table').DataTable().row('#row_' + id).data()[1];
+    var itemMeasurement = $('#approved-table').DataTable().row('#row_' + id).data()[2];
+    var quantity = $('#approved-table').DataTable().row('#row_' + id).data()[3];
+    var price = $('#approved-table').DataTable().row('#row_' + id).data()[4];
+    var totalPrice = $('#approved-table').DataTable().row('#row_' + id).data()[5];
+
+    // AJAX request to insert data into auctionitem table
+    $.ajax({
+        url: 'insert_auctionitem.php',
+        type: 'POST',
+        data: {
+            itemName: itemName,
+            itemType: itemType,
+            itemMeasurement: itemMeasurement,
+            quantity: quantity,
+            price: price,
+            totalPrice: totalPrice
+        },
+        success: function(response) {
+            console.log(response);
+            // Remove the row from the table
+            $('#approved-table').DataTable().row('#row_' + id).remove().draw();
+            // Display a toast message indicating success
+            showToast('Item added to auctionitem list successfully!', 'green');
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            // Display a toast message indicating error
+            showToast('Error occurred while adding item to auctionitem table. Please try again.', 'red');
+        }
+    });
+}
+
+
+                // Function to display toast messages
+                function showToast(message, color) {
+                    // Create a toast element
+                    var toast = document.createElement('div');
+                    toast.textContent = message;
+                    toast.style.backgroundColor = color;
+                    toast.style.color = '#fff';
+                    toast.style.padding = '10px';
+                    toast.style.borderRadius = '4px';
+                    toast.style.position = 'fixed';
+                    toast.style.bottom = '20px';
+                    toast.style.left = '50%';
+                    toast.style.transform = 'translateX(-50%)';
+                    toast.style.zIndex = '9999';
+
+                    // Append toast to body
+                    document.body.appendChild(toast);
+
+                    // Automatically remove toast after 3 seconds
+                    setTimeout(function() {
+                        toast.parentNode.removeChild(toast);
+                    }, 3000);
                 }
             </script>";
         } else {
@@ -158,55 +207,4 @@
         ?>
     </div>
 </body>
-
 </html>
-
-<scrpt>
-<script>
-    function performAction(id) {
-        // AJAX request to insert data into auctionitem table
-        $.ajax({
-            url: 'insert_auctionitem.php',
-            type: 'POST',
-            data: {
-                id: id
-            },
-            success: function(response) {
-                console.log(response);
-                // Display a toast message indicating success
-                showToast('Item added to auctionitem list successfully!', 'green');
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                // Display a toast message indicating error
-                showToast('Error occurred while adding item to auctionitem table. Please try again.', 'red');
-            }
-        });
-    }
-
-    // Function to display toast messages
-    function showToast(message, color) {
-        // Create a toast element
-        var toast = document.createElement('div');
-        toast.textContent = message;
-        toast.style.backgroundColor = color;
-        toast.style.color = '#fff';
-        toast.style.padding = '10px';
-        toast.style.borderRadius = '4px';
-        toast.style.position = 'fixed';
-        toast.style.bottom = '20px';
-        toast.style.left = '50%';
-        toast.style.transform = 'translateX(-50%)';
-        toast.style.zIndex = '9999';
-
-        // Append toast to body
-        document.body.appendChild(toast);
-
-        // Automatically remove toast after 3 seconds
-        setTimeout(function() {
-            toast.parentNode.removeChild(toast);
-        }, 3000);
-    }
-</script>
-
-

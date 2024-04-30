@@ -11,11 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Update auctionstatus to 1
     $conn->query("UPDATE report SET auction = 1 WHERE id = {$id}");
 }
-$qry_report = $conn->query("SELECT requesteditem_name, requesteditem_quantity, requesteditem_measurment, total_price ,price FROM report WHERE auctionstatus = 1 and auction = 0  ORDER BY id ASC LIMIT 1");
+$qry_report = $conn->query("SELECT common_name, total_quantity, common_measurement, total_price ,price FROM auctionitem WHERE statuss = 0 ORDER BY id ASC LIMIT 1");
 $report_row = $qry_report->fetch_assoc();
-$auto_name = isset($report_row['requesteditem_name']) ? $report_row['requesteditem_name'] : '';
-$auto_quantity = isset($report_row['requesteditem_quantity']) ? $report_row['requesteditem_quantity'] : 1;
-$auto_measurement = isset($report_row['requesteditem_measurment']) ? $report_row['requesteditem_measurment'] : '';
+$auto_name = isset($report_row['common_name']) ? $report_row['common_name'] : '';
+$auto_quantity = isset($report_row['total_quantity']) ? $report_row['total_quantity'] : 1;
+$auto_measurement = isset($report_row['common_measurement']) ? $report_row['common_measurement'] : '';
 $auto_total_price = isset($report_row['total_price']) ? $report_row['total_price'] : 0;
 $auto_price = isset($report_row['price']) ? $report_row['price'] : 0;
 

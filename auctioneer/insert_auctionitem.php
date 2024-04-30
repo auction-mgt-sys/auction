@@ -1,63 +1,26 @@
 <?php
 include("db_connect.php");
 
-// Check if ID is received through POST
-if(isset($_POST['id'])) {
-    // Fetch the item details based on the received ID
-    $id = $_POST['id'];
-    $fetch_query = "SELECT 
-                        requesteditem_name AS name, 
-                        requesteditem_type AS type, 
-                        requesteditem_measurment AS measurement, 
-                        SUM(requesteditem_quantity) AS quantity, 
-                        SUM(price) AS price, 
-                        SUM(total_price) AS total_price
-                    FROM 
-                        report 
-                    WHERE 
-                        id = $id";
+// Check if data is received
+if (isset($_POST['itemName']) && isset($_POST['itemType']) && isset($_POST['itemMeasurement']) && isset($_POST['quantity']) && isset($_POST['price']) && isset($_POST['totalPrice'])) {
+    // Sanitize received data
+    $itemName = $_POST['itemName'];
+    $itemType = $_POST['itemType'];
+    $itemMeasurement = $_POST['itemMeasurement'];
+    $quantity = $_POST['quantity'];
+    $price = $_POST['price'];
+    $totalPrice = $_POST['totalPrice'];
 
-    $result = $conn->query($fetch_query);
+    // Insert data into auctionitem table
+    $sql_insert = "INSERT INTO auctionitem (common_name, common_type, common_measurement, total_quantity, price, total_price)
+                   VALUES ('$itemName', '$itemType', '$itemMeasurement', $quantity, $price, $totalPrice)";
 
-    if($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-
-        // Store fetched values in variables
-        $name = $row['name'];
-        $type = $row['type'];
-        $measurement = $row['measurement'];
-        $quantity = $row['quantity'];
-        $price = $row['price'];
-        $total_price = $row['total_price'];
-
-        // Prepare the insert query
-        $insert_query = "INSERT INTO auctionitem (requesteditem_name, requesteditem_type, requesteditem_measurement, requesteditem_quantity, price, total_price) 
-                        VALUES (?, ?, ?, ?, ?, ?)";
-        
-        // Prepare and bind parameters for the insert query
-        $stmt = $conn->prepare($insert_query);
-        $stmt->bind_param("sssiid", $name, $type, $measurement, $quantity, $price, $total_price);
-
-        // Execute the insert query
-        if ($stmt->execute()) {
-            // Return success response
-            echo "Item added to auctionitem table successfully!";
-        } else {
-            // Return error response if insertion fails
-            echo "Error: Unable to add item to auctionitem table.";
-        }
-
-        // Close prepared statement
-        $stmt->close();
+    if ($conn->query($sql_insert) === TRUE) {
+        echo "Item added to auctionitem table successfully!";
     } else {
-        // Return error response if no data found for the given ID
-        echo "Error: No data found for the given ID.";
+        echo "Error: " . $sql_insert . "<br>" . $conn->error;
     }
 } else {
-    // Return error response if ID is not received
-    echo "Error: ID is not received.";
+    echo "Invalid request!";
 }
-
-// Close the database connection
-$conn->close();
 ?>
