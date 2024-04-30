@@ -69,10 +69,11 @@ include('header.php');
     <img src="images/auction_32px.png" class="ic"> Events
     <?php
     // Get current date and time with microseconds
-    $current_datetime = date('Y-m-d H:i:s.u');
+    $current_datetime = date('Y-m-d H:i:s');
 
-    // Check if there are any ongoing events based on the current date and time
-    $event_count_query = $conn->query("SELECT COUNT(*) AS event_count FROM products WHERE bid_end_datetime >= '$current_datetime'");
+// Check if there are any ongoing events based on the current date and time
+$event_count_query = $conn->query("SELECT COUNT(*) AS event_count FROM products WHERE bid_end_datetime >= '$current_datetime'");
+
     $event_count_row = $event_count_query->fetch_assoc();
     $event_count = $event_count_row['event_count'];
 
@@ -88,7 +89,7 @@ include('header.php');
 
 
 
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=contact"><img src="images/help.png" class="ic"> contact us</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=contact"><img src="images/help.png" class="ic"> our team</a></li>
 
                     <?php if (isset($_SESSION['login_id'])) : ?>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=write_notifications"><img src="images/about.png" class="ic"> Contact Us</a></li>

@@ -95,9 +95,7 @@ if($cid > 0){
 $cat = $conn->query("SELECT * FROM products where unix_timestamp(bid_end_datetime) >= ".strtotime(date("Y-m-d H:i"))." $where order by name asc");
 if($cat->num_rows <= 0){
     echo "<center><h4><i>No Available Product.</i></h4></center>";
-    ?>
-    <script> swal("Sorry!", "There are no Currently Available Bids!");</script>
-    <?php 
+    
 } 
 while($row = $cat->fetch_assoc()):
 ?>
@@ -201,16 +199,59 @@ while($row = $cat->fetch_assoc()):
                                 </div>
                             </div>
                         </div>
-                        <br>
-                        <div class="container"><div class=" text-center text-muted">Copyright © 2024 - <?php echo $_SESSION['system']['name'] ?> |
-                         <a href="https://wptc.edu.et//" target="_blank">Wolkite polytechnic college and satelite campus</a></div></div>
-                    </footer>
+                        <footer>
+                            <br>
+    <div class="container">
+        <div class="text-center text-muted">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/Wolkite" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                <a href="https://www.facebook.com/Wolkite" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<style>
+    .center-card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh; /* Adjust height as needed */
+    }
+    
+</style>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Explore Our Campus</h6>
+                    <a href="https://www.google.com/maps/place/9.145,+40.489" target="_blank" class="btn btn-primary">View on Map</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+       <br>
+                        <div class="container"><div class=" text-center text-muted">Copyright © 2024 - <?php echo $_SESSION['system']['name'] ?> 
+                    
+                         <a href="https://wptc.edu.et//" target="_blank">Wolkite polytechnic college and satelite campus</a></div></div>
+                          <br> 
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>.social-icons {
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+}
+
+.social-icons a {
+    margin: 0 10px; /* Add space between icons */
+}
+</style>
 <script>
     $('#cat-list li').click(function(){
         location.href = $(this).attr('data-href')

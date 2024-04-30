@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Team</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -90,8 +91,9 @@
                 <h3>HANNA SEMU</h3>
                 <p class="title">Website Developer</p>
                 <p>A student at Wolkite University. She developed this website for a graduation industrial project and for use in any auction process that the organization issues regularly!</p>
-                <p>2024 Batch</p>
-                <p>hannasemu@gmail.com</p>
+                <p><i class="icon fas fa-envelope"></i><a href="mailto:hannasemu@gmail.com">hannasemu@gmail.com</a></p>
+                <p><i class="icon fab fa-linkedin"></i><a href="https://www.linkedin.com/in/HannaSemu" target="_blank"> HannaSemu</a></p>
+        
             </div>
         </div>
     </div>
@@ -103,8 +105,9 @@
                 <h3>ELENI BEYENE</h3>
                 <p class="title">Website Developer</p>
                 <p>A student at Wolkite University. She developed this website for a graduation industrial project and for use in any auction process that the organization issues regularly!</p>
-                <p>2024 Batch</p>
-                <p>beyeneleni2@gmail.com</p>
+                <p><i class="icon fas fa-envelope"></i><a href="mailto:elenibeyene@gmail.com">hannasemu@gmail.com</a></p>
+                <p><i class="icon fab fa-linkedin"></i><a href="https://www.linkedin.com/in/elenibeyene" target="_blank"> elenibeyene</a></p>
+        
             </div>
         </div>
     </div>
@@ -116,8 +119,10 @@
                 <h3>ELSHADAI MELESSE</h3>
                 <p class="title">Website Developer</p>
                 <p>A student at Wolkite University. She developed this website for a graduation industrial project and for use in any auction process that the organization issues regularly!</p>
-                <p>2024 Batch</p>
-                <p>elshadaimelesse@gmail.com</p>
+                <p><i class="icon fas fa-envelope"></i><a href="mailto:elshadaimelesse@gmail.com">elshadaimelesse@gmail.com</a></p>
+                <p><i class="icon fab fa-linkedin"></i><a href="https://www.linkedin.com/in/elshadaimelesse" target="_blank"> elshadaimelesse</a></p>
+            
+                
             </div>
         </div>
     </div>

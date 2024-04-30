@@ -47,7 +47,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
     ?>
     <div class="col-sm-4" style="margin-top: 40px;">
         <div class="card row00">
-            <?php if(strtotime($row['bid_end_datetime']) < strtotime(date("Y-m-d H:i"))): ?>
+        <?php if(strtotime($row['bid_end_datetime']) < strtotime(date("Y-m-d H:i"))): ?>
                 <div class="expired-tag">Expired</div>
             <?php endif; ?>
             <img class="card-img-top" src="auctioneer/assets/uploads/<?php echo $row['img_fname'] ?>" alt="Card image cap" style="width: 200px; height: 200px;">
