@@ -61,7 +61,7 @@
         height: 450px;
         width: 200;
         background-image: url('images/wpcsc.jpg');
-        background-size:cover;
+        background-size: cover;
         background-position: center;
         color: white;
         text-align: center;
@@ -76,8 +76,8 @@
 }
 
       .wpcsc {
-  width: 90px;
-  height: 90px; /* Ensure height matches width for perfect circle */
+  width: 45px;
+  height: 45px; /* Ensure height matches width for perfect circle */
   margin-right: 10px;
   border-radius: 50%; /* Make it circular */
 }
@@ -100,7 +100,7 @@
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="bidder.php?page=home"><img src="images/Home.png" class="ic"> Home</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> About Organization</a></li>
                         
-            
+                       
                         <?php if(isset($_SESSION['login_id'])): ?>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Welcome ".$_SESSION['login_username'] ?> <i class="fa fa-power-off"></i></a></li>
                       <?php else: ?>
@@ -110,14 +110,12 @@
                       <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle js-scroll-trigger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <div class="profile-image">
-        <img src="images/el.png" class="ic" id="profileImg">
     </div>
-    Settings
+    
 </a>
 
 <!-- Hidden file input -->
 <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png" style="display: none;">
-<i class="fa fa-camera" style="color: #fff; cursor: pointer;" onclick="document.getElementById('image').click();"></i>
 
 
 
@@ -136,6 +134,33 @@ document.getElementById('image').addEventListener('change', function(event) {
 });
 
 </script>
+<script>
+    // Function to toggle dark mode
+    function toggleDarkMode() {
+        // Toggle dark mode class on the body
+        document.body.classList.toggle('dark-mode');
+
+        // Check if dark mode is enabled
+        var isDarkMode = document.body.classList.contains('dark-mode');
+
+        // Save the user's preference to local storage
+        localStorage.setItem('darkMode', isDarkMode ? 'true' : 'false');
+    }
+
+    // Function to check and set initial dark mode state
+    function checkDarkMode() {
+        // Check if dark mode preference is stored in local storage
+        var darkMode = localStorage.getItem('darkMode');
+
+        // Set dark mode based on stored preference
+        if (darkMode === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+    }
+
+    // Call checkDarkMode() to set initial dark mode state
+    checkDarkMode();
+</script>
 
 
 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -151,47 +176,12 @@ document.getElementById('image').addEventListener('change', function(event) {
 
 </head>
 <body onload="checkDarkMode()"> <!-- Call checkDarkMode() here -->
-    <a class="dropdown-item" href="#" onclick="toggleDarkMode()">
-        <i class="fas fa-moon mr-2"></i>Dark Mode
-    </a>
-
-
-    <a class="dropdown-item" href="#" onclick="showManageAccountModal()">
-    <i class="fas fa-key mr-2"></i>Manage Account
+<a class="dropdown-item" href="#" onclick="toggleDarkMode()">
+    <i class="fas fa-moon mr-2"></i>
 </a>
 
-<!-- Modal for managing account -->
-<div class="modal fade" id="manageAccountModal" tabindex="-1" role="dialog" aria-labelledby="manageAccountModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="manageAccountModalLabel">Change Password</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Password change form -->
-        <form id="passwordChangeForm">
-            <div class="form-group">
-                <label for="currentPassword">Current Password</label>
-                <input type="password" class="form-control" id="currentPassword" name="currentPassword">
-            </div>
-            <div class="form-group">
-                <label for="newPassword">New Password</label>
-                <input type="password" class="form-control" id="newPassword" name="newPassword">
-            </div>
-            <div class="form-group">
-                <label for="confirmNewPassword">Confirm New Password</label>
-                <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword">
-            </div>
-            <button type="submit" class="btn btn-primary">Change Password</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 
+    
     <div class="dropdown-divider"></div>
 </div>
 </body>
@@ -205,49 +195,6 @@ document.getElementById('image').addEventListener('change', function(event) {
             </div>
         </nav>
   <main id="main-field">
-    <script>function showManageAccountModal() {
-    $('#manageAccountModal').modal('show');
-}
-
-// Password change form submission
-$('#passwordChangeForm').submit(function(e) {
-    e.preventDefault();
-    
-    var currentPassword = $('#currentPassword').val();
-    var newPassword = $('#newPassword').val();
-    var confirmNewPassword = $('#confirmNewPassword').val();
-    
-    // Perform validation and password change logic here
-    
-    // Example: Check if new password and confirm password match
-    if (newPassword !== confirmNewPassword) {
-        alert("New password and confirm password do not match.");
-        return;
-    }
-    
-    // Proceed with password change logic
-    // You can use AJAX to send the password change request to the server
-    // For example:
-    /*
-    $.ajax({
-        url: 'change_password.php',
-        method: 'POST',
-        data: { currentPassword: currentPassword, newPassword: newPassword },
-        success: function(response) {
-            // Handle success response
-            alert(response);
-        },
-        error: function(xhr, status, error) {
-            // Handle error response
-            console.error(xhr.responseText);
-        }
-    });
-    */
-    
-    // Close the modal after password change
-    $('#manageAccountModal').modal('hide');
-});
-</script>
           <style>
 /* Centering individual navigation items horizontally, adding padding, top margin, and bottom border */
 
@@ -269,18 +216,7 @@ $('#passwordChangeForm').submit(function(e) {
 }
 
 
-            .profile-image {
-    width: 50px; /* Adjust according to your design */
-    height: 50px; /* Adjust according to your design */
-    border-radius: 50%; /* Make it circular */
-    overflow: hidden; /* Ensure the image stays within the circular container */
-}
 
-#profileImg {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Maintain aspect ratio and cover the container */
-}
 
     #cat-list li{
         cursor: pointer;
@@ -296,6 +232,7 @@ $('#passwordChangeForm').submit(function(e) {
     position: absolute;
     right: .5em;
 }
+/* Optionally, to center vertically as well */
 
 .card-header{
     width: 70vh;
@@ -304,6 +241,43 @@ $('#passwordChangeForm').submit(function(e) {
 .row {
     margin-right: 40px;
 }
+.overlay{
+    position: absolute;
+    min-height: auto;
+    min-width: auto;
+    left: 0;
+    top: 0;
+    background: rgba(247, 247, 247, 0.590);
+   }
+      .description{
+    position: relative;
+    top: 0px;
+    margin: auto;
+    padding: 2em;    
+}
+.description #wpcsc {
+    width: 200px;
+}
+.description h1{
+    font-family: "Times New Roman";
+    color:rgb(13, 13, 39);
+    padding: 10px;
+   }
+   .description h3,.description h4{
+    font-family: "Times New Roman";
+    color:rgb(13, 13, 39);
+   }
+.sec1 {
+    margin-top: 0px;
+    background-color: #ffffff93;
+
+}
+   .description p{
+    color:rgb(49, 49, 49);
+    font-size: 20px;
+    width: 50%;
+    line-height: 1.5;
+   }
 </style>
 
 
@@ -316,7 +290,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
         <div class="row">
             <div class="col-md-3">
                 <div class="card">
-                    <br><br>
+              
                     <div class="card-header">CONTENTS ON THIS PAGE
                     </div>
 
@@ -342,7 +316,9 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                             <a href="index.php?page=my_payments" class='list-group-item list' id="sids" >My Payments</a>
                             <a href="index.php?page=winners" class='list-group-item list' id="sids">Winners</a>
                             <a href="index.php?page=inbox_notifications" class='list-group-item list' id="sids">Messages</a>
-                    </ul> 
+                            <a href="index.php?page=manage_account" class='list-group-item list' id="sids">manage account</a>
+
+                          </ul> 
                 </div>
             </div>
             <div class="col-md-9">
@@ -418,8 +394,9 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
     /* You can add more specific styles if needed */
 
 
-#sids{y
+#sids{
   margin-bottom: 1px;
+  
 }
 .a {
     margin-bottom: 15px;
@@ -590,7 +567,7 @@ function checkDarkMode() {
         }
     })
      $('.view_prod').click(function(){
-        uni_modal_right('BID FORM PAGE ','view_prod.php?id='+$(this).attr('data-id'))
+        uni_modal_right('BID FORM PAGE ','paymentppppp.php?id='+$(this).attr('data-id'))
      })
 </script>
 
@@ -729,7 +706,7 @@ accordion style start
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8 text-center">
-                        <h2 class="mt-0 text-black">Contact us</h2>
+                        <h4 class="mt-0 text-black">Contact us</h4>
                         <hr class="divider my-4" />
                     </div>
                 </div>
@@ -742,7 +719,6 @@ accordion style start
                         <i class="fas fa-envelope fa-3x mb-2 text-muted"></i>
                         <a class="d-block" href="mailto:<?php echo $_SESSION['system']['email'] ?>"><?php echo $_SESSION['system']['email'] ?></a>
                     </div>
-                    <br>
                     <div class="col-lg-4 mr-auto text-center">
                         <i class="fas fa-info fa-3x mb-2 text-muted"></i>
                         <a class="d-block" href="index.php?page=about">About Us</a>

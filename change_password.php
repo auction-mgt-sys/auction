@@ -1,65 +1,53 @@
 <?php
-// Assuming you have a database connection established already
+session_start();
 
-// Check if the request method is POST
+// Include database connection and user functions
+include('admin/db_connect.php');
+include('user_functions.php');
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(['status' => 'error', 'message' => 'User not logged in']);
+    exit;
+}
+
+// Process password change request
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve the current password, new password, and confirm new password from the POST data
-    $currentPassword = $_POST['currentPassword'];
-    $newPassword = $_POST['newPassword'];
-    $confirmNewPassword = $_POST['confirmNewPassword'];
+    $user_id = $_SESSION['user_id'];
+    $current_password = $_POST['currentPassword'];
+    $new_password = $_POST['newPassword'];
+    $confirm_password = $_POST['confirmPassword'];
 
-    // You might want to add additional validation here, such as checking if passwords meet complexity requirements
-
-    // Example: Check if the new password and confirm password match
-    if ($newPassword !== $confirmNewPassword) {
-        // Return an error response
-        echo json_encode(array('success' => false, 'message' => 'New password and confirm password do not match.'));
+    // Validate form inputs
+    if (empty($current_password) || empty($new_password) || empty($confirm_password)) {
+        echo json_encode(['status' => 'error', 'message' => 'All fields are required']);
         exit;
     }
 
-    // You should also validate the current password before allowing the change
-    // For demonstration purposes, let's assume the current password is stored in the database
-
-    // Perform a database query to retrieve the user's current password
-    $userId = $_SESSION['user_id']; // Assuming you have the user's ID stored in the session
-    $query = "SELECT password FROM users WHERE id = '$userId'";
-    $result = mysqli_query($connection, $query);
-
-    if ($result) {
-        $row = mysqli_fetch_assoc($result);
-        $storedPassword = $row['password'];
-
-        // Check if the current password matches the stored password
-        if (password_verify($currentPassword, $storedPassword)) {
-            // Hash the new password
-            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-
-            // Update the user's password in the database
-            $updateQuery = "UPDATE users SET password = '$hashedPassword' WHERE id = '$userId'";
-            $updateResult = mysqli_query($connection, $updateQuery);
-
-            if ($updateResult) {
-                // Return a success response
-                echo json_encode(array('success' => true, 'message' => 'Password changed successfully.'));
-                exit;
-            } else {
-                // Return an error response
-                echo json_encode(array('success' => false, 'message' => 'Error updating password.'));
-                exit;
-            }
-        } else {
-            // Return an error response
-            echo json_encode(array('success' => false, 'message' => 'Current password is incorrect.'));
-            exit;
-        }
-    } else {
-        // Return an error response
-        echo json_encode(array('success' => false, 'message' => 'Error retrieving user data.'));
+    // Verify current password
+    $user = getUserById($conn, $user_id);
+    if (!$user || !password_verify($current_password, $user['password'])) {
+        echo json_encode(['status' => 'error', 'message' => 'Incorrect current password']);
         exit;
+    }
+
+    // Check if new password and confirm password match
+    if ($new_password !== $confirm_password) {
+        echo json_encode(['status' => 'error', 'message' => 'New password and confirm password do not match']);
+        exit;
+    }
+
+    // Hash the new password
+    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+    // Update user's password in the database
+    if (updateUserPassword($conn, $user_id, $hashed_password)) {
+        echo json_encode(['status' => 'success', 'message' => 'Password changed successfully']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to update password']);
     }
 } else {
-    // Return an error response if request method is not POST
-    echo json_encode(array('success' => false, 'message' => 'Invalid request method.'));
-    exit;
+    // If request method is not POST
+    echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
 }
 ?>

@@ -61,9 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-
-
-
 <div class="container-fluid">
     <form action="" method="post" id="forgot-password-frm">
         <div class="form-group">

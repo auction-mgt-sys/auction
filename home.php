@@ -56,21 +56,22 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                     <section class="sec1">                                    
                                     <?php if(isset($_SESSION['login_name'])): ?>
                                        
-                                        <?php echo " < h1>WPCSC AUCTION SYSTEM</h1>";?>
+                                        <?php echo " < h2>WPCSC AUCTION SYSTEM</h1>";?>
                                 <?php echo "<div class='text-center'>"?>
+
                                 <?php echo " <h4>Welcome " .$_SESSION['login_name']. "</h4>" ?>
                                         </div>
                                     <?php else: 
                                                                  echo "
 
-                                                             <h1>WOLKITE POLYTHECHNIC COLLEGE</h1>
+                                         <h1>WOLKITE POLYTHECHNIC COLLEGE</h1>
                                         
                                         <h3>WELCOME TO AUCTION  MANAGEMENT SYSTEM</h3>; "?>
                                 <?php echo "<div class='justify-content-center'>"?>
                                 </section>
                                             </a>
                                         </div>
-                                    <?php endif; ?>
+                                    <?php endif ?>
                                 </div>
                             </header>
                         </div>
