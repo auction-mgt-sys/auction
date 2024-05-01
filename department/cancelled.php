@@ -1,4 +1,11 @@
-<?php include("db_connect.php"); ?>
+<?php 
+include("db_connect.php");
+
+// Assuming you have a session variable storing the login ID
+// Replace '$_SESSION['login_id']' with the actual session variable storing the login ID
+$login_id = $_SESSION['login_id'];
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -51,8 +58,8 @@
     <div class="container">
         <div class="table-wrapper">
             <?php
-            // Fetching cancelled items from the database ordered by item ID in descending order
-            $sql_cancelled = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, requesteditem_type, requesteditem_description, requesteditem_measurment, price, total_price, id FROM report WHERE auctionstatus = 2 ORDER BY requesteditem_id DESC";
+            // Fetching cancelled items from the database for the specific login ID and requesteditem_deptname
+            $sql_cancelled = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_type, requesteditem_description, requesteditem_measurment, price, total_price, id FROM report WHERE auctionstatus = 2 AND requesteditem_deptname IN (SELECT deptname FROM users WHERE id = '$login_id') ORDER BY requesteditem_id DESC";
             $result_cancelled = $conn->query($sql_cancelled);
 
             if ($result_cancelled->num_rows > 0) {
@@ -66,7 +73,6 @@
                 echo "<th>Description</th>";
                 echo "<th>Measurement</th>";
                 echo "<th>Quantity</th>";
-                echo "<th>Department</th>"; 
                 echo "<th>Price</th>";
                 echo "<th>Total Price</th>";
                 echo "</tr>";
@@ -78,13 +84,12 @@
                     $bold_class = $row_cancelled['id'] > 1000 ? 'bold-entry' : '';
                     
                     echo "<tr class='$bold_class'>";
-                    echo "<td>" . $row_cancelled['id'] . "</td>";
+                    echo "<td>" . $row_cancelled['requesteditem_id'] . "</td>";
                     echo "<td>" . $row_cancelled['requesteditem_name'] . "</td>";
                     echo "<td>" . $row_cancelled['requesteditem_type'] . "</td>";
                     echo "<td>" . $row_cancelled['requesteditem_description'] . "</td>";
                     echo "<td>" . $row_cancelled['requesteditem_measurment'] . "</td>";
                     echo "<td>" . $row_cancelled['requesteditem_quantity'] . "</td>";
-                    echo "<td>" . $row_cancelled['requesteditem_deptname'] . "</td>"; // Added Department data
                     echo "<td>" . $row_cancelled['price'] . "</td>";
                     echo "<td>" . $row_cancelled['total_price'] . "</td>";
                     echo "</tr>";
@@ -108,7 +113,7 @@
                     });
                 </script>";
             } else {
-                echo "<p class='message'>No cancelled items found.</p>";
+                echo "<p class='message'>No cancelled items found for the user with ID: $login_id.</p>";
             }
             ?>
         </div>

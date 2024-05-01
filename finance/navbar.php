@@ -18,6 +18,9 @@
             <a href="index.php?page=generatereport" class="nav-item nav-generatereport">
                 <span class='icon-field'><i class="fa fa-file"></i></span> Generate report
             </a>
+            <a href="index.php?page=cancelled_items" class="nav-item nav-cancelled_items">
+                <span class='icon-field'><i class="fa fa-file"></i></span> Cancelled Items
+            </a>
 			
         </div>
     </nav>

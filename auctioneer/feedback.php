@@ -49,10 +49,16 @@ $owner = $_SESSION['login_id'];
                             <?php echo $row['title'] ; ?><br>
                            <small> <i><?php echo 'From:- '.$uname ?></i></small><hr>
                     </a>
-                <?php }  
-
-$d= date('g:i a',strtotime($row['date']));
-                ?>
+                    <?php }  
+  
+  if (isset($row['date'])) {
+      $d = date('g:i a', strtotime($row['date']));
+      // Rest of your code that uses $d
+  } else {
+      // Handle the case when $row['date'] is not set or null
+      $d = ''; // or any default value you want to assign
+  }
+?>
                              
 <!--                     <small><i><?php #echo date('F j, Y, g:i a',strtotime($i['date'])) ?></i></small><br/>  
  -->                             

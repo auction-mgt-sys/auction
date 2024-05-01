@@ -82,9 +82,7 @@
 <div class="contact-section">
     <!-- Add content for contact section if needed -->
 </div>
-
 <h2>Our Team</h2>
-
 <div class="row">
     <div class="column">
         <div class="card">
@@ -94,7 +92,7 @@
                 <p class="title">Website Developer</p>
                 <p>A student at Wolkite University. She developed this website for a graduation industrial project and for use in any auction process that the organization issues regularly!</p>
                 <p>2024 Batch</p>
-                <p>hannasemu@gmail.com</p>
+                <p><a href="mailto:hannasemu@gmail.com">hannasemu@gmail.com</a></p>
             </div>
         </div>
     </div>
@@ -107,7 +105,7 @@
                 <p class="title">Website Developer</p>
                 <p>A student at Wolkite University. She developed this website for a graduation industrial project and for use in any auction process that the organization issues regularly!</p>
                 <p>2024 Batch</p>
-                <p>beyeneleni2@gmail.com</p>
+                <p><a href="mailto:beyeneleni2@gmail.com">beyeneleni2@gmail.com</a></p>
             </div>
         </div>
     </div>
@@ -120,7 +118,7 @@
                 <p class="title">Website Developer</p>
                 <p>A student at Wolkite University. She developed this website for a graduation industrial project and for use in any auction process that the organization issues regularly!</p>
                 <p>2024 Batch</p>
-                <p>elshadaimelesse@gmail.com</p>
+                <p><a href="mailto:elshadaimelesse@gmail.com">elshadaimelesse@gmail.com</a></p>
             </div>
         </div>
     </div>

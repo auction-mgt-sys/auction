@@ -71,6 +71,8 @@ $conn->close();
         echo "<span class='notification-count'>$requestitems_count</span>";
     }
     ?> </a>
+    				<a href="index.php?page=cancelled_items" class="nav-item nav-cancelled_items"><span class='icon-field'><i class="fa fa-user"></i></span> cancelled_items</a>
+
 </nav>
 <script>
 	$('.nav_collapse').click(function(){

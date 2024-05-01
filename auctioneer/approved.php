@@ -54,7 +54,7 @@
     <div class="container">
         <?php
         // Approved items
-        $sql_approved = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_type, requesteditem_description, requesteditem_measurment, price, total_price, id FROM report WHERE auctionstatus = 1 ORDER BY id DESC";
+        $sql_approved = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_type, requesteditem_description, requesteditem_measurment, price, total_price, date_time, id FROM report WHERE auctionstatus = 1 ORDER BY date_time DESC";
         $result_approved = $conn->query($sql_approved);
 
         if ($result_approved->num_rows > 0) {
@@ -66,10 +66,11 @@
             echo "<th>Name</th>";
             echo "<th>Type</th>";
             echo "<th>Description</th>";
-            echo "<th>Measurment</th>";
+            echo "<th>Measurement</th>";
             echo "<th>Quantity</th>";
             echo "<th>Price</th>";
             echo "<th>Total Price</th>";
+            echo "<th>Date</th>";
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
@@ -87,6 +88,7 @@
                 echo "<td>" . $row_approved['requesteditem_quantity'] . "</td>";
                 echo "<td>" . $row_approved['price'] . "</td>";
                 echo "<td>" . $row_approved['total_price'] . "</td>";
+                echo "<td>" . $row_approved['date_time'] . "</td>";
                 echo "</tr>";
             }
 
@@ -95,8 +97,6 @@
 
             // Show approval message
             echo "<p class='approval-message'>These items have been approved by the president. The auction can proceed now.</p>";
-
-                                                          
 
             // DataTables initialization script
             echo "<script>

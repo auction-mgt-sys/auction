@@ -12,7 +12,8 @@
 				<a href="index.php?page=itemrequest" class="nav-item itemrequest"><span class='icon-field'><i class="fa fa-itemrequest"></i></span> Request item </a>
 				<a href="index.php?page=requested" class="nav-item requested"><span class='icon-field'><i class="fa fa-requested"></i></span> Requested Items  </a>
 				<a href="index.php?page=rejecteditem" class="nav-item rejecteditem"><span class='icon-field'><i class="fa fa-itemrequest"></i></span> veiw Rejecteditem  </a>
-				<a href="index.php?page=approved" class="nav-item approved"><span class='icon-field'><i class="fa fa-approved"></i></span> View ApprovedItems  </a>	
+				<a href="index.php?page=cancelled" class="nav-item cancelled"><span class='icon-field'><i class="fa fa-cancelled"></i></span> View CancelledItems  </a>	
+
 			</div>
 
 </nav>
