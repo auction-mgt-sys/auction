@@ -91,7 +91,7 @@ if(isset($_POST['name'])){
                 <option value="7" <?php echo isset($meta['type']) && $meta['type'] == 7 ? 'selected': '' ?>>president</option>
             </select>
             <div class="form-group" id="department-input">
-                <label for="deptname">Deptname</label>
+                <label for="deptname">Department tname</label>
                 <input type="text" name="deptname" id="deptname" class="form-control" value="<?php echo isset($meta['deptname']) ? $meta['deptname']: '' ?>">
             </div>
         </div>
