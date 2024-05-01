@@ -18,7 +18,7 @@ include('header.php');
         margin-top: 5rem!important;
 
     }
-jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+
     .wpcsc {
         width: 50px; 
         height: auto; 
