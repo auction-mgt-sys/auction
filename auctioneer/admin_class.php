@@ -30,15 +30,6 @@ Class Action {
 				elseif ($_SESSION['login_type'] ==4) {
 					return 4;
 				}
-				elseif ($_SESSION['login_type'] ==5) {
-					return 5;
-				}
-				elseif ($_SESSION['login_type'] ==6) {
-					return 6;
-				}
-				elseif ($_SESSION['login_type'] ==7) {
-					return 7;
-				}
 				else{
 					foreach ($_SESSION as $key => $value) {
 						unset($_SESSION[$key]);
@@ -71,15 +62,6 @@ Class Action {
 				if($_SESSION['login_type'] == 4){
 					return 4;
 				}
-				elseif ($_SESSION['login_type'] ==5) {
-					return 5;
-				}
-				elseif ($_SESSION['login_type'] ==6) {
-					return 6;
-				}
-				elseif ($_SESSION['login_type'] ==7) {
-					return 7;
-				}
 				else{
 					foreach ($_SESSION as $key => $value) {
 						unset($_SESSION[$key]);
@@ -88,7 +70,7 @@ Class Action {
 					exit;
 				}
 			}else{
-				return 9;
+				return 6;
 			}
 	}
 	function logout(){
