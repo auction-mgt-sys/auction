@@ -56,9 +56,25 @@
     ?>
 
     <style>
+      .header {
+        position: relative;
+        height: 450px;
+        width: 200;
+        background-image: url('images/wpcsc.jpg');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        text-align: center;
+    }
       #main-field{
         margin-top: 5rem!important;
       }
+      .wpcsc {
+  width: 55px;
+  height: 55;
+  margin-right: 10px;
+}
+
       .wpcsc {
   width: 90px;
   height: 90px; /* Ensure height matches width for perfect circle */
@@ -77,20 +93,19 @@
       </div>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-3" id="mainNav">
             <div class="container-fluid">
-                <a class="navbar-brand js-scroll-trigger" href="#"><img src="images/logo.jpg" class="wpcsc"><?php echo $_SESSION['system']['name'] ?></a>
+                <a class="navbar-brand js-scroll-trigger" href="#"><img src="images/logo.png" class="wpcsc"><?php echo $_SESSION['system']['name'] ?></a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="bidder.php?page=home"><img src="images/Home.png" class="ic"> Home</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> About Organization</a></li>
                         
+                       
                         <?php if(isset($_SESSION['login_id'])): ?>
-                  <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Welcome ".$_SESSION['login_username'] ?> <i class="fa fa-power-off"></i></a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Welcome ".$_SESSION['login_username'] ?> <i class="fa fa-power-off"></i></a></li>
                       <?php else: ?>
-                        
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="javascript:void(0)" id="login_now"><img src='images/Login.png' class='ic'> Login</a></li>
                       <?php endif; ?>
-                      
                       
                       <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle js-scroll-trigger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -102,9 +117,9 @@
 
 <!-- Hidden file input -->
 <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png" style="display: none;">
-
-<!-- Plus button -->
 <i class="fa fa-camera" style="color: #fff; cursor: pointer;" onclick="document.getElementById('image').click();"></i>
+
+
 
 <!-- Hidden field for storing user ID -->
 <input type="hidden" name="id" value="<?php echo $sessionId; ?>">
@@ -166,7 +181,11 @@ document.getElementById('image').addEventListener('change', function(event) {
     display: flex;
     justify-content: center;
 }
-
+#wpcsc {
+  width: 50px; /* Adjust width as needed */
+  height: 50px; /* Adjust height as needed */
+  border-radius: 50%;
+}
 /* Adjusting padding on the top and bottom */
 .navbar-nav {
     padding-top: 5px; /* Adjust as needed */
@@ -257,24 +276,30 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                            
                          
                              <?php if(isset($_SESSION['login_username'])): ?>
-                               <?php echo "<h1>WPCSC AUCTION SYSTEM</h1>"; ?>
-                               
+                              <?php 
+ echo  "<img src='images/' id='wpcsc'>";
+?>
+<br>
+
+                               <?php echo "<h1>WOLKITE POLYTHECNIC COLLEGE </h1>"; ?>
+                               <?php echo "<h3>WELCOME TO AUCTION  MANAGEMENT SYSTEM</h3>"; ?>
+
                                 <?php echo "<div class='text-center'>"?>
-                                <?php echo "<h3></h3>"; ?>
                              <?php echo "<h4>Welcome ".$_SESSION['login_username']."</h4>"?>
-                               <?php echo "</div>"; ?> 
+
                              <?php else:
-                             echo "<img src='images/logo.jpg' id='wpcsc'>
-                        <h1>WOLKITE POLYTECHNIC COLLEGE </h1>
-                        <h3>WELCOME TO AUCTION AND BIDDING SYSTEM</h3>    
-                          <h3></h3>"; ?>
+                                                                                                                                  echo "<img src='images/logo.png' id='wpcsc'>
+
+                                                                 <h1>WOLKITE POLYTHECHNIC COLLEGE</h1>
+                                        
+                             <h3>WELCOME TO AUCTION  MANAGEMENT SYSTEM</h3>; "?>  
+                          
                                 <?php echo "<div class='justify-content-center'>"?>
                                 <?php 
                              echo "<a href='index.php?page=about' class='a btn btn-primary'>
 
                             >>About The Organization>>
-                        </a>";
-                             ?>
+                        </a>"; ?>
                              <?php echo "</div>"; ?>
                              <?php endif; ?>      
                          
@@ -287,13 +312,24 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
 </div> 
     
 <style>
-  img#wpc {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+ 
+    .col-md-3 {
+        /* Adjust the width as needed */
+        width: 20%;
+    }
+
+    .list-group {
+        /* Adjust the width as needed */
+        width: 100%;
+    }
+
+    .list-group-item {
+        /* Adjust the width as needed */
+        width: 100%;
+    }
+
+    /* You can add more specific styles if needed */
+
 
 #sids{
   margin-bottom: 5px;

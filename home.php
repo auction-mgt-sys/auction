@@ -29,7 +29,12 @@ include 'admin/db_connect.php';
         transform: translate(-50%, -50%);
     }
     
-   
+    #wpcsc {
+  width: 100px; /* Adjust width as needed */
+  height: 100px; /* Adjust height as needed */
+  border-radius: 50%;
+}
+
 </style>
 
 <?php 
@@ -43,23 +48,26 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                     <div class="card-body">
                         <div class="col-lg-12">
                             <header class="header">
-                         
+                            <div class="container">
+
                                 <div class="overlay"></div>
                                 
-                                <div class="header-content">
-                                    
+                                <div class="description text-center">
+                    <section class="sec1">                                    
                                     <?php if(isset($_SESSION['login_name'])): ?>
                                        
-                                        < h1>WPCSC AUCTION SYSTEM</h1>
-                                        <div class='text-center'>
-                                            <h4>Welcome <?php echo $_SESSION['login_name'] ?></h4>
+                                        <?php echo " < h1>WPCSC AUCTION SYSTEM</h1>";?>
+                                <?php echo "<div class='text-center'>"?>
+                                <?php echo " <h4>Welcome " .$_SESSION['login_name']. "</h4>" ?>
                                         </div>
-                                    <?php else: ?>
-                                        <h1></h1>
+                                    <?php else: 
+                                                                 echo "
+
+                                                             <h1>WOLKITE POLYTHECHNIC COLLEGE</h1>
                                         
-                                        <h3>WELCOME TO AUCTION  MANAGEMENT SYSTEM</h3>
-                                        <div class='justify-content-center'>
-                                          
+                                        <h3>WELCOME TO AUCTION  MANAGEMENT SYSTEM</h3>; "?>
+                                <?php echo "<div class='justify-content-center'>"?>
+                                </section>
                                             </a>
                                         </div>
                                     <?php endif; ?>
