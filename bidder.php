@@ -220,6 +220,12 @@ document.getElementById('image').addEventListener('change', function(event) {
     position: absolute;
     right: .5em;
 }
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh; /* Optionally, to center vertically as well */
+}
 </style>
 
 
@@ -277,7 +283,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                          
                              <?php if(isset($_SESSION['login_username'])): ?>
                               <?php 
- echo  "<img src='images/' id='wpcsc'>";
+ echo  "<>"
 ?>
 <br>
 

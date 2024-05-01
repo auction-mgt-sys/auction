@@ -15,6 +15,39 @@ Class Action {
 	    ob_end_flush();
 	}
 
+	function save_comment(){
+		// Start the session if it's not already started
+		if (session_status() == PHP_SESSION_NONE) {
+			session_start();
+		}
+		
+		// Extract POST data
+		extract($_POST);
+		
+		// Assuming $_SESSION['login_id'] and $_SESSION['login_type'] are set
+		$sender_id = $_SESSION['login_id'];
+		$sender_type = $_SESSION['login_type'];
+		
+		// Create data string for insertion
+		$data = " sender_id = '$sender_id' ";
+		$data .= ", user_type = '$sender_type' ";
+		$data .= ", reciver_id = '$receiver_id' "; // Assuming receiver_id is the correct variable name
+		$data .= ", title = '$Subject' ";
+		$data .= ", detail = '$detail' ";
+		$data .= ", status = 'unread' ";
+		
+		// Perform the database insertion
+		$save = $this->db->query("INSERT INTO comment SET ".$data);
+		
+		// Check if insertion was successful
+		if($save){
+			return 1; // Successful save
+		} else {
+			return 0; // Failed save
+		}
+	}
+	
+
 	function login(){
 		
 			extract($_POST);		

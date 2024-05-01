@@ -34,7 +34,12 @@ include 'admin/db_connect.php';
   height: 100px; /* Adjust height as needed */
   border-radius: 50%;
 }
-
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh; /* Optionally, to center vertically as well */
+}
 </style>
 
 <?php 
