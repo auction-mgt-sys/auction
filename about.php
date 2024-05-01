@@ -99,7 +99,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <div class="about-section">
-        <h1>ABOUT WPCSC</h1>
+        <h3>ABOUT WPCSC</h3>
         <?php echo html_entity_decode($_SESSION['system']['about_content']) ?>
     </div>
 

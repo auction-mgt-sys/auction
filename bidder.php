@@ -100,7 +100,7 @@
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="bidder.php?page=home"><img src="images/Home.png" class="ic"> Home</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> About Organization</a></li>
                         
-                       
+            
                         <?php if(isset($_SESSION['login_id'])): ?>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Welcome ".$_SESSION['login_username'] ?> <i class="fa fa-power-off"></i></a></li>
                       <?php else: ?>
@@ -156,9 +156,42 @@ document.getElementById('image').addEventListener('change', function(event) {
     </a>
 
 
-    <a class="dropdown-item" href="#" onclick="manageaccount()">
-        <i class="fas fa-key mr-2"></i>manage account
-    </a>
+    <a class="dropdown-item" href="#" onclick="showManageAccountModal()">
+    <i class="fas fa-key mr-2"></i>Manage Account
+</a>
+
+<!-- Modal for managing account -->
+<div class="modal fade" id="manageAccountModal" tabindex="-1" role="dialog" aria-labelledby="manageAccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="manageAccountModalLabel">Change Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Password change form -->
+        <form id="passwordChangeForm">
+            <div class="form-group">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" class="form-control" id="currentPassword" name="currentPassword">
+            </div>
+            <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" class="form-control" id="newPassword" name="newPassword">
+            </div>
+            <div class="form-group">
+                <label for="confirmNewPassword">Confirm New Password</label>
+                <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword">
+            </div>
+            <button type="submit" class="btn btn-primary">Change Password</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
     <div class="dropdown-divider"></div>
 </div>
 </body>
@@ -172,6 +205,49 @@ document.getElementById('image').addEventListener('change', function(event) {
             </div>
         </nav>
   <main id="main-field">
+    <script>function showManageAccountModal() {
+    $('#manageAccountModal').modal('show');
+}
+
+// Password change form submission
+$('#passwordChangeForm').submit(function(e) {
+    e.preventDefault();
+    
+    var currentPassword = $('#currentPassword').val();
+    var newPassword = $('#newPassword').val();
+    var confirmNewPassword = $('#confirmNewPassword').val();
+    
+    // Perform validation and password change logic here
+    
+    // Example: Check if new password and confirm password match
+    if (newPassword !== confirmNewPassword) {
+        alert("New password and confirm password do not match.");
+        return;
+    }
+    
+    // Proceed with password change logic
+    // You can use AJAX to send the password change request to the server
+    // For example:
+    /*
+    $.ajax({
+        url: 'change_password.php',
+        method: 'POST',
+        data: { currentPassword: currentPassword, newPassword: newPassword },
+        success: function(response) {
+            // Handle success response
+            alert(response);
+        },
+        error: function(xhr, status, error) {
+            // Handle error response
+            console.error(xhr.responseText);
+        }
+    });
+    */
+    
+    // Close the modal after password change
+    $('#manageAccountModal').modal('hide');
+});
+</script>
           <style>
 /* Centering individual navigation items horizontally, adding padding, top margin, and bottom border */
 
