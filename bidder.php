@@ -61,7 +61,7 @@
         height: 450px;
         width: 200;
         background-image: url('images/wpcsc.jpg');
-        background-size: cover;
+        background-size:cover;
         background-position: center;
         color: white;
         text-align: center;
@@ -220,11 +220,13 @@ document.getElementById('image').addEventListener('change', function(event) {
     position: absolute;
     right: .5em;
 }
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70vh; /* Optionally, to center vertically as well */
+
+.card-header{
+    width: 70vh;
+    height: 10vh; /* Optionally, to center vertically as well */
+}
+.row {
+    margin-right: 40px;
 }
 </style>
 
@@ -318,7 +320,10 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
 </div> 
     
 <style>
- 
+ .card {
+        /* Adjust the width as needed */
+        width: 110%;
+    }
     .col-md-3 {
         /* Adjust the width as needed */
         width: 20%;
@@ -337,8 +342,8 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
     /* You can add more specific styles if needed */
 
 
-#sids{
-  margin-bottom: 5px;
+#sids{y
+  margin-bottom: 1px;
 }
 .a {
     margin-bottom: 15px;
@@ -661,6 +666,7 @@ accordion style start
                         <i class="fas fa-envelope fa-3x mb-2 text-muted"></i>
                         <a class="d-block" href="mailto:<?php echo $_SESSION['system']['email'] ?>"><?php echo $_SESSION['system']['email'] ?></a>
                     </div>
+                    <br>
                     <div class="col-lg-4 mr-auto text-center">
                         <i class="fas fa-info fa-3x mb-2 text-muted"></i>
                         <a class="d-block" href="index.php?page=about">About Us</a>
