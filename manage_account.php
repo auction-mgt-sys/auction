@@ -29,20 +29,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $update_result = mysqli_query($conn, $update_query);
                 if ($update_result) {
                     // Show a success toastr message
-                    echo "<script>$(document).ready(function() {
+                     "<script>$(document).ready(function() {
                             toastr.success('Password updated successfully', 'Success');
                         });</script>";
                 } else {
-                    echo "Error updating password: " . mysqli_error($conn);
+                     "Error updating password: " . mysqli_error($conn);
                 }
             } else {
-                echo "New password and confirm password do not match.";
+                 "New password and confirm password do not match.";
             }
         } else {
-            echo "Incorrect current password.";
+     "Incorrect current password.";
         }
     } else {
-        echo "Error fetching current password: " . mysqli_error($conn);
+    "Error fetching current password: " . mysqli_error($conn);
     }
 }
 ?>

@@ -35,6 +35,19 @@ include 'admin/db_connect.php';
   border-radius: 50%;
 }
 
+
+
+
+.sec1 {
+    padding: 5px;
+    width: 900px;
+    padding: 20px;
+    justify-content: center;
+    align-items: flex-end; /* Align items to the bottom */
+    height: 100%; 
+    margin-left: 100px;
+    
+}
 </style>
 
 <?php 
