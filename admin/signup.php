@@ -117,7 +117,7 @@
 					end_load()
 				}
 				else{
-					alert_toast("Registered! please login.",'success')
+					alert_toast(" successfully Registered! Please wight Until the your registrations verified by comittee",'success')
 					setTimeout(function(){
 						location.reload()
 					},3000)

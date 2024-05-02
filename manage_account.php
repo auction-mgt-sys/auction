@@ -1,5 +1,8 @@
 <?php
+// Include database connection
 include('admin/db_connect.php');
+
+// Start session if not started already
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -9,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm_password = $_POST['confirm_password'];
 
     // Get the user's current password from the database
-    $login_id = $_SESSION['login_id'];
+    $login_id = $_SESSION['login_id']; // Make sure this session variable is set correctly
     $query = "SELECT password FROM users WHERE id = $login_id";
     $result = mysqli_query($conn, $query);
 
@@ -29,20 +32,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $update_result = mysqli_query($conn, $update_query);
                 if ($update_result) {
                     // Show a success toastr message
-                     "<script>$(document).ready(function() {
+                    echo "<script>$(document).ready(function() {
                             toastr.success('Password updated successfully', 'Success');
                         });</script>";
                 } else {
-                     "Error updating password: " . mysqli_error($conn);
+                    echo "Error updating password: " . mysqli_error($conn);
                 }
             } else {
-                 "New password and confirm password do not match.";
+                echo "New password and confirm password do not match.";
             }
         } else {
-     "Incorrect current password.";
+            echo "Incorrect current password.";
         }
     } else {
-    "Error fetching current password: " . mysqli_error($conn);
+        echo "Error fetching current password: " . mysqli_error($conn);
     }
 }
 ?>
@@ -69,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="row">
                 <div class="col-md-12">
                     <br>
-                    <h5 class="text-center">change your password</h5>
+                    <h5 class="text-center">Change Your Password</h5>
                     <br>
                     <div class="card">
                         <div class="card-header">

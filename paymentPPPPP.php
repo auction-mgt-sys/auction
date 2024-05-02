@@ -1,62 +1,94 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment</title>
+  <title> Chapa Payment</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     .container {
       margin-top: 50px;
+      width: 600px;
     }
+    
   </style>
+
 </head>
 <body>
 
 <div class="container">
-  <h2 style="border: 2px solid #ddd; border-radius: 8px; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">Tax Payment</h2>
+  <h2 style="border: 5px solid #ddd; border-radius: 8px; padding: 20px; 
+  box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.1);"> Payment</h2>
  
-  <table class="table table-striped" style="border: 2px solid #ddd; border-radius: 8px; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+  <table class="table table-striped" style="border: 5px 
+  solid #ddd; border-radius: 8px; padding: 20px;
+   box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.1);">
     <thead>
       <tr>
         <th>No</th>
         <th>Name</th>
         <th>Amount</th>
         <th>Payment Status</th>
-        <th>Action</th>
       </tr>
     </thead>
     <tbody id="tableBody">
       <tr>
         <td>1</td>
-        <td>Tax Payer</td>
+        <td> Product Purchaser</td>
         <td>2</td>
         <td style="color: orange;">Pending</td>
         <td>
-            <form method="POST" action="">
-                <input type="hidden" name="amount" value="300">
-                <input type="submit" class="btn btn-primary" value="Pay With Chapa">
-            </form>
         </td>
       </tr>
+      
     </tbody>
+
   </table>
+
+  <div class="container" >
+ 
+  <form action="" method="POST"  style="border: 5px solid #ddd; border-radius: 8px; padding: 20px; 
+  box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.1);">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input type="text" class="form-control" id="firstName" name="firstName" required placeholder=" Newaz "  style="border: 3px solid #ddd; border-radius: 50px 30px; padding: 20px; 
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);">
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input type="text" class="form-control" id="lastName" name="lastName" required placeholder=" Nezif"style="border: 3px solid #ddd; border-radius: 50px 30px; padding: 20px; 
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);">
+    </div>
+    <div class="form-group">
+      <label for="address">Address</label>
+      <input type="text" class="form-control" id="address" name="address" required placeholder="Wolkite"style="border: 3px solid #ddd; border-radius: 50px 30px; padding: 20px; 
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);">
+    </div>
+    <div class="form-group">
+      <label for="phoneNumber">Phone Number</label>
+      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required placeholder="0953652707"style="border: 3px solid #ddd; border-radius: 50px 30px; padding: 20px; 
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);">
+    </div>
+    <div class="form-group">
+      <label for="amount">Amount</label>
+      <input type="text" class="form-control" id="amount" name="amount" required style="border: 3px solid #ddd; border-radius: 50px 30px; padding: 20px; 
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);">
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Pay With Chapa" style=" padding: 20px; border-radius: 5px 5px 40px 40px; box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1); width: 520px;">
+
+            </form>
 </div>
 
 </body>
 </html>
 
-
-
-
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $amount = $_POST['amount']; 
-    $email = "jalane@gmail.com"; 
-    $firstName = "Jalane ";
-     $phoneNumber = "0904713829";
+    $email = "newaznezif@gmail.com"; 
+    $firstName = "HHHHHHHH";
+     $phoneNumber = "0953652707";
     $txRef = "your-reference-" . time(); 
     $callbackUrl = "https://yourcallbackurl.com";
     $returnUrl = "https://yourreturnurl.com";
@@ -74,8 +106,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         CURLOPT_POSTFIELDS => json_encode(array(
           'amount' => $amount,
             "email" => $email,
-            'first_name' => "Jalane",
-            'last_name' => "Jalane",
+            'first_name' => 'Newaz',
+            'last_name' => 'Nezif',
             "phone_number" => $phoneNumber,
             'currency' => "ETB",
             "tx_ref" => $txRef,
@@ -83,16 +115,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
            // "return_url" => $returnUrl,
             "customization" => array(
                 "title" => "Payment",
-                "description" => "Tax Payment "
+                "description" => "Payment "
             )
         )),
         CURLOPT_HTTPHEADER => array(
-          'Authorization: Bearer CHASECK_TEST-jrpMisgZejoYRhJrJoHyNqt59zBTxC1S',
+          'Authorization: Bearer CHASECK_TEST-8OvCdWo5ftb9wS9o1lzqAqEhFgaRVpxp',
             'Content-Type: application/json'
         ),
     ));
 
- 
     $response = curl_exec($curl);
 
 if (curl_errno($curl)) {

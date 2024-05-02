@@ -1,6 +1,7 @@
 <?php include 'admin/db_connect.php'; ?>
 
 <?php
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $img_fname = $_FILES['img']['name'];
@@ -18,11 +19,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Insert into payment table
-    $sql = "INSERT INTO payment (img_fname, b_img_fname) VALUES ('$img_fname', '$b_img_fname')";
-    // Execute SQL query
-    // Add your code to execute the SQL query here
+    $sql = "INSERT INTO payment (photo, bphoto) VALUES (?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $img_fname, $b_img_fname);
+    $stmt->execute();
+    $stmt->close();
 }
 ?>
+
 
 <?php
 session_start();
@@ -246,7 +250,7 @@ $_SESSION['pro_form_amount'] = $price_for_form;
                         end_load()
                     }
                     else{
-                        alert_toast("Requesting the payment!",'success')
+                        alert_toast("Requesting the payment! Please wight Until the payment is verified by auctioneers",'success')
                         end_load()
                     }
                 }
