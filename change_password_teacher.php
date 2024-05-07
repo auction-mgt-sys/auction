@@ -1,21 +1,14 @@
-<?php include('header_dashboard.php'); ?>
-<?php include('session.php'); ?>
+<?php include('admin/db_connect.php'); ?>
     <body>
-		<?php include('navbar_teacher.php'); ?>
         <div class="container-fluid">
             <div class="row-fluid">
-				<?php include('teacher_sidebar.php'); ?>
                 <div class="span9" id="content">
                      <div class="row-fluid">
 					    <!-- breadcrumb -->	
 					     <ul class="breadcrumb">
 								<?php
-								$school_year_query = mysqli_query($conn,"select * from school_year order by school_year DESC")or die(mysqli_error($conn));
-								$school_year_query_row = mysqli_fetch_array($school_year_query);
-								$school_year = $school_year_query_row['school_year'];
 								?>
 								<li><a href="#"><b>Change Password</b></a><span class="divider">/</span></li>
-								<li><a href="#">School Year: <?php echo $school_year_query_row['school_year']; ?></a></li>
 						</ul>
 						 <!-- end breadcrumb -->
 					 
@@ -83,7 +76,6 @@
 					
 						$.jGrowl("Your password is successfully change", { header: 'Change Password Success' });
 						var delay = 2000;
-							setTimeout(function(){ window.location = 'dasboard_teacher.php'  }, delay);  
 						
 						}
 						
@@ -107,8 +99,6 @@
                 </div>
 	
             </div>
-		<?php include('footer.php'); ?>
         </div>
-		<?php include('script.php'); ?>
     </body>
 </html>

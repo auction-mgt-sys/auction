@@ -324,7 +324,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                             <a href="index.php?page=my_payments" class='list-group-item list' id="sids" >My Payments</a>
                             <a href="index.php?page=winners" class='list-group-item list' id="sids">Winners</a>
                             <a href="index.php?page=inbox_notifications" class='list-group-item list' id="sids">Messages</a>
-                            <a href="index.php?page=manage_account" class='list-group-item list' id="sids">manage account</a>
+                            <a href="index.php?page=changepasswords" class='list-group-item list' id="sids">change password</a>
 
                           </ul> 
                 </div>
