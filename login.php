@@ -9,7 +9,9 @@
 			<label for="" class="control-label">Password</label>
 			<input type="password" name="password" required="" class="form-control">
 			<a href="javascript:void(0)" id="new_account">Create New Account</a>
-			<a href="forgot-password.php">Forgot password?</a>		</div>
+<span style="margin: 0 10px;">&nbsp;</span> <!-- Adding space between the links -->
+<a href="forgot-password.php">Forgot password?</a>
+</div>
 		<button class="button btn btn-primary btn-sm">Login</button>
 		<button class="button btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancel</button>
 	</form>
