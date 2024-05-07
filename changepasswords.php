@@ -20,7 +20,7 @@ else
 <head><br>
 	<a href="bidder.php" class="text-start"><b><img src="images/Backspace.png" style="width: 50px; height: 50px;"> BACK To HOME</b></a>	
 	</div>
-  <title>WOLKITE polythecnic college </title>
+  <title>WOLKITE POLYTHENIC COLLEGE </title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -36,7 +36,7 @@ else
     #navigation {
       background-color: #333;
       color: #fff;
-      padding: 10px;
+      padding: 10px;	
     }
 
     #navigation ul {
@@ -128,35 +128,20 @@ var load = window.open ('changepasswords.php','_self',false);
 <body>
 
  <div id="main">
- <?php
-if (!isset($_SESSION)) {
-  session_start();
-}
-?>
-  <div id="header">
+
    
-	  </div><!--close banner-->
+	  </div>
     </div>
-    <!--close banner-->
-</div><!--close header-->
-<div id="navigation">
-      <ul>
-        <li class="current">
-        </li>
-      </ul>
+</div>
+      
 </div><!--close menubar-->
-   <div id="sub-menu">
+   
   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <?php
-// echo "<b>".date('l\, F jS\, Y ')."</b>";
 ?>
  </div>
   <div id="site_content">
     <!--close menubar-->
-<center>
-  	<p class="style5">
 
-  	<h2><b>Welcome</b> </h2>
-		   </p></center>
   <?php
 //session_start();
 ?>
