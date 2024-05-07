@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="p-1 col-6">
-                <input type="number" min="18" max="80" name="age" class="form-control" placeholder="Age" required="">
+                <input type="number" min="18" max="100" name="age" class="form-control" placeholder="Age" required="">
             </div>
         </div>
         <div class="d-flex justify-content-start">
@@ -71,8 +71,9 @@
     }
 </style>
 <div class="p-1 col-6">
-    <input type="text" name="email" id="emailInput" class="form-control" value="" placeholder="Email" required="" oninput="checkEmailValidity()" title="Please enter a valid Gmail email address (e.g., sss@gmail.com)">
-    <div id="emailError" style="color: red;"></div>
+<input type="text" name="email" id="emailInput" class="form-control" value="" placeholder="Email" required="" oninput="checkEmailValidity()" title="Please enter a valid Gmail email address (e.g., sss@gmail.com)">
+<div id="emailErrorMessage" style="color: red;"></div>
+
 </div>
 
 <script>
@@ -89,6 +90,25 @@
             emailInput.setCustomValidity('');
         }
     }
+    function checkEmailValidity() {
+    var email = document.getElementById("emailInput").value;
+    var emailErrorMessage = document.getElementById("emailErrorMessage");
+
+    // Perform AJAX request to check if email is already registered
+    $.ajax({
+        url: "check_email.php", // Replace this with your server-side script
+        method: "POST",
+        data: { email: email },
+        success: function(response) {
+            if (response == "exists") {
+                emailErrorMessage.textContent = "The email is already registered.";
+            } else {
+                emailErrorMessage.textContent = "";
+            }
+        }
+    });
+}
+
 </script>
 
 
@@ -173,7 +193,7 @@
             strengthText.className = 'strong';
             document.getElementById('passwordInput').setCustomValidity('');
         } else {
-            strengthText.innerHTML = 'Password must contain at least uppercase letter,lowercase letter, one digit, special character, and be at least 8 characters long.';
+            strengthText.innerHTML = 'Password must contain at least uppercase letter,lowercase letter, digit, special character, and be at least 8 characters long.';
             strengthText.className = 'weak';
             document.getElementById('passwordInput').setCustomValidity('Password is not strong enough');
         }
@@ -260,9 +280,9 @@
             confirmPasswordStrength.className = 'strong';
             document.getElementById('confirmPasswordInput').setCustomValidity('');
         } else {
-            confirmPasswordStrength.innerHTML = 'Passwords do not match or are not strong enough';
+            confirmPasswordStrength.innerHTML = 'Passwords do not match ';
             confirmPasswordStrength.className = 'weak';
-            document.getElementById('confirmPasswordInput').setCustomValidity('Passwords do not match or are not strong enough');
+            document.getElementById('confirmPasswordInput').setCustomValidity('Passwords do not match    ');
         }
     }
 </script>
@@ -272,7 +292,7 @@
             <input type="text" name="TIN" class="form-control" placeholder="Taxpayment ID (TIN)" required="">
         </div>
         <div class="justify-content-start">
-        <div class="p-1 col-4">
+        <div class="p-1 col-4">scan your TIN CARD and upload image
     <input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this)), img_path-field1" required>
 </div>
 <div class="p-1 col-6">
@@ -303,7 +323,7 @@
 </style>
 
 <div class="justify-content-start">
-        <div class="p-1 col-4">
+        <div class="p-1 col-4">scan your BUSINESS CARD and upload image
     <input type="file" class="form-control" name="bphoto" onchange="displayImg2(this,$(this), img_path-field2)" required>
 </div>
 <div class="p-1 col-6">
