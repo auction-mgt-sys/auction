@@ -105,7 +105,28 @@
                       <?php else: ?>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="javascript:void(0)" id="login_now"><img src='images/Login.png' class='ic'> Login</a></li>
                       <?php endif; ?>
-                      
+                      <span>
+    <div class="translate" id="google_translate_element"></div>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {  
+            new google.translate.TranslateElement({
+                pageLanguage: 'en', // Default language of the page
+                includedLanguages: 'am,en', // Languages to include (Amharic and English)
+            }, 'google_translate_element');
+        }
+        
+        // Asynchronously load the translation script
+        (function() {
+            var googleTranslateScript = document.createElement('script');
+            googleTranslateScript.type = 'text/javascript';
+            googleTranslateScript.async = true;
+            googleTranslateScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(googleTranslateScript);
+        })();
+    </script>
+</span>
+
                       <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle js-scroll-trigger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <div class="profile-image">
@@ -197,6 +218,29 @@ document.getElementById('image').addEventListener('change', function(event) {
           <style>
 /* Centering individual navigation items horizontally, adding padding, top margin, and bottom border */
 
+.goog-te-menu-value,
+.goog-te-menu2 {
+    font-size: 12px; /* Adjust font size */
+    padding: 4px 8px; /* Adjust padding */
+}
+
+/* Adjust the size of the Google Translate button */
+.goog-te-button {
+    font-size: 12px; /* Adjust font size */
+    padding: 4px 8px; /* Adjust padding */
+}
+
+/* Adjust the size of the language options in the dropdown */
+.goog-te-menu2-item {
+    font-size: 12px; /* Adjust font size */
+    padding: 1px 2px; /* Adjust padding */
+}
+/* Hide the Google Translate display at the top */
+
+
+body > div:first-child {
+    display: none !important;
+}
 
 /* Centering the navigation bar horizontally */
 .navbar-nav {
@@ -320,8 +364,47 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                     </div>
                   </div>
                     <ul class='list-group ' id='opp-list'>
+                    <?php 
+// Ensure session is started
+
+// Check if login_id is set in session
+if (isset($_SESSION['login_id'])) {
+    // Assign user ID from session
+    $uid = $_SESSION['login_id'];
+    
+    // Include database connection
+    include 'admin/db_connect.php';
+    
+    // Prepare and execute query to count active payments for the user
+    $countQuery = $conn->prepare("SELECT COUNT(*) AS total_active_payments FROM payment WHERE bidder_id = ? AND status = 1");
+    $countQuery->bind_param("s", $uid);
+    $countQuery->execute();
+    $countResult = $countQuery->get_result();
+    
+    // Fetch the count result
+    $countRow = $countResult->fetch_assoc();
+    
+    // Get the total count of active payments
+    $totalActivePayments = $countRow['total_active_payments'];
+    
+    // Initialize payment link text
+    $paymentLinkText = "My Payments";
+    
+    // Append count to the link text if there are active payments
+    if ($totalActivePayments > 0) {
+        $paymentLinkText .= " ($totalActivePayments)";
+    }
+    ?>
+    <!-- Output the link with dynamic text -->
+    <a href="index.php?page=my_payments" class='list-group-item list' id="sids" style="color: white;"><?php echo $paymentLinkText ?></a>
+    <?php 
+    // Exit after outputting the link
+} 
+?>
+
                             <a href="index.php?page=my_bids" class='list-group-item list' id="sids"> My Bids</a>
-                            <a href="index.php?page=my_payments" class='list-group-item list' id="sids" >My Payments</a>
+                            
+
                             <a href="index.php?page=winners" class='list-group-item list' id="sids">Winners</a>
                             <a href="index.php?page=inbox_notifications" class='list-group-item list' id="sids">Messages</a>
                             <a href="index.php?page=changepasswords" class='list-group-item list' id="sids">change password</a>

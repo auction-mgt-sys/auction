@@ -30,24 +30,26 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
 <!-- ... (rest of the code remains unchanged) ... -->
 
 <div class="row">
-    <?php
+   <?php             
     $where = "";
-    if($cid > 0){
-        $where = " and category_id =$cid ";
+    if ($cid > 0) {
+        $where = " AND category_id = $cid ";
     }
-    $cat = $conn->query("SELECT * FROM products $where order by name asc");
+    $cat = $conn->query("SELECT * FROM products $where ORDER BY name ASC");
 
-    if($cat->num_rows <= 0){
+    if ($cat->num_rows <= 0) {
         echo "<center><h4><i>No Available Product.</i></h4></center>";
         ?>
         <script> swal("Sorry!", "There are no Currently Available Bids!");</script>
     <?php 
     } 
-    while($row = $cat->fetch_assoc()):
+
+    while ($row = $cat->fetch_assoc()):
+        $expired = strtotime($row['bid_end_datetime']) < strtotime(date("Y-m-d H:i"));
     ?>
     <div class="col-sm-4" style="margin-top: 40px;">
         <div class="card row00">
-        <?php if(strtotime($row['bid_end_datetime']) < strtotime(date("Y-m-d H:i"))): ?>
+            <?php if ($expired): ?>
                 <div class="expired-tag">Expired</div>
             <?php endif; ?>
             <img class="card-img-top" src="auctioneer/assets/uploads/<?php echo $row['img_fname'] ?>" alt="Card image cap" style="width: 200px; height: 200px;">
@@ -60,7 +62,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                 <p class="truncate"><?php echo $row['description'] ?></p>
                 <p>number of pieces :-<?php echo $row['quantity'] ?></p>
 
-                <?php if(strtotime($row['bid_end_datetime']) >= strtotime(date("Y-m-d H:i"))): ?>
+                <?php if (!$expired): ?>
                     <button class="btn btn-primary btn-sm view_prod" type="button" data-id="<?php echo $row['id'] ?>"> View</button>
                 <?php endif; ?>
             </div>
@@ -68,9 +70,6 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
     </div>
     <?php endwhile; ?>
 </div>
-
-<!-- ... (rest of the code remains unchanged) ... -->
-
 
   
   <style>
