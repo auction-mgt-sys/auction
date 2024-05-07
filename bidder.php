@@ -93,19 +93,14 @@
       </div>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-3" id="mainNav">
             <div class="container-fluid">
-                <a class="navbar-brand js-scroll-trigger" href="#"><img src="images/logo.png" class="wpcsc"><?php echo $_SESSION['system']['name'] ?></a>
+                <a class="navbar-brand js-scroll-trigger" href="#"><img src="images/logo.jpg" class="wpcsc"><?php echo $_SESSION['system']['name'] ?></a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="bidder.php?page=home"><img src="images/Home.png" class="ic"> Home</a></li>
-                        <li class="nav-item">
-    <a class="nav-link js-scroll-trigger" href="index.php?page=about">
-        <img src="images/about.png" class="ic"> About Organization
-    </a>
+                        <li class="nav-item"> <a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> About Organization   </a> 
 </li>
-                        
-                       
-                        <?php if(isset($_SESSION['login_id'])): ?>
+        <?php if(isset($_SESSION['login_id'])): ?>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Welcome ".$_SESSION['login_username'] ?> <i class="fa fa-power-off"></i></a></li>
                       <?php else: ?>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="javascript:void(0)" id="login_now"><img src='images/Login.png' class='ic'> Login</a></li>
@@ -266,10 +261,19 @@ document.getElementById('image').addEventListener('change', function(event) {
     font-family: "Times New Roman";
     color:rgb(13, 13, 39);
     padding: 10px;
+    font-size: 33px;
    }
    .description h3,.description h4{
     font-family: "Times New Roman";
     color:rgb(13, 13, 39);
+    font-size: 30px;
+
+   }
+   .description h2{
+    font-family: "Times New Roman";
+    color:rgb(13, 13, 39);
+    font-size: 30px;
+
    }
 .sec1 {
     margin-top: 0px;
@@ -345,16 +349,16 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
 ?>
 <br>
 
-                               <?php echo "<h1>WOLKITE POLYTHECNIC COLLEGE </h1>"; ?>
-                               <?php echo "<h3>WELCOME TO AUCTION  MANAGEMENT SYSTEM</h3>"; ?>
+                               <?php echo "<h1>WELCOME TO WOLKITE POLYTHECNIC COLLEGE</h1>"; ?>
+                               <?php echo "<h2> AUCTION  MANAGEMENT SYSTEM</h2>"; ?>
 
                                 <?php echo "<div class='text-center'>"?>
-                             <?php echo "<h4>Welcome ".$_SESSION['login_username']."</h4>"?>
+                             <?php echo "<h3>Welcome ".$_SESSION['login_username']."</h3>"?>
 
                              <?php else:
                                                                                                                                   echo "<img src='images/logo.png' id='wpcsc'>
 
-                                                                 <h1>WOLKITE POLYTHECHNIC COLLEGE</h1>
+                                                                 <h1>WELCOME TO WOLKITE POLYTHECHNIC COLLEGE</h1>
                                         
                              <h3>WELCOME TO AUCTION  MANAGEMENT SYSTEM</h3>; "?>  
                           
@@ -489,7 +493,9 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                                     <div class="float-right align-top bid-tag">
                                          <span class="badge badge-pill badge-primary text-white"><i class="fa fa-tag"></i>Form Price: <?php echo number_format($row['price_for_form']) ?></span>
                                      </div>
-                                     <img class="card-img-top" src="auctioneer/assets/uploads/<?php echo $row['img_fname'] ?>" alt="Card image cap">
+                                     <div class="image-container">
+    <img class="card-img-top" src="auctioneer/assets/uploads/<?php echo $row['img_fname'] ?>" alt="Card image cap">
+</div>
                                       <div class="float-right align-top d-flex">
                                          <span class="badge badge-pill badge-warning text-white"><i class="fa fa-hourglass-half"></i> <?php echo date("M d,Y h:i A",strtotime($row['bid_end_datetime'])) ?></span>
                                      </div>
@@ -497,7 +503,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                                          <p><?php echo $row['name'] ?></p>
                                          <p><small><?php echo $cat_arr[$row['category_id']] ?></small></p>
                                          <p class="truncate"><?php echo $row['description'] ?></p>
-                                        <button class="btn btn-primary btn-sm paymentppppp" type="button" data-id="<?php echo $row['id'] ?>"> View</button>
+                                        <button class="btn btn-primary btn-sm view_prod" type="button" data-id="<?php echo $row['id'] ?>"> View</button>
                                      </div>
                                  </div>
                              </div>
@@ -514,6 +520,16 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
     background-color: #333; /* Example background color for dark mode */
     color: #fff; /* Example text color for dark mode */
     /* Add additional styles for dark mode as needed */
+}
+.image-container {
+    width: 200px; /* Set the width you desire */
+    height: 200px; /* Set the height you desire */
+    overflow: hidden; /* Ensure that any overflowing content is hidden */
+}
+
+.image-container img {
+    width: 100%; /* Make the image take up the entire width of its container */
+    height: auto; /* Allow the image to scale proportionally */
 }
 
 </style>
@@ -571,7 +587,7 @@ function checkDarkMode() {
         }
     })
      $('.view_prod').click(function(){
-        uni_modal_right('BID FORM PAGE ','paymentppppp.php?id='+$(this).attr('data-id'))
+        uni_modal_right('BID FORM PAGE ','view_prod.php?id='+$(this).attr('data-id'))
      })
 </script>
 
@@ -730,7 +746,21 @@ accordion style start
                 </div>
             </div>
             <br>
-            <div class="container"><div class="small text-center text-muted">Copyright © 2024 - <?php echo $_SESSION['system']['name'] ?> | <a href="https://www.wpcsc.edu.et//" target="_blank">Wolkite polythecnc</a></div></div>
+            <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Explore Our Campus</h6>
+                    <a href="https://www.google.com/maps/place/9.145,+40.489" target="_blank" class="btn btn-primary">View on Map</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <br>
+            <div class="container"><div class="small text-center text-muted">Copyright © 2024 - <?php echo $_SESSION['system']['name'] ?> | <a href="https://www.wpcsc.edu.et//" target="_blank">Wolkite polythecnc college</a></div></div>
         </footer>
         
        <?php include('footer.php') ?>

@@ -11,9 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $new_password = $_POST['new_password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Get the user's current password from the database
-    $login_id = $_SESSION['login_id']; // Make sure this session variable is set correctly
-    $query = "SELECT password FROM users WHERE id = $login_id";
+    // Get the bidder's current password from the database
+    $loginid = $_SESSION['loginid']; // Make sure this session variable is set correctly
+    $query = "SELECT password FROM users WHERE loginid = '$loginid'";
     $result = mysqli_query($conn, $query);
 
     // Check if query executed successfully
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Hash the new password
                 $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
                 // Update the password in the database
-                $update_query = "UPDATE users SET password = '$hashed_password' WHERE id = $login_id";
+                $update_query = "UPDATE users SET password = '$hashed_password' WHERE loginid = '$loginid'";
                 $update_result = mysqli_query($conn, $update_query);
                 if ($update_result) {
                     // Show a success toastr message
@@ -55,8 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Account</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Include your CSS file -->
+    <title>Change Password</title>
+    <!-- Include your CSS file -->
+    <link rel="stylesheet" href="styles.css">
     <!-- Include Toastr CSS and JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -100,7 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>
         </div>
-
     </div>
 </body>
 </html>

@@ -127,6 +127,7 @@
             </div>
         </div>
         <br>
+        
         <div class="text-center text-muted">Copyright © 2024 - WPCSC AUCTION SYSTEM | <a href="https://wptc.edu.et//" target="_blank">Wolkite Polytechnic College and Satellite Campus</a></div>
     </footer>
 

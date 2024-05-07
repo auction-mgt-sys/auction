@@ -34,6 +34,12 @@
         max-height: calc(100%)!important;
         max-width: calc(100%)!important;
     }
+    .description h3,.description h4{
+    font-family: "Times New Roman";
+    color:rgb(13, 13, 39);
+    font-size: 30px;
+
+   }
 </style>
 
 <div class="containe-fluid">
@@ -41,7 +47,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <?php echo "Welcome back ". $_SESSION['login_name']."!"  ?>
+                <?php echo "<h3>Welcome ".$_SESSION['login_username']."</h3>"?>
                     <hr>
                 </div>
             </div>                  

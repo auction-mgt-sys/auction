@@ -136,7 +136,7 @@ div#login-right::before {
 				if(resp == 1){
 					location.href ='index.php?page=home';
 				}
-				if(resp == 1){
+				if(resp == 2){
 					location.href ='index.php?page=home';
 				}
 				if(resp == 3){

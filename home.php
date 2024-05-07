@@ -131,9 +131,11 @@ while($row = $cat->fetch_assoc()):
             <span class="badge badge-pill badge-warning text-white"><i class="fa fa-hourglass-half"></i> <?php echo date("M d,Y h:i A",strtotime($row['bid_end_datetime'])) ?></span>
         </div>
         <div class="card-body prod-item">
-            <p><?php echo $row['name'] ?></p>
-            <p><small><?php echo isset($cat_arr[$row['category_id']]) ? $cat_arr[$row['category_id']] : 'Uncategorized'; ?></small></p>
-            <p class="truncate"><?php echo $row['description'] ?></p>
+        <p>device name :-<?php echo $row['name'] ?></p>
+                <p>Item type:-<small><?php echo $cat_arr[$row['category_id']] ?></small></p>
+                <p class="truncate"><?php echo $row['description'] ?></p>
+                <p>number of pieces :- <?php echo $row['quantity'] ?></p>
+
             <button class="btn btn-primary btn-sm view_prod" type="button" data-id="<?php echo $row['id'] ?>"> View</button>
         </div>
     </div>
@@ -193,7 +195,12 @@ while($row = $cat->fetch_assoc()):
     max-width: calc(50% - 20px); /* Adjust max-width to fit two products per row */
     margin: 10px; /* Add margin between products */
 }
+.description h1 {
+    font-family: "Times New Roman";
+    color:rgb(13, 13, 39);
+    font-size: 33px;
 
+   }
 </style>
 
                     <footer class=" py-2">

@@ -4,28 +4,36 @@
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
-    $img_fname = $_FILES['img']['name'];
-    $b_img_fname = $_FILES['bphoto']['name'];
+    $transaction_id = $_POST['transaction_id'];
+    $reason = $_POST['reason'];
+
+    // Retrieve session data
+    $pro_id = $_SESSION['product_id'];
+    $bidder_id = $_SESSION['login_id'];
 
     // Upload images
+    $img_fname = '';
+    $b_img_fname = '';
+
     if ($_FILES['img']['tmp_name'] != '') {
-        $img_fname = strtotime(date('y-m-d H:i')).'_'.$img_fname;
+        $img_fname = strtotime(date('y-m-d H:i')).'_'.$_FILES['img']['name'];
         move_uploaded_file($_FILES['img']['tmp_name'], 'auctioner/'.$img_fname);
     }
 
     if ($_FILES['bphoto']['tmp_name'] != '') {
-        $b_img_fname = strtotime(date('y-m-d H:i')).'_'.$b_img_fname;
+        $b_img_fname = strtotime(date('y-m-d H:i')).'_'.$_FILES['bphoto']['name'];
         move_uploaded_file($_FILES['bphoto']['tmp_name'], 'auctioner/'.$b_img_fname);
     }
 
     // Insert into payment table
-    $sql = "INSERT INTO payment (photo, bphoto) VALUES (?, ?)";
+    $sql = "INSERT INTO payment (transaction_id, reason, pro_id, bidder_id, img, bphoto) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $img_fname, $b_img_fname);
+    $stmt->bind_param("ssssss", $transaction_id, $reason, $pro_id, $bidder_id, $img_fname, $b_img_fname);
     $stmt->execute();
     $stmt->close();
 }
 ?>
+
 
 
 <?php

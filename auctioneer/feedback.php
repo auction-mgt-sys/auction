@@ -21,17 +21,13 @@ $owner = $_SESSION['login_id'];
 
          <div class="card">
              <div class="card-header">
-                 <b>Your Inbox</b>
-                
+                 <b>Your Inbox</b>          
+         <span class="float:right"><a class="btn-block btn-sm col-sm-1 float-right c" href="index.php?page=sent_notification" id="new_product"> <h6>sent mesage</h6>          
+
+         </a>
+         </span>
          
-         <span class="float:right"><a class="btn-block btn-sm col-sm-1 float-right c" href="index.php?page=sent_notification" id="new_product">
-             <i class="fas fa-long-arrow-alt-right"></i>
-         </a>
-         </span>
-         <span class="float:right"><a class="btn-block btn-sm col-sm-1 float-right c" href="index.php?page=write_comment" id="new_product">
-             <i class="fa fa-plus"></i>
-         </a>
-         </span>
+
              </div>
              <div class="card-body">
                  <table class="table table-condensed table-bordered table-hover">
@@ -74,6 +70,9 @@ $owner = $_SESSION['login_id'];
 </div>
 <?php } ?>
 <style>
+    .h6{
+        font-size: 10px;
+    }
 .b{
 border-radius: 30%;
 width: 50%;
