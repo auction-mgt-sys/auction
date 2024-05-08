@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $status = $_POST["status"];
 
         // Define the new status value for database update
-        $db_status = $status == 0 ? 0 : 1; // Set sta as 0 if active, and 1 if inactive
+        $db_status = $status == 0 ? 1 : 0; // Toggle status between 0 and 1
 
         // Perform database update
         require 'db_connect.php'; // Include your database connection file
@@ -20,20 +20,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Check if the update was successful
         if ($result) {
-            echo 1; // Echo 1 to indicate success
+            echo $db_status; // Echo the new status value
         } else {
-            echo 0; // Echo 0 to indicate failure
+            echo $status; // Echo the original status value in case of failure
         }
 
         // Close the database connection
         $stmt->close();
         $conn->close();
     } else {
-        // Echo 0 if ID or status is not set
-        echo 0;
+        // Echo the original status value if ID or status is not set
+        echo $status;
     }
 } else {
-    // Echo 0 if request method is not POST
-    echo 0;
+    // Echo the original status value if request method is not POST
+    echo $status;
 }
 ?>

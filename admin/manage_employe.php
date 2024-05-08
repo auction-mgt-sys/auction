@@ -84,29 +84,33 @@
 	</div>
 
 </div>
+
+
 <script>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-$('.toggle_active').click(function(){
-    var id = $(this).data('id');
-    var currentStatus = $(this).text().trim();
-    var newStatus = currentStatus == 'Active' ? 'Deactive' : 'Active';
-    var newClass = currentStatus == 'Active' ? 'danger' : 'success';
+<script>
+$(document).ready(function(){
+    $('.toggle_active').click(function(){
+        var id = $(this).data('id');
+        var currentStatus = $(this).hasClass('btn-success') ? 0 : 1; // Assuming 'success' class indicates active state
 
-    $.ajax({
-        url:'update_status.php',
-        method:'POST',
-        data:{id:id, status:newStatus},
-        success:function(resp){
-            if(resp == 1){
-                // Update button text and class
-                $('.toggle_active[data-id="' + id + '"]').text(newStatus).removeClass('btn-success btn-danger').addClass('btn-' + newClass);
+        // Toggle the button class and text
+        $(this).toggleClass('btn-success btn-danger');
+        $(this).text(currentStatus == 0 ? 'Deactivate' : 'Activate');
+
+        // Send AJAX request to update status in the database
+        $.post('update_status.php', { id: id, status: currentStatus }, function(data){
+            if (data == 0) {
+                alert('sucessfully  update stats.');
             }
-        }
+        });
     });
 });
+</script>
 
-
-
+<script>
 
 	
 	$('table').dataTable();
