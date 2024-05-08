@@ -57,6 +57,8 @@
             </a>
             <a href="index.php?page=approved_items" class="nav-item nav-approved_items"><span class='icon-field'><i class="fa fa-gavel"></i></span> Approved Items</a>
             <a href="index.php?page=cancelled_items" class="nav-item nav-cancelled_items"><span class='icon-field'><i class="fa fa-ban"></i></span> Cancelled Items</a>
+            <a href="index.php?page=generate_reports" class="nav-item nav-home"><span class='icon-field'><i class="fa fa-home"></i></span> generated reports</a>
+
         </div>
     </nav>
     <script>

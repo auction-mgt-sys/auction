@@ -20,6 +20,7 @@ include 'admin/db_connect.php';
         background-position: center;
         color: white;
         text-align: center;
+
     }
 
     .header-content {
