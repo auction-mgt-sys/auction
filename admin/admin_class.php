@@ -123,7 +123,6 @@ $img_name = $_FILES['img']['name'];
 $input_img = $_FILES['img']['tmp_name'];
 $img_query = "uploads/".$img_name;
 
-
 $b_img_name = $_FILES['bphoto']['name'];
 $b_input_img = $_FILES['bphoto']['tmp_name'];
 $b_img_query = "uploads/".$b_img_name;
