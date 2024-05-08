@@ -81,6 +81,11 @@
   margin-right: 10px;
   border-radius: 50%; /* Make it circular */
 }
+/* Define styles for small circular profile image */
+.small-profile-img {
+    width: 50px; /* Adjust width as needed */
+    height: 50px; /* Adjust height as needed */
+}
 
 
     </style>
@@ -126,6 +131,12 @@
         })();
     </script>
 </span>
+
+
+
+
+
+
 
                       <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle js-scroll-trigger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

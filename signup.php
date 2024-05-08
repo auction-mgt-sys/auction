@@ -71,45 +71,47 @@
     }
 </style>
 <div class="p-1 col-6">
-<input type="text" name="email" id="emailInput" class="form-control" value="" placeholder="Email" required="" oninput="checkEmailValidity()" title="Please enter a valid Gmail email address (e.g., sss@gmail.com)">
-<div id="emailErrorMessage" style="color: red;"></div>
+<input type="text" name="email" id="emailInput" class="form-control" value="" placeholder="Email" required="" oninput="validateEmail()" title="Please enter a valid Gmail email address (e.g., sss@gmail.com)">
+<div id="emailError" style="color: red;"></div>
+
 
 </div>
-
 <script>
-    function checkEmailValidity() {
+    function validateEmail() {
         const emailInput = document.getElementById('emailInput');
         const emailError = document.getElementById('emailError');
         const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
+        // Validate email format
         if (!emailPattern.test(emailInput.value)) {
             emailError.textContent = 'Please enter a valid Gmail email address (e.g., sss@gmail.com)';
             emailInput.setCustomValidity('Invalid Gmail format');
+            return;
         } else {
             emailError.textContent = '';
             emailInput.setCustomValidity('');
         }
-    }
-    function checkEmailValidity() {
-    var email = document.getElementById("emailInput").value;
-    var emailErrorMessage = document.getElementById("emailErrorMessage");
 
-    // Perform AJAX request to check if email is already registered
-    $.ajax({
-        url: "check_email.php", // Replace this with your server-side script
-        method: "POST",
-        data: { email: email },
-        success: function(response) {
-            if (response == "exists") {
-                emailErrorMessage.textContent = "The email is already registered.";
-            } else {
-                emailErrorMessage.textContent = "";
+        // Perform AJAX request to check if email is already registered
+        $.ajax({
+            url: "check_email.php", // Replace this with your server-side script
+            method: "POST",
+            data: { email: emailInput.value },
+            success: function(response) {
+                if (response == "exists") {
+                    emailError.textContent = "The email is already registered.";
+                    emailInput.setCustomValidity('Email already exists');
+                } else {
+                    emailError.textContent = '';
+                    emailInput.setCustomValidity('');
+                }
             }
-        }
-    });
-}
-
+        });
+    }
 </script>
+
+
+
 
 
         </div>
@@ -437,7 +439,7 @@
                     $('#signup-frm').prepend('<div class="alert alert-danger">Passwords did not match!</div>')
                     end_load()
                 } else {
-                    alert_toast("Registered! Please login.", 'success')
+                    alert_toast("successfully Registered! Please wight Until the your registrations verified by comittee.", 'success')
                     setTimeout(function () {
                         location.reload()
                     }, 3000)

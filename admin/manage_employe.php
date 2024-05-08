@@ -20,6 +20,7 @@
 					<th class="text-center">Name</th>
 					<th class="text-center">Username</th>
 					<th class="text-center">Type</th>
+                    <th class="text-center">department</th>
 					<th class="text-center">Action</th>
 				</tr>
 			</thead>
@@ -27,7 +28,7 @@
 				<?php
  					include 'db_connect.php';
  					$type = array("","admin","bidder","auctioneer","commitee","deparment","finance","president");
- 					$users = $conn->query("SELECT * FROM users where type = 2 order by name asc");
+                     $users = $conn->query("SELECT * FROM users WHERE type IN (1,3,4,5,6,7) ORDER BY name ASC");
  					$i = 1;
  					while($row= $users->fetch_assoc()):
 				 ?>
@@ -46,17 +47,12 @@
 				 		<?php echo $type[$row['type']] ?>
 						
 				 	</td>
-					
+					 <td>
+				 		<?php echo $row['deptname'] ?>
+				 	</td>
 				 	<td>
 				 		<center>
-						 <div class="btn-group">
-    <button type="button" class="btn btn-<?php echo $row['sta'] == 0 ? 'success' : 'danger' ?> toggle_active" data-id="<?php echo $row['id'] ?>">
-        <?php echo $row['sta'] == 0 ? 'Active' : 'Deactive' ?>
-    </button>
-</div>
-
 								<div class="btn-group">
-									
 								  <button type="button" class="btn btn-primary">Action</button>
 								  <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								    <span class="sr-only">Toggle Dropdown</span>
@@ -67,7 +63,6 @@
 								    <a class="dropdown-item delete_user" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Delete</a>
 									<div class="dropdown-content"></div>
 								    <a class="dropdown-item detail_user" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Detail</a>
-									
 								  </div>
 
 								  
@@ -85,27 +80,6 @@
 
 </div>
 <script>
-	
-	$('.toggle_active').click(function(){
-    var id = $(this).data('id');
-    var currentStatus = $(this).text().trim();
-    var newStatus = currentStatus == 'Active' ? 'Deactive' : 'Active';
-    var newClass = currentStatus == 'Active' ? 'danger' : 'success';
-
-    $.ajax({
-        url:'update_status.php',
-        method:'POST',
-        data:{id:id, status:newStatus},
-        success:function(resp){
-            if(resp == 1){
-                // Update button text and class
-                $('.toggle_active[data-id="' + id + '"]').text(newStatus).removeClass('btn-success btn-danger').addClass('btn-' + newClass);
-            }
-        }
-    });
-});
-
-
 	
 	$('table').dataTable();
 $('#new_user').click(function(){

@@ -51,14 +51,20 @@ if(isset($_POST['name'])){
     <form action="" id="manage-user">   
         <input type="hidden" name="id" value="<?php echo isset($meta['id']) ? $meta['id']: '' ?>">
         <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" class="form-control" value="<?php echo isset($meta['name']) ? $meta['name']: '' ?>" required>
-        </div>
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" class="form-control" value="<?php echo isset($meta['name']) ? $meta['name']: '' ?>" required pattern="[A-Za-z]+" title="Name should only contain alphabets" >
+    <!-- Add pattern="[A-Za-z]+" to allow only alphabets -->
+    <!-- Add title="Name should only contain alphabets" to display custom error message -->
+</div>
+
     
-        <div class="form-group">
-            <label for="lname">LastName</label>
-            <input type="text" name="lname" id="lname" class="form-control" value="<?php echo isset($meta['lname']) ? $meta['lname']: '' ?>" required>
-        </div>
+<div class="form-group">
+    <label for="lname">Last Name</label>
+    <input type="text" name="lname" id="lname" class="form-control" value="<?php echo isset($meta['lname']) ? $meta['lname']: '' ?>" required pattern="[A-Za-z]+" title="Last Name should only contain alphabets" >
+    <!-- Add pattern="[A-Za-z]+" to allow only alphabets -->
+    <!-- Add title="Last Name should only contain alphabets" to display custom error message -->
+</div>
+
         <div class="form-group">
             <label for="age">age</label>
             <input type="number"min="25" max="65" name="age" id="age" class="form-control" value="<?php echo isset($meta['age']) ? $meta['age']: '' ?>" required>
