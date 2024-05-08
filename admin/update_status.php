@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $status = $_POST["status"];
 
         // Define the new status value for database update
-        $db_status = $status == 0 ? 0 : 1; // Set sta as 0 if active, and 2 if inactive
+        $db_status = $status == 0 ? 0 : 1; // Set sta as 0 if active, and 1 if inactive
 
         // Perform database update
         require 'db_connect.php'; // Include your database connection file

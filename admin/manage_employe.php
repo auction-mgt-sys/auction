@@ -52,6 +52,11 @@
 				 	</td>
 				 	<td>
 				 		<center>
+                         <div class="btn-group">
+    <button type="button" class="btn btn-<?php echo $row['sta'] == 0 ? 'success' : 'danger' ?> toggle_active" data-id="<?php echo $row['id'] ?>">
+        <?php echo $row['sta'] == 0 ? 'Active' : 'Deactive' ?>
+    </button>
+</div>
 								<div class="btn-group">
 								  <button type="button" class="btn btn-primary">Action</button>
 								  <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -80,6 +85,29 @@
 
 </div>
 <script>
+
+$('.toggle_active').click(function(){
+    var id = $(this).data('id');
+    var currentStatus = $(this).text().trim();
+    var newStatus = currentStatus == 'Active' ? 'Deactive' : 'Active';
+    var newClass = currentStatus == 'Active' ? 'danger' : 'success';
+
+    $.ajax({
+        url:'update_status.php',
+        method:'POST',
+        data:{id:id, status:newStatus},
+        success:function(resp){
+            if(resp == 1){
+                // Update button text and class
+                $('.toggle_active[data-id="' + id + '"]').text(newStatus).removeClass('btn-success btn-danger').addClass('btn-' + newClass);
+            }
+        }
+    });
+});
+
+
+
+
 	
 	$('table').dataTable();
 $('#new_user').click(function(){

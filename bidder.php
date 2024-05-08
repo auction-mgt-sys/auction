@@ -15,6 +15,33 @@
     ob_start();
     if(!isset($_SESSION['login_id'])){
       header('location:index.php');
+    }else if(isset($_SESSION['login_id'])){
+        // Check if the user's account is active
+        require 'admin/db_connect.php'; // Include your database connection file
+    
+        // Prepare and execute the SQL query to check the user's account status
+        $stmt = $conn->prepare("SELECT sta FROM users WHERE id = ?");
+        $stmt->bind_param("i", $_SESSION['login_id']);
+        $stmt->execute();
+        $stmt->store_result();
+        
+        if ($stmt->num_rows == 1) {
+            $stmt->bind_result($sta);
+            $stmt->fetch();
+    
+            // Check if the account status is inactive (sta = 1)
+            if ($sta == 1) {
+                // Account is inactive, deny access or display error message
+                session_destroy(); // Destroy session to force logout
+                echo "Your account is inactive. Please contact the administrator for assistance."; // Or any other error message
+                exit; // Stop further execution
+            }
+        } else {
+            // User not found in the database, deny access or display error message
+            session_destroy(); // Destroy session to force logout
+            echo "User not found. Please contact the administrator for assistance."; // Or any other error message
+            exit; // Stop further execution
+        }
     }
     else if(isset($_SESSION['login_id'])){
       if($_SESSION['login_type']==1)
@@ -42,7 +69,13 @@
         header('location:president/index.php');
       }
       else {
+        // Handle other login types
+    }
 
+    // Close the database connection
+    $stmt->close();
+    $conn->close();
+}
 
         $query = $conn->query("SELECT * FROM system_settings limit 1")->fetch_array();
          foreach ($query as $key => $value) {
@@ -858,8 +891,8 @@ accordion style start
         </footer>
         
        <?php include('footer.php') ?>
-       <?php   }
-    }?>
+       <?php   
+    ?>
     </body>
     <script type="text/javascript">
       $('#login').click(function(){
