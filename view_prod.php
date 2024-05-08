@@ -2,41 +2,8 @@
 
 <?php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
-    $transaction_id = $_POST['transaction_id'];
-    $reason = $_POST['reason'];
-
-    // Retrieve session data
-    $pro_id = $_SESSION['product_id'];
-    $bidder_id = $_SESSION['login_id'];
-
-    // Upload images
-    $img_fname = '';
-    $b_img_fname = '';
-
-    if ($_FILES['img']['tmp_name'] != '') {
-        $img_fname = strtotime(date('y-m-d H:i')).'_'.$_FILES['img']['name'];
-        move_uploaded_file($_FILES['img']['tmp_name'], 'auctioner/'.$img_fname);
-    }
-
-    if ($_FILES['bphoto']['tmp_name'] != '') {
-        $b_img_fname = strtotime(date('y-m-d H:i')).'_'.$_FILES['bphoto']['name'];
-        move_uploaded_file($_FILES['bphoto']['tmp_name'], 'auctioner/'.$b_img_fname);
-    }
-
-    // Insert into payment table
-    $sql = "INSERT INTO payment (transaction_id, reason, pro_id, bidder_id, img, bphoto) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssss", $transaction_id, $reason, $pro_id, $bidder_id, $img_fname, $b_img_fname);
-    $stmt->execute();
-    $stmt->close();
-}
-?>
 
 
-
-<?php
 session_start();
 if(isset($_GET['id'])){
     $qry = $conn->query("SELECT * FROM products where id= ".$_GET['id']);
@@ -98,7 +65,7 @@ $_SESSION['pro_form_amount'] = $price_for_form;
     </div>
     <div class="p-1 col-6">
         <div class="image-container">
-            <img src="<?php echo isset($img_fname) ? 'auctioner/'.$img_fname : '' ?>" alt="" id="img_path-field1" style="display: none;">
+            <img src="<?php echo isset($img) ? 'uploads/'.$img : '' ?>" alt="" id="img_path-field1" style="display: none;">
         </div>
         <span id="img_error1" style="color: red; display: none;">Please upload an image.</span>
     </div>
@@ -108,7 +75,7 @@ $_SESSION['pro_form_amount'] = $price_for_form;
     </div>
     <div class="p-1 col-6">
         <div class="image-container">
-            <img src="<?php echo isset($b_img_fname) ? 'auctioner/'.$b_img_fname : '' ?>" alt="" id="img_path-field2" style="display: none;">
+            <img src="<?php echo isset($bphoto) ? 'uploads/'.$bphoto : '' ?>" alt="" id="img_path-field2" style="display: none;">
         </div>
         <span id="img_error2" style="color: red; display: none;">Please upload an image.</span>
     </div>

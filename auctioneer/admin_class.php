@@ -148,6 +148,7 @@ Class Action {
 	#save payment
 	function save_payment(){
 		extract($_POST);
+		
 		$data = " transaction_id = '$transaction_id' ";
 		$data .= ", amount = '$amount' ";
 		$data .= ", reason = '$reason' ";
