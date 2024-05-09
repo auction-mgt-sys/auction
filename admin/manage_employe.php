@@ -67,6 +67,8 @@
 								    <div class="dropdown-divider"></div>
 								    <a class="dropdown-item delete_user" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Delete</a>
 									<div class="dropdown-content"></div>
+																		<a class="btn view_user btn-white" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">View Detail</a>
+
 								  </div>
 
 								  

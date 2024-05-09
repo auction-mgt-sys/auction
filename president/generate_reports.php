@@ -8,12 +8,14 @@
     <title> VIEW REPORTS</title>
     <style>
         .white-container {
-            background-color: #ffffff;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    background-image: url('assets/uploads/report.jpg'); /* Replace 'path_to_your_image.jpg' with the path to your image */
+    background-size: cover; /* Ensures the background image covers the entire container */
+    padding: 20px;
+    margin: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 
         h2 {
             font-size: 35px;
@@ -129,7 +131,7 @@ function fetchRequestedItemsStatus2() {
         // Check if there are any requested items
         if (mysqli_num_rows($result) > 0) {
             // Start table
-            echo "<h3>Requested Items (Status 2)</h3>";
+            echo "<h3>Requested Items and Rejected by technical committee)</h3>";
             echo "<table class='report-table'>";
             echo "<tr><th>Name</th><th>Type</th><th>Description</th><th>Measurement</th><th>Quantity</th><th>Department Name</th><th>Department Head Name</th><th>Reason</th><th>Date</th></tr>";
 
@@ -172,7 +174,7 @@ function fetchRequestedItemsStatus1() {
         // Check if there are any requested items
         if (mysqli_num_rows($result) > 0) {
             // Start table
-            echo "<h3>Requested Items (Status 1)</h3>";
+            echo "<h3>Requested Items and Accepted by technical committee</h3>";
             echo "<table class='report-table'>";
             echo "<tr><th>Name</th><th>Type</th><th>Measurement</th><th>Quantity</th><th>Price</th><th>Total Price</th><th>Reported Date</th></tr>";
 
@@ -213,7 +215,7 @@ function fetchAuctionDetails() {
         // Check if there are any auction details
         if (mysqli_num_rows($result) > 0) {
             // Start table
-            echo "<h3>Auction Details</h3>";
+            echo "<h3>products that uploads by auctioneer</h3>";
             echo "<table class='report-table'>";
             echo "<tr><th>ID</th><th>Name</th><th>Quantity</th><th>Price for Form</th><th>Description</th><th>Total Price</th><th>Measurement</th><th>Regular Price</th><th>Start Bid</th><th>Bid Start Date</th><th>Bid End Date</th></tr>";
 
@@ -377,7 +379,7 @@ GROUP BY p.id, p.name
     <a href="index.php" class="text-start"><b>BACK To HOME</b></a>    
     </div>
             <div class="container">
-                <h2>Generated Reports</h2>
+                <h2>view Reports</h2>
                 <form action="generate_reports.php" method="post">
                     <label for="selection">Select an Option:</label>
                     <div class="dropdown">
@@ -389,7 +391,7 @@ GROUP BY p.id, p.name
                             <option value="bidders_per_product">Number of Bidders Per Product</option>
 
                         </select>
-                        <button type="submit">Submit</button>
+                        <button type="submit">view</button>
                     </div>
                 </form>
                 <?php

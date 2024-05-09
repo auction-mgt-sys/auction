@@ -63,7 +63,7 @@
 								    <div class="dropdown-divider"></div>
 								    <a class="dropdown-item delete_user" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Delete</a>
 									<div class="dropdown-content"></div>
-								    <a class="dropdown-item detail_user" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Detail</a>
+									<a class="btn view_user btn-white" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">View Detail</a>
 									
 								  </div>
 
@@ -114,9 +114,14 @@ $('#new_user').click(function(){
 $('.edit_user').click(function(){
 	uni_modal('Edit User','manage_user.php?id='+$(this).attr('data-id'))
 })
+$('.view_user').click(function(){
+		uni_modal("<i class'fa fa-card-id'></i> User Details","users_detail.php?id="+$(this).attr('data-id'))
+		
+}) 
 $('.delete_user').click(function(){
 		_conf("Are you sure to delete this user?","delete_user",[$(this).attr('data-id')])
 	})
+	
 	function delete_user($id){
 		start_load()
 		$.ajax({
