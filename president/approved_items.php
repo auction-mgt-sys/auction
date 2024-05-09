@@ -51,7 +51,7 @@
     <div class="container">
         <?php
         // Approved items
-        $sql_approved = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, requesteditem_type, requesteditem_description, requesteditem_measurment, price, total_price, id FROM report WHERE auctionstatus = 1 ORDER BY id DESC";
+        $sql_approved = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, requesteditem_type, requesteditem_description, requesteditem_measurment, price, total_price, id, date_time FROM report WHERE auctionstatus = 1 ORDER BY id DESC";
         $result_approved = $conn->query($sql_approved);
 
         if ($result_approved->num_rows > 0) {
@@ -68,6 +68,7 @@
             echo "<th>Department</th>"; 
             echo "<th>Price</th>";
             echo "<th>Total Price</th>";
+            echo "<th>Date</th>"; // New column for Date
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
@@ -86,6 +87,7 @@
                 echo "<td>" . $row_approved['requesteditem_deptname'] . "</td>"; // Added Department data
                 echo "<td>" . $row_approved['price'] . "</td>";
                 echo "<td>" . $row_approved['total_price'] . "</td>";
+                echo "<td>" . $row_approved['date_time'] . "</td>"; // Display Date
                 echo "</tr>";
             }
 
