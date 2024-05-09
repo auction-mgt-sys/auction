@@ -42,6 +42,31 @@ include('header.php');
         top: -5px;
         right: -5px;
     }
+    /* Adjust the size of the Google Translate dropdown */
+.goog-te-menu-value,
+.goog-te-menu2 {
+    font-size: 12px; /* Adjust font size */
+    padding: 4px 8px; /* Adjust padding */
+}
+
+/* Adjust the size of the Google Translate button */
+.goog-te-button {
+    font-size: 12px; /* Adjust font size */
+    padding: 4px 8px; /* Adjust padding */
+}
+
+/* Adjust the size of the language options in the dropdown */
+.goog-te-menu2-item {
+    font-size: 12px; /* Adjust font size */
+    padding: 1px 2px; /* Adjust padding */
+}
+/* Hide the Google Translate display at the top */
+
+
+body > div:first-child {
+    display: none !important;
+}
+
 </style>
 
 <body id="page-top">
@@ -64,31 +89,54 @@ include('header.php');
   
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=home"><img src="images/Home.png" class="ic"> Home</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> About Organization</a></li>
-                    <li class="nav-item notification-icon"><a class="nav-link js-scroll-trigger" href="index.php?page=event"><img src="images/auction_32px.png" class="ic"> Events <span class="notification-count">
+                    <li class="nav-item notification-icon">
+                    <a class="nav-link js-scroll-trigger" href="index.php?page=event">
+    <img src="images/auction_32px.png" class="ic"> Events
+    <?php
     
-                    <?php
-// Get current datetime
-$current_datetime = date('Y-m-d H:i:s');
+    $current_datetime = date('Y-m-d H:i:s');
+    $where = "";
+    // Check if there are any ongoing events based on the current date and time
+    $event_count_query = $conn->query("SELECT COUNT(*) AS event_count FROM products WHERE unix_timestamp(bid_end_datetime) >= ".strtotime(date("Y-m-d H:i"))." $where ORDER BY name ASC");
 
-// Count the number of events from the product table that occur on or after the current datetime
-$event_count_query = $conn->query("SELECT COUNT(*) AS event_count FROM products WHERE bid_end_datetime >= '$current_datetime'");
-$event_count_row = $event_count_query->fetch_assoc();
-$event_count = $event_count_row['event_count'];
-?>
+    $event_count_row = $event_count_query->fetch_assoc();
+    $event_count = $event_count_row['event_count'];
 
-<!-- Display the number of events in the notification icon -->
-<span class="notification-count"><?php echo $event_count; ?></span>
+    // Display the number of ongoing events in the notification icon if count is greater than 0
+    if ($event_count > 0) {
+        echo '<span class="notification-count">' . $event_count . '</span>';
+    }
+    ?>
+</a>
 
 
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=contact"><img src="images/help.png" class="ic"> contact us</a></li>
+</li>
+  <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=contact"><img src="images/help.png" class="ic"> our team</a></li>
 
                     <?php if (isset($_SESSION['login_id'])) : ?>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=write_notifications"><img src="images/about.png" class="ic"> Contact Us</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Welcome " . $_SESSION['login_name'] ?> <i class="fa fa-power-off"></i></a></li>
                     <?php else : ?>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="javascript:void(0)" id="login_now"><img src='images/Login.png' class='ic'> Login</a></li>
                     <?php endif; ?>
+
+<!-- Translation Code here -->
+<span>
+    <div class="translate" id="google_translate_element"></div>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {  
+            new google.translate.TranslateElement({
+                pageLanguage: 'en', // Default language of the page
+                includedLanguages: 'am,en,oro', // Languages to include (Amharic and English)
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</span>
+
+
                 </ul>
+                
             </div>
         </div>
     </nav>
