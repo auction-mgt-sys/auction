@@ -60,7 +60,6 @@ $stmt->close();
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Type</th>
-
                                             <th>description</th>
                                             <th>Measurement</th>
                                             <th>Quantity</th>

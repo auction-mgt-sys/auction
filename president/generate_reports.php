@@ -369,6 +369,14 @@ GROUP BY p.id, p.name
             background-color: #3498db;
             color: #fff;
         }
+        .container {
+    text-align: center; /* Center-aligns text horizontally */
+}
+
+.container h2 {
+    margin: 0; /* Remove any default margin */
+}
+
     </style>
 </head>
 <body>
