@@ -1,9 +1,5 @@
-<?php require_once "controllerUserData.php"; ?>
-<?php
-if($_SESSION['info'] == false){
-    header('Location: login-user.php');  
-}
-?>
+<?php require_once "admin/db_connect.php"; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +21,6 @@ if($_SESSION['info'] == false){
                 <?php
             }
             ?>
-                <form action="login-user.php" method="POST">
                     <div class="form-group">
                         <input class="form-control button" type="submit" name="login-now" value="Login Now">
                     </div>

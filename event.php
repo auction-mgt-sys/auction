@@ -63,7 +63,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                 <p>number of pieces :-<?php echo $row['quantity'] ?></p>
 
                 <?php if (!$expired): ?>
-                    <button class="btn btn-primary btn-sm view_prod" type="button" data-id="<?php echo $row['id'] ?>"> View</button>
+                    <button class="btn btn-primary btn-sm view_prod" type="button" data-id="<?php echo $row['id'] ?>"> buy bid</button>
                 <?php endif; ?>
             </div>
         </div>

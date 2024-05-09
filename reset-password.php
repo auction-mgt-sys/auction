@@ -1,57 +1,34 @@
 <?php
+// Database connection
+$conn = mysqli_connect("localhost", "username", "password", "auction_mgt_sys");
 
-$token = $_GET["token"];
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get email and new password from the form
+    $email = $_POST["email"];
+    $newPassword = $_POST["new_password"];
 
-$token_hash = hash("sha256", $token);
+    // You should validate the email and password here before proceeding further.
+    // Example validation:
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        // If email is not valid, display an error message
+        echo "Error: Invalid email address.";
+        exit;
+    }
 
-$mysqli = require __DIR__ . "/database.php";
+    // Generate MD5 hash of the new password
+    $hashedPassword = md5($newPassword);
 
-$sql = "SELECT * FROM users
-        WHERE rese = ?";
+    // Update the password in the database
+    $sql = "UPDATE users SET password = '$hashedPassword' WHERE email = '$email'";
+    $result = mysqli_query($conn, $sql);
 
-$stmt = $mysqli->prepare($sql);
-
-$stmt->bind_param("s", $token_hash);
-
-$stmt->execute();
-
-$result = $stmt->get_result();
-
-$user = $result->fetch_assoc();
-
-if ($user === null) {
-    die("token not found");
+    if ($result) {
+        // Password updated successfully
+        echo "Password updated successfully.";
+    } else {
+        // If there was an error updating the password, display an error message
+        echo "Error: Unable to update password. Please try again later.";
+    }
 }
-
-if (strtotime($user["reset_token_expires_at"]) <= time()) {
-    die("token has expired");
-}
-
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Reset Password</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
-</head>
-<body>
-
-    <h1>Reset Password</h1>
-
-    <form method="post" action="process-reset-password.php">
-
-        <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
-
-        <label for="password">New password</label>
-        <input type="password" id="password" name="password">
-
-        <label for="password_confirmation">Repeat password</label>
-        <input type="password" id="password_confirmation"
-               name="password_confirmation">
-
-        <button>Send</button>
-    </form>
-
-</body>
-</html>
