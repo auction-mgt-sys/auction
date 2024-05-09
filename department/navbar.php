@@ -13,6 +13,7 @@
 				<a href="index.php?page=sentitem" class="nav-item sentitem"><span class='icon-field'><i class="fa fa-angle-double-right"></i></span> sent </a>
 
 				<a href="index.php?page=rejecteditem" class="nav-item rejecteditem"><span class='icon-field'><i class="fa fa-times-circle"></i></span> view rejected item </a>
+				<a href="index.php?page=cancleitem" class="nav-item cancleitem"><span class='icon-field'><i class="fa fa-times-circle"></i></span> view cancle item </a>
 
 			</div>
 </nav>

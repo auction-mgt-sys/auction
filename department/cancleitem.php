@@ -18,7 +18,7 @@ if ($userId != 0) {
 
 // Fetch rejected items from the requesteditem table for the department associated with the logged-in user
 $rejectedItems = array();
-$query = "SELECT id, name, type, measurment, quantity, reason FROM requesteditem WHERE status = 2 AND deptname = ?";
+$query = "SELECT id, requesteditem_name, requesteditem_type, requesteditem_description, requesteditem_measurment, requesteditem_quantity, reason , dateapprove FROM report WHERE auctionstatus = 2 AND requesteditem_deptname = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $departmentName);
 $stmt->execute();
@@ -37,7 +37,7 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rejected Item </title>
+    <title>Rejected Item View</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -46,7 +46,7 @@ $stmt->close();
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <b>Rejected item by technical committee</b>
+                        <b>Canclled  item by President</b>
                     </div>
             <div class="row">
                 <!-- Table Panel -->
@@ -60,20 +60,27 @@ $stmt->close();
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Type</th>
+
+                                            <th>description</th>
                                             <th>Measurement</th>
                                             <th>Quantity</th>
                                             <th>Reason</th>
+                                            <th>canclled Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php foreach ($rejectedItems as $item): ?>
                                             <tr>
                                                 <td><?php echo $item['id']; ?></td>
-                                                <td><?php echo $item['name']; ?></td>
-                                                <td><?php echo $item['type']; ?></td>
-                                                <td><?php echo $item['measurment']; ?></td>
-                                                <td><?php echo $item['quantity']; ?></td>
+                                                <td><?php echo $item['requesteditem_name']; ?></td>
+                                                <td><?php echo $item['requesteditem_type']; ?></td>
+                                                <td><?php echo $item['requesteditem_description']; ?></td>
+
+                                                <td><?php echo $item['requesteditem_quantity']; ?></td>
+                                                <td><?php echo $item['requesteditem_measurment']; ?></td>
                                                 <td><?php echo $item['reason']; ?></td>
+                                                <td><?php echo $item['dateapprove']; ?></td>
+
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>

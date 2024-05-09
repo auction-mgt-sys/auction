@@ -120,7 +120,7 @@
     include("db_connect.php");
     
     // Example query to fetch reports from the database
-    $sql = "SELECT r.requesteditem_id, r.requesteditem_name, r.requesteditem_quantity, r.requesteditem_deptname, r.price, r.total_price, r.id, r.requesteditem_description, r.requesteditem_measurment, r.requesteditem_type FROM report r WHERE r.status = 1 AND r.auctionstatus = 0";
+    $sql = "SELECT r.requesteditem_id, r.requesteditem_name, r.requesteditem_quantity, r.requesteditem_deptname, r.requesteditem_depheadname, r.price, r.total_price, r.id, r.requesteditem_description, r.requesteditem_measurment, r.requesteditem_type FROM report r WHERE r.status = 1 AND r.auctionstatus = 0";
     $result = $conn->query($sql);
     
     if ($result->num_rows > 0) {
@@ -138,6 +138,8 @@
                     <p><strong>Measurement:</strong> <?php echo $row['requesteditem_measurment']; ?></p>
                     <p><strong>Quantity:</strong> <?php echo $row['requesteditem_quantity']; ?></p>
                     <p><strong>Department:</strong> <?php echo $row['requesteditem_deptname']; ?></p>
+
+                    <p><strong>Department:</strong> <?php echo $row['requesteditem_depheadname']; ?></p>
                     <p><strong>Price:</strong> <?php echo $row['price']; ?></p>
                     <p><strong>Total Price:</strong> <?php echo $row['total_price']; ?></p>
                     <form method="post">
