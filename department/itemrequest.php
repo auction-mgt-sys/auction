@@ -47,6 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<!-- The rest of your HTML code remains unchanged -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,11 +57,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Item Request Form</title>
     <style>
-        /* Your CSS styles here */
         .container {
-            position: relative;
-        }
-        .toast {
+    position: relative;
+    background-color: white; /* Light gray background */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Add some padding */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+
+}
+/* Your CSS styles here */
+        
+.toast {
             display: none;
             position: absolute;
             top: 90px;

@@ -37,63 +37,78 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rejected Item View</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-spacing: 0;
-        }
-
-        th, td {
-            border: 1px solid #dddddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:hover {
-            background-color: #ddd;
-        }
-    </style>
+    <title>Rejected Item </title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h2>Rejected Items</h2>
-    <?php if (!empty($rejectedItems)): ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Measurement</th>
-                    <th>Quantity</th>
-                    <th>Reason</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($rejectedItems as $item): ?>
-                    <tr>
-                        <td><?php echo $item['id']; ?></td>
-                        <td><?php echo $item['name']; ?></td>
-                        <td><?php echo $item['type']; ?></td>
-                        <td><?php echo $item['measurment']; ?></td>
-                        <td><?php echo $item['quantity']; ?></td>
-                        <td><?php echo $item['reason']; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php else: ?>
-        <p>No rejected items found.</p>
-    <?php endif; ?>
-    <!-- Your HTML content here -->
+            <!-- Table Panel -->
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <b>Rejected item by technical committee</b>
+                    </div>
+            <div class="row">
+                <!-- Table Panel -->
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <?php if (!empty($rejectedItems)): ?>
+                                <table class="table table-condensed table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Measurement</th>
+                                            <th>Quantity</th>
+                                            <th>Reason</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($rejectedItems as $item): ?>
+                                            <tr>
+                                                <td><?php echo $item['id']; ?></td>
+                                                <td><?php echo $item['name']; ?></td>
+                                                <td><?php echo $item['type']; ?></td>
+                                                <td><?php echo $item['measurment']; ?></td>
+                                                <td><?php echo $item['quantity']; ?></td>
+                                                <td><?php echo $item['reason']; ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            <?php else: ?>
+                                <p>No rejected items found.</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+                <!-- Table Panel -->
+            </div>
+        </div>  
+    </div>
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('table').dataTable();
+        });
+    </script>
+
+    <style>
+        tr.even {
+            background-color: #f2f2f2;
+            height: 30px; /* Decrease row height */
+        }
+        tr.odd {
+            background-color: #ffffff;
+            height: 30px; /* Decrease row height */
+        }
+    </style>
+
 </body>
 </html>
