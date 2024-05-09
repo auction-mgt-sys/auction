@@ -13,10 +13,8 @@ ob_end_flush();
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Request</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+   
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,6 +58,17 @@ ob_end_flush();
         .price-input {
             width: 100px; /* Adjust the width of the total price input */
         }
+        tr.even {
+            background-color: #f2f2f2;
+            height: 30px; /* Decrease row height */
+        }
+        tr.odd {
+            background-color: #ffffff;
+            height: 30px; /* Decrease row height */
+        }
+        .bold{
+            font weight: bold;
+        }
     </style>
 </head>
 
@@ -69,8 +78,8 @@ ob_end_flush();
         include("db_connect.php");
 
         // Insert data into the report table
-        $insert_sql = "INSERT INTO report (requesteditem_name, requesteditem_type, requesteditem_description, requesteditem_measurment, requesteditem_quantity,requesteditem_deptname, requesteditem_id)
-                        SELECT DISTINCT name, type, description, measurment, quantity,deptname, id FROM requesteditem 
+        $insert_sql = "INSERT INTO report (requesteditem_name, requesteditem_type, requesteditem_description, requesteditem_measurment, requesteditem_quantity,requesteditem_deptname, requesteditem_depheadname, requesteditem_id)
+                        SELECT DISTINCT name, type, description, measurment, quantity, deptname, depheadname, id FROM requesteditem 
                         WHERE status = 1 and  id NOT IN (SELECT requesteditem_id FROM report)";
         if ($conn->query($insert_sql) === TRUE) {
             // Fetch data from the report table
@@ -79,6 +88,7 @@ ob_end_flush();
             if ($result->num_rows > 0) {
                 echo "<form id='submitPriceForm' method='post' action=''>
                         <table id='reportTable' class='display'>
+                        <h2 id= 'h2' class='bold' >Set price</h2>
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -87,12 +97,15 @@ ob_end_flush();
                                     <th>Measurement</th>
                                     <th>Quantity</th>
                                     <th>Deptname</th>
+
+                                    <th>Depheadname</th>
                                     <th>ID</th>
                                     <th>Price</th>
                                     <th>Total Price</th>
                                 </tr>
                             </thead>
                             <tbody>";
+                            
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr id='row_" . $row["requesteditem_id"] . "'>
                             <td>" . $row["requesteditem_name"] . "</td>
@@ -101,8 +114,9 @@ ob_end_flush();
                             <td>" . $row["requesteditem_measurment"] . "</td>
                             <td>" . $row["requesteditem_quantity"] . "</td>
                             <td>" . $row["requesteditem_deptname"] . "</td>
+                            <td>" . $row["requesteditem_depheadname"] . "</td>
                             <td>" . $row["requesteditem_id"] . "</td>
-                            <td><input type='text' name='price[" . $row["requesteditem_id"] . "]' id='price_" . $row["requesteditem_id"] . "' value='" . $row["price"] . "' oninput='calculateTotalPrice(" . $row["requesteditem_id"] . ", " . $row["requesteditem_quantity"] . ")'></td>
+                            <td><input type='text' class='price-input' name='price[" . $row["requesteditem_id"] . "]' id='price_" . $row["requesteditem_id"] . "' value='" . $row["price"] . "' oninput='calculateTotalPrice(" . $row["requesteditem_id"] . ", " . $row["requesteditem_quantity"] . ")'></td>
                             <td><input type='text' class='total-price-input' name='total_price[" . $row["requesteditem_id"] . "]' id='total_price_" . $row["requesteditem_id"] . "' value='" . ($row["price"] * $row["requesteditem_quantity"]) . "'></td>
                         </tr>";
                 }
@@ -143,7 +157,7 @@ ob_end_flush();
         }
         ?>
     </div>
-
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
