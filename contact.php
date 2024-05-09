@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Team</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
             margin: 0;
-            overflow: hidden; /* Remove scrolling */
         }
 
         html {
@@ -25,7 +25,6 @@
 
         h2 {
             text-align: center;
-            margin-top: 10px; /* Adjusted margin */
         }
 
         .row {
@@ -33,7 +32,6 @@
             justify-content: space-around;
             align-items: center;
             flex-wrap: wrap;
-            margin-top: 20px; /* Adjusted margin */
         }
 
         .column {
@@ -82,7 +80,9 @@
 <div class="contact-section">
     <!-- Add content for contact section if needed -->
 </div>
+
 <h2>Our Team</h2>
+
 <div class="row">
     <div class="column">
         <div class="card">
@@ -91,8 +91,9 @@
                 <h3>HANNA SEMU</h3>
                 <p class="title">Website Developer</p>
                 <p>A student at Wolkite University. She developed this website for a graduation industrial project and for use in any auction process that the organization issues regularly!</p>
-                <p>2024 Batch</p>
-                <p><a href="mailto:hannasemu@gmail.com">hannasemu@gmail.com</a></p>
+                <p><i class="icon fas fa-envelope"></i><a href="mailto:hannasemu@gmail.com">hannasemu@gmail.com</a></p>
+                <p><i class="icon fab fa-linkedin"></i><a href="https://www.linkedin.com/in/HannaSemu" target="_blank"> HannaSemu</a></p>
+        
             </div>
         </div>
     </div>
@@ -104,8 +105,9 @@
                 <h3>ELENI BEYENE</h3>
                 <p class="title">Website Developer</p>
                 <p>A student at Wolkite University. She developed this website for a graduation industrial project and for use in any auction process that the organization issues regularly!</p>
-                <p>2024 Batch</p>
-                <p><a href="mailto:beyeneleni2@gmail.com">beyeneleni2@gmail.com</a></p>
+                <p><i class="icon fas fa-envelope"></i><a href="mailto:elenibeyene@gmail.com">hannasemu@gmail.com</a></p>
+                <p><i class="icon fab fa-linkedin"></i><a href="https://www.linkedin.com/in/elenibeyene" target="_blank"> elenibeyene</a></p>
+        
             </div>
         </div>
     </div>
@@ -117,8 +119,10 @@
                 <h3>ELSHADAI MELESSE</h3>
                 <p class="title">Website Developer</p>
                 <p>A student at Wolkite University. She developed this website for a graduation industrial project and for use in any auction process that the organization issues regularly!</p>
-                <p>2024 Batch</p>
-                <p><a href="mailto:elshadaimelesse@gmail.com">elshadaimelesse@gmail.com</a></p>
+                <p><i class="icon fas fa-envelope"></i><a href="mailto:elshadaimelesse@gmail.com">elshadaimelesse@gmail.com</a></p>
+                <p><i class="icon fab fa-linkedin"></i><a href="https://www.linkedin.com/in/elshadaimelesse" target="_blank"> elshadaimelesse</a></p>
+            
+                
             </div>
         </div>
     </div>
