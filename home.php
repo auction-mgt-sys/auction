@@ -137,7 +137,7 @@ while($row = $cat->fetch_assoc()):
                 <p class="truncate"><?php echo $row['description'] ?></p>
                 <p>number of pieces :- <?php echo $row['quantity'] ?></p>
 
-            <button class="btn btn-primary btn-sm view_prod" type="button" data-id="<?php echo $row['id'] ?>"> View</button>
+            <button class="btn btn-primary btn-sm view_prod" type="button" data-id="<?php echo $row['id'] ?>"> buy bid</button>
         </div>
     </div>
 </div>

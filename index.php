@@ -20,7 +20,7 @@ include('header.php');
     }
 
     .wpcsc {
-        width: 50px; 
+        width: 70px; 
         height: auto; 
         border-radius: 50%; 
         margin-right: 5px; 

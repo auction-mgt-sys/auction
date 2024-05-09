@@ -204,10 +204,9 @@ if (isset($_POST['cancel'])) {
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h2>Cancel Auction</h2>
+        <h4>Please provide reason for Cancel Item</h4>
         <form method="post">
             <input type="hidden" id="cancelItemId" name="item_id">
-            <label for="reason">Please provide reason:</label>
             <textarea id="reason" name="reason" rows="4" cols="50"></textarea><br><br>
             <button type="submit" name="cancel">save</button>
             <button type="button" onclick="closeModal()">Cancel</button>
