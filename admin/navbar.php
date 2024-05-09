@@ -11,7 +11,7 @@
 				<a href="index.php?page=home" class="nav-item nav-home"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
 				<a href="index.php?page=bids" class="nav-item nav-bids"><span class='icon-field'><i class="fa fa-money-bill-alt"></i></span> Bids</a>
 				<?php if($_SESSION['login_type'] == 1): ?>
-					<a href="index.php?page=manage_employe" class="nav-item nav-users"><span class='icon-field'><i class="fa fa-users"></i></span> employee</a> 
+					<a href="index.php?page=manage_employe" class="nav-item nav-manage_employe"><span class='icon-field'><i class="fa fa-users"></i></span> employee</a> 
 
 				<a href="index.php?page=users" class="nav-item nav-users"><span class='icon-field'><i class="fa fa-users"></i></span> Bidder</a> 
 

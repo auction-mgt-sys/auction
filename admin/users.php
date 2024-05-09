@@ -98,7 +98,7 @@ $(document).ready(function(){
         // Send AJAX request to update status in the database
         $.post('update_status.php', { id: id, status: currentStatus }, function(data){
             if (data == 0) {
-                alert('sucessfully  update stats.');
+                alert('sucessfully  activate the user.');
             }
         });
     });
