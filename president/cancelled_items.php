@@ -37,6 +37,10 @@
             color: #fff;
         }
 
+        .bold-entry td {
+            font-weight: bold;
+        }
+
         .message {
             margin-top: 20px;
             text-align: center;
@@ -48,31 +52,41 @@
         <div class="table-wrapper">
             <?php
             // Fetching cancelled items from the database ordered by item ID in descending order
-            $sql_cancelled = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, price, total_price, id FROM report WHERE auctionstatus = 2 ORDER BY requesteditem_id DESC";
+            $sql_cancelled = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, requesteditem_type, requesteditem_description, requesteditem_measurment, price, total_price,  dateapprove FROM report WHERE auctionstatus = 2 ORDER BY requesteditem_id DESC";
             $result_cancelled = $conn->query($sql_cancelled);
 
             if ($result_cancelled->num_rows > 0) {
+                echo "<h2>Cancelled Items</h2>";
                 echo "<table class='cancelled-table' id='cancelled-table'>";
                 echo "<thead>";
                 echo "<tr>";
-                echo "<th style='width: 10%; padding: 8px;'>Item ID</th>"; // Adjusted padding for Item ID
-                echo "<th style='width: 20%; padding: 4px;'>Name</th>"; // Reduced padding for Name
-                echo "<th style='width: 10%;'>Quantity</th>";
-                echo "<th style='width: 20%;'>Department</th>"; // Added Department column
-                echo "<th style='width: 20%;'>Price</th>";
-                echo "<th style='width: 25%;'>Total Price</th>"; 
+                echo "<th>Name</th>";
+                echo "<th>Type</th>";
+                echo "<th>Description</th>";
+                echo "<th>Measurement</th>";
+                echo "<th>Quantity</th>";
+                echo "<th>Department</th>"; 
+                echo "<th>Price</th>";
+                echo "<th>Total Price</th>";
+                echo "<th>Cancelled Date </th>";
+
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
 
                 while ($row_cancelled = $result_cancelled->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>" . $row_cancelled['requesteditem_id'] . "</td>";
+                    // Add bold class to the new entries
+                    
                     echo "<td>" . $row_cancelled['requesteditem_name'] . "</td>";
+                    echo "<td>" . $row_cancelled['requesteditem_type'] . "</td>";
+                    echo "<td>" . $row_cancelled['requesteditem_description'] . "</td>";
+                    echo "<td>" . $row_cancelled['requesteditem_measurment'] . "</td>";
                     echo "<td>" . $row_cancelled['requesteditem_quantity'] . "</td>";
                     echo "<td>" . $row_cancelled['requesteditem_deptname'] . "</td>"; // Added Department data
                     echo "<td>" . $row_cancelled['price'] . "</td>";
                     echo "<td>" . $row_cancelled['total_price'] . "</td>";
+
+                    echo "<td>" . $row_cancelled['dateapprove'] . "</td>";
                     echo "</tr>";
                 }
                 echo "</tbody>";

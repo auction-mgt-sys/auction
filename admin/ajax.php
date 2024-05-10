@@ -9,14 +9,10 @@ if($action == 'login'){
 		echo $login;
 }
 if($action == 'save_comment'){
-    $save = $crud->save_comment();
-    if($save) {
-        echo 1; // Indicates successful save operation
-    } else {
-        echo 0; // Indicates failed save operation
-    }
+	$save = $crud->save_comment();
+	if($save)
+		echo $save;
 }
-
 if($action == 'Verify_comment_detail'){
 	$save = $crud->Verify_comment_detail();
 	if($save)

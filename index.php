@@ -15,12 +15,12 @@ include('header.php');
 
 <style>
    #main-field {
-        margin-top: 5rem!important;
+        margin-top: 5.9rem!important;
 
     }
 
     .wpcsc {
-        width: 50px; 
+        width: 70px; 
         height: auto; 
         border-radius: 50%; 
         margin-right: 5px; 
@@ -42,6 +42,31 @@ include('header.php');
         top: -5px;
         right: -5px;
     }
+    /* Adjust the size of the Google Translate dropdown */
+.goog-te-menu-value,
+.goog-te-menu2 {
+    font-size: 12px; /* Adjust font size */
+    padding: 4px 8px; /* Adjust padding */
+}
+
+/* Adjust the size of the Google Translate button */
+.goog-te-button {
+    font-size: 12px; /* Adjust font size */
+    padding: 4px 8px; /* Adjust padding */
+}
+
+/* Adjust the size of the language options in the dropdown */
+.goog-te-menu2-item {
+    font-size: 12px; /* Adjust font size */
+    padding: 1px 2px; /* Adjust padding */
+}
+/* Hide the Google Translate display at the top */
+
+
+body > div:first-child {
+    display: none !important;
+}
+
 </style>
 
 <body id="page-top">
@@ -68,11 +93,12 @@ include('header.php');
                     <a class="nav-link js-scroll-trigger" href="index.php?page=event">
     <img src="images/auction_32px.png" class="ic"> Events
     <?php
-    // Get current date and time with microseconds
-    $current_datetime = date('Y-m-d H:i:s.u');
-
+    
+    $current_datetime = date('Y-m-d H:i:s');
+    $where = "";
     // Check if there are any ongoing events based on the current date and time
-    $event_count_query = $conn->query("SELECT COUNT(*) AS event_count FROM products WHERE bid_end_datetime >= '$current_datetime'");
+    $event_count_query = $conn->query("SELECT COUNT(*) AS event_count FROM products WHERE unix_timestamp(bid_end_datetime) >= ".strtotime(date("Y-m-d H:i"))." $where ORDER BY name ASC");
+
     $event_count_row = $event_count_query->fetch_assoc();
     $event_count = $event_count_row['event_count'];
 
@@ -85,19 +111,28 @@ include('header.php');
 
 
 </li>
-
-
-
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=contact"><img src="images/help.png" class="ic"> contact us</a></li>
+  <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=contact"><img src="images/help.png" class="ic"> our team</a></li>
 
                     <?php if (isset($_SESSION['login_id'])) : ?>
-                       
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Welcome " . $_SESSION['login_name'] ?> <i class="fa fa-power-off"></i></a></li>
                     <?php else : ?>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="javascript:void(0)" id="login_now"><img src='images/Login.png' class='ic'> Login</a></li>
                     <?php endif; ?>
 
 <!-- Translation Code here -->
+<span>
+    <div class="translate" id="google_translate_element"></div>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {  
+            new google.translate.TranslateElement({
+                pageLanguage: 'en', // Default language of the page
+                includedLanguages: 'am,en,oro', // Languages to include (Amharic and English)
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</span>
 
 
                 </ul>

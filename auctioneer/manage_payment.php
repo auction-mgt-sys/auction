@@ -25,6 +25,8 @@ foreach($user->fetch_array() as $k =>$v){
 			<label for="lname">Reason</label>
 			<input type="text" name="reason" id="reason" class="form-control" value="<?php echo isset($meta['reason']) ? $meta['reason']: '' ?>" required>
 		</div>
+		
+
 	</form>
 </div>
 <script>

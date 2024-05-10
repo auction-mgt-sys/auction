@@ -1,30 +1,9 @@
 <?php include 'admin/db_connect.php'; ?>
 
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
-    $img_fname = $_FILES['img']['name'];
-    $b_img_fname = $_FILES['bphoto']['name'];
 
-    // Upload images
-    if ($_FILES['img']['tmp_name'] != '') {
-        $img_fname = strtotime(date('y-m-d H:i')).'_'.$img_fname;
-        move_uploaded_file($_FILES['img']['tmp_name'], 'auctioner/'.$img_fname);
-    }
 
-    if ($_FILES['bphoto']['tmp_name'] != '') {
-        $b_img_fname = strtotime(date('y-m-d H:i')).'_'.$b_img_fname;
-        move_uploaded_file($_FILES['bphoto']['tmp_name'], 'auctioner/'.$b_img_fname);
-    }
 
-    // Insert into payment table
-    $sql = "INSERT INTO payment (img_fname, b_img_fname) VALUES ('$img_fname', '$b_img_fname')";
-    // Execute SQL query
-    // Add your code to execute the SQL query here
-}
-?>
-
-<?php
 session_start();
 if(isset($_GET['id'])){
     $qry = $conn->query("SELECT * FROM products where id= ".$_GET['id']);
@@ -86,20 +65,13 @@ $_SESSION['pro_form_amount'] = $price_for_form;
     </div>
     <div class="p-1 col-6">
         <div class="image-container">
-            <img src="<?php echo isset($img_fname) ? 'auctioner/'.$img_fname : '' ?>" alt="" id="img_path-field1" style="display: none;">
+            <img src="<?php echo isset($photo) ? 'uploads/'.$photo : '' ?>" alt="" id="img_path-field1" style="display: none;">
         </div>
         <span id="img_error1" style="color: red; display: none;">Please upload an image.</span>
     </div>
 
-    <div class="p-1 col-4">
-        <input type="file" class="form-control" name="bphoto" onchange="displayImg2(this, $(this), 'img_path-field2')" required>
-    </div>
-    <div class="p-1 col-6">
-        <div class="image-container">
-            <img src="<?php echo isset($b_img_fname) ? 'auctioner/'.$b_img_fname : '' ?>" alt="" id="img_path-field2" style="display: none;">
-        </div>
-        <span id="img_error2" style="color: red; display: none;">Please upload an image.</span>
-    </div>
+    
+    
 </div>
 <style>
 .image-container {
@@ -246,7 +218,7 @@ $_SESSION['pro_form_amount'] = $price_for_form;
                         end_load()
                     }
                     else{
-                        alert_toast("Requesting the payment!",'success')
+                        alert_toast("Requesting the payment! Please wight Until the payment is verified by auctioneers",'success')
                         end_load()
                     }
                 }

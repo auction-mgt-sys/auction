@@ -118,12 +118,23 @@ Class Action {
 //if No such transaction id found in the system...
 			else{
 				$status = 0;
+
+$img_name = $_FILES['img']['name'];
+$input_img = $_FILES['img']['tmp_name'];
+$img_query = "uploads/".$img_name;
+
+move_uploaded_file($input_img, $img_query);
+
+
 		$data = " transaction_id = '$transaction_id' ";
 		$data .= ", reason = '$reason' ";
 		$data .= ", pro_id = '$pro_id' ";
 		$data .= ", bidder_id = '".$_SESSION['login_id']."' ";
 		$data .= ", status = '".$status."' ";
+	    $data .= ", photo = '$img_query' ";
 		$save = $this->db->query("INSERT INTO payment set ".$data);
+		
+
 		if($save)
 				return 2;
 			}

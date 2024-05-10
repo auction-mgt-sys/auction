@@ -16,7 +16,7 @@ body {
 }
 
 a {
-  color: #1977cc;
+  color: #6595de;
 }
 
 a:hover {
@@ -151,11 +151,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #topbar .contact-info a:hover {
-  color: #1977cc;
+  color: #6595de;
 }
 
 #topbar .contact-info i {
-  color: #1977cc;
+  color: #6595de;
   padding-right: 4px;
   margin-left: 15px;
 }

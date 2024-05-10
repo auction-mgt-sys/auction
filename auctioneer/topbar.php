@@ -5,7 +5,7 @@
     background: white;
     padding: 7px 11px;
     border-radius: 50% 50%;
-    color: #000000b3;
+    color: #000003;
 }
 .t{
 

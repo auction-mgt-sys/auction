@@ -6,7 +6,6 @@
 	
 	<div class="row">
 	<div class="col-lg-12">
-			<button class="btn btn-primary float-right btn-sm" id="new_user"><i class="fa fa-plus"></i> New user</button>
 	</div>
 	</div>
 	<br>
@@ -20,7 +19,6 @@
 					<th class="text-center">Name</th>
 					<th class="text-center">Username</th>
 					<th class="text-center">Type</th>
-					<th class="text-center">deptname</th>
 					<th class="text-center">Action</th>
 				</tr>
 			</thead>
@@ -28,7 +26,7 @@
 				<?php
  					include 'db_connect.php';
  					$type = array("","admin","bidder","auctioneer","commitee","deparment","finance","president");
- 					$users = $conn->query("SELECT * FROM users order by name asc");
+ 					$users = $conn->query("SELECT * FROM users where type = 2 order by name asc");
  					$i = 1;
  					while($row= $users->fetch_assoc()):
 				 ?>
@@ -47,12 +45,15 @@
 				 		<?php echo $type[$row['type']] ?>
 						
 				 	</td>
-					 <td>
-				 		<?php echo $row['deptname'] ?>
-				 	</td>
+					
 				 	<td>
 				 		<center>
-								<div class="btn-group">
+						 <div class="btn-group">
+						 <button type="button" class="btn btn-<?php echo $row['sta'] == 0 ? 'success' : 'danger' ?> toggle_active" data-id="<?php echo $row['id'] ?>">
+    <?php echo $row['sta'] == 0 ? 'Active' : 'Deactive' ?>
+</button>
+</div>						<div class="btn-group">
+									
 								  <button type="button" class="btn btn-primary">Action</button>
 								  <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								    <span class="sr-only">Toggle Dropdown</span>
@@ -62,7 +63,8 @@
 								    <div class="dropdown-divider"></div>
 								    <a class="dropdown-item delete_user" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Delete</a>
 									<div class="dropdown-content"></div>
-								    <a class="dropdown-item detail_user" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Detail</a>
+									<a class="btn view_user btn-white" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">View Detail</a>
+									
 								  </div>
 
 								  
@@ -80,6 +82,31 @@
 
 </div>
 <script>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $('.toggle_active').click(function(){
+        var id = $(this).data('id');
+        var currentStatus = $(this).hasClass('btn-success') ? 0 : 1; // Assuming 'success' class indicates active state
+
+        // Toggle the button class and text
+        $(this).toggleClass('btn-success btn-danger');
+        $(this).text(currentStatus == 0 ? 'Deactivate' : 'Activate');
+
+        // Send AJAX request to update status in the database
+        $.post('update_status.php', { id: id, status: currentStatus }, function(data){
+            if (data == 0) {
+                alert('sucessfully  activate the user.');
+            }
+        });
+    });
+});
+</script>
+<script>
+
+	
 	$('table').dataTable();
 $('#new_user').click(function(){
 	uni_modal('New User','manage_user.php')
@@ -87,9 +114,14 @@ $('#new_user').click(function(){
 $('.edit_user').click(function(){
 	uni_modal('Edit User','manage_user.php?id='+$(this).attr('data-id'))
 })
+$('.view_user').click(function(){
+		uni_modal("<i class'fa fa-card-id'></i> User Details","users_detail.php?id="+$(this).attr('data-id'))
+		
+}) 
 $('.delete_user').click(function(){
 		_conf("Are you sure to delete this user?","delete_user",[$(this).attr('data-id')])
 	})
+	
 	function delete_user($id){
 		start_load()
 		$.ajax({

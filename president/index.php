@@ -13,6 +13,8 @@
   if(!isset($_SESSION['login_id'])){
     header('location:../index.php');
   }
+
+  
   else if(isset($_SESSION['login_id'])){
       if($_SESSION['login_type']==1)
       {

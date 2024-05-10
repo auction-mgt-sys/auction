@@ -1,25 +1,40 @@
+<?php include("db_connect.php"); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Requested Items</title>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+   
 <style>
     /* CSS for styling */
     body {
         font-family: Arial, sans-serif;
+    }
+    .container {
+        margin: 0 auto;
+        width: 100%;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     table {
         width: 100%;
         border-collapse: collapse;
     }
     th, td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
+        border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
     }
     th {
-        background-color: #f2f2f2;
+        background-color: #3498db;
+            color: #fff;
     }
     .verify-btn, .reject-btn {
         padding: 6px 10px;
@@ -69,6 +84,7 @@
 
     .search-container {
         margin-bottom: 20px;
+        right: 80;
     }
     .search-container input[type=text] {
         padding: 10px;
@@ -96,7 +112,7 @@
     .pagination {
         margin-top: 20px;
         display: flex;
-        justify-content: center;
+        justify-content: right;
         align-items: center;
     }
     .pagination-btn {
@@ -116,6 +132,7 @@
 </style>
 </head>
 <body>
+<div class="container">
 <?php
 // PHP code to fetch requested items from database
 include 'db_connect.php'; 
@@ -166,6 +183,7 @@ if ($result->num_rows > 0) {
 }
 $conn->close();
 ?>
+</div>
 
 <!-- Popup for verification -->
 <div id="verifyPopup" class="popup">
@@ -241,7 +259,7 @@ $conn->close();
                     // Hide the toast after 3 seconds
                     setTimeout(function() {
                         toast.style.display = 'none';
-                    }, 9000);
+                    }, 3000);
                 } else {
                     // Show a toast alert for successful rejection
                     var toast = document.getElementById('toastReject');
@@ -250,7 +268,7 @@ $conn->close();
                     // Hide the toast after 3 seconds
                     setTimeout(function() {
                         toast.style.display = 'none';
-                    }, 9000);
+                    }, 3000);
                 }
                 // Reload the page after status update
                 location.reload();

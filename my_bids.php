@@ -73,11 +73,11 @@
                                         <?php if($uid == $row['user_id']): ?>
                                         <span class="badge badge-primary">Winning in Bidding process</span>
                                         <?php else: ?>
-                                        <span class="badge badge-secondary">You Loos The Bid</span>
+                                        <span class="badge badge-secondary">You Loose The Bid</span>
                                         <?php endif; ?>
                                         <?php endif; ?>
                                         <?php elseif($row['status'] == 2): ?>
-                                        <span class="badge badge-success">You Won</span>
+                                        <span class="badge badge-success">Congratulations! 🎉 You Won 🏆</span>
                                         <?php else: ?>
                                         <span class="badge badge-danger">Canceled bid</span>
                                         <?php endif; ?>

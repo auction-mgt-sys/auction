@@ -37,7 +37,7 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rejected Item View</title>
+    <title>Rejected Item </title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -46,7 +46,7 @@ $stmt->close();
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <b>Rejected item</b>
+                        <b>Rejected item by technical committee</b>
                     </div>
             <div class="row">
                 <!-- Table Panel -->
