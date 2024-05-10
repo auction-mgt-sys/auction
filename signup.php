@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="p-1 col-6">
-                <input type="number" min="18" max="80" name="age" class="form-control" placeholder="Age" required="">
+                <input type="number" min="18" max="100" name="age" class="form-control" placeholder="Age" required="">
             </div>
         </div>
         <div class="d-flex justify-content-start">
@@ -71,25 +71,47 @@
     }
 </style>
 <div class="p-1 col-6">
-    <input type="text" name="email" id="emailInput" class="form-control" value="" placeholder="Email" required="" oninput="checkEmailValidity()" title="Please enter a valid Gmail email address (e.g., sss@gmail.com)">
-    <div id="emailError" style="color: red;"></div>
-</div>
+<input type="text" name="email" id="emailInput" class="form-control" value="" placeholder="Email" required="" oninput="validateEmail()" title="Please enter a valid Gmail email address (e.g., sss@gmail.com)">
+<div id="emailError" style="color: red;"></div>
 
+
+</div>
 <script>
-    function checkEmailValidity() {
+    function validateEmail() {
         const emailInput = document.getElementById('emailInput');
         const emailError = document.getElementById('emailError');
         const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
+        // Validate email format
         if (!emailPattern.test(emailInput.value)) {
             emailError.textContent = 'Please enter a valid Gmail email address (e.g., sss@gmail.com)';
             emailInput.setCustomValidity('Invalid Gmail format');
+            return;
         } else {
             emailError.textContent = '';
             emailInput.setCustomValidity('');
         }
+
+        // Perform AJAX request to check if email is already registered
+        $.ajax({
+            url: "check_email.php", // Replace this with your server-side script
+            method: "POST",
+            data: { email: emailInput.value },
+            success: function(response) {
+                if (response == "exists") {
+                    emailError.textContent = "The email is already registered.";
+                    emailInput.setCustomValidity('Email already exists');
+                } else {
+                    emailError.textContent = '';
+                    emailInput.setCustomValidity('');
+                }
+            }
+        });
     }
 </script>
+
+
+
 
 
         </div>
@@ -173,7 +195,7 @@
             strengthText.className = 'strong';
             document.getElementById('passwordInput').setCustomValidity('');
         } else {
-            strengthText.innerHTML = 'Password must contain at least uppercase letter,lowercase letter, one digit, special character, and be at least 8 characters long.';
+            strengthText.innerHTML = 'Password must contain at least uppercase letter,lowercase letter, digit, special character, and be at least 8 characters long.';
             strengthText.className = 'weak';
             document.getElementById('passwordInput').setCustomValidity('Password is not strong enough');
         }
@@ -260,9 +282,9 @@
             confirmPasswordStrength.className = 'strong';
             document.getElementById('confirmPasswordInput').setCustomValidity('');
         } else {
-            confirmPasswordStrength.innerHTML = 'Passwords do not match or are not strong enough';
+            confirmPasswordStrength.innerHTML = 'Passwords do not match ';
             confirmPasswordStrength.className = 'weak';
-            document.getElementById('confirmPasswordInput').setCustomValidity('Passwords do not match or are not strong enough');
+            document.getElementById('confirmPasswordInput').setCustomValidity('Passwords do not match    ');
         }
     }
 </script>
@@ -272,13 +294,13 @@
             <input type="text" name="TIN" class="form-control" placeholder="Taxpayment ID (TIN)" required="">
         </div>
         <div class="justify-content-start">
-        <div class="p-1 col-4">
-    <input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this))" required>
+        <div class="p-1 col-4">scan your TIN CARD and upload image
+    <input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this)), img_path-field1" required>
 </div>
 <div class="p-1 col-6">
     <div class="image-container">
         <img src="<?php echo isset($photo) ? 'pho/'.$photo :'' ?>" alt="" id="img_path-field">
-        <span id="img_error" style="color: red; display: none;">Please upload an image.</span>
+        <span id="img_error1" style="color: red; display: none;">Please upload an image.</span>
     </div>
 </div>
 
@@ -302,31 +324,61 @@
     }
 </style>
 
+<div class="justify-content-start">
+        <div class="p-1 col-4">scan your BUSINESS LICENSE and upload image
+    <input type="file" class="form-control" name="bphoto" onchange="displayImg2(this,$(this), img_path-field2)" required>
+</div>
+<div class="p-1 col-6">
+    <div class="image-container">
+        <img src="<?php echo isset($bphoto) ? 'pho/'.$bphoto :'' ?>" alt="" id="img_path-field">
+        <span id="img_error2" style="color: red; display: none;">Please upload an image.</span>
+    </div>
+</div>
+
+<style>
+    .image-container {
+    border: 2px solid #ccc;
+    padding: 10px;
+    max-width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 15px; /* Optional margin for spacing between image containers */
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+</style>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const imgField = document.getElementById('img_path-field');
-        const imgError = document.getElementById('img_error');
+   function displayImg2(input, element, imgId) {
+        const img = document.getElementById(imgId);
+        const error = document.getElementById(imgId.replace('img_path', 'img_error'));
 
-        // Function to check if the image source is empty or contains a placeholder
-        function validateImage() {
-            if (!imgField.src || imgField.src.indexOf('placeholder') !== -1) {
-                imgError.style.display = 'block';
-                return false;
-            } else {
-                imgError.style.display = 'none';
-                return true;
-            }
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                img.src = e.target.result;
+                img.style.display = 'block'; // Make sure the image is visible
+                error.style.display = 'none'; // Hide the error message
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            img.src = ''; // Clear the image source
+            img.style.display = 'none'; // Hide the image
+            error.style.display = 'block'; // Show the error message
         }
-
-        // Add an event listener to the file input to validate the image before form submission
-        const fileInput = document.querySelector('input[name="img"]');
-        fileInput.addEventListener('change', function() {
-            if (validateImage()) {
-                // If the image is valid, automatically submit the form
-                this.closest('form').submit();
-            }
-        });
-    });
+    }
+       
 </script>
 
 
@@ -387,7 +439,7 @@
                     $('#signup-frm').prepend('<div class="alert alert-danger">Passwords did not match!</div>')
                     end_load()
                 } else {
-                    alert_toast("Registered! Please login.", 'success')
+                    alert_toast("successfully Registered! Please wight Until the your registrations verified by comittee.", 'success')
                     setTimeout(function () {
                         location.reload()
                     }, 3000)
