@@ -486,7 +486,7 @@ if (isset($_SESSION['login_id'])) {
                             <a href="index.php?page=winners" class='list-group-item list' id="sids">Winners</a>
                             <a href="index.php?page=inbox_notifications" class='list-group-item list' id="sids">Feedback</a>
                             <a href="index.php?page=changepasswords" class='list-group-item list' id="sids">change password</a>
-                            <a href="index.php?page=change" class='list-group-item list' id="sids">licences </a>
+                            <a href="index.php?page=change" class='list-group-item list' id="sids">update your licences </a>
 
                           </ul> 
                 </div>
