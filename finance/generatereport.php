@@ -15,10 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Query to fetch data
-$query = "SELECT ri.id, ri.name, ri.type, ri.description, ri.status, COUNT(*) AS count_items, r.price, r.total_price, r.reported_date
+$query = "SELECT ri.id, ri.name, ri.type, ri.description,  COUNT(*) AS count_items, r.price, r.total_price, r.reported_date
           FROM requesteditem ri
           LEFT JOIN report r ON ri.id = r.requesteditem_id
-          GROUP BY ri.id, ri.name, ri.type, ri.description, ri.status";
+          GROUP BY ri.id, ri.name, ri.type, ri.description";
 
 $result = $conn->query($query);
 ?>
@@ -38,7 +38,6 @@ $result = $conn->query($query);
                     <th>Name</th>
                     <th>Type</th>
                     <th>Description</th>
-                    <th>Status</th>
                     <th>Count</th>
                     <th>Price</th>
                     <th>Total Price</th>
@@ -53,20 +52,16 @@ $result = $conn->query($query);
                     $itemName = $row['name'];
                     $itemType = $row['type'];
                     $itemDescription = $row['description'];
-                    $itemStatus = $row['status'];
                     $itemCount = $row['count_items'];
                     $itemPrice = $row['price'];
                     $itemTotalPrice = $row['total_price'];
                     $reported_date = $row['reported_date'];
 
-                    $statusClass = ($itemStatus == 1) ? 'accepted' : 'rejected';
-                    $statusText = ($itemStatus == 1) ? 'Accepted' : 'Rejected';
 
                     echo "<tr class='" . ($result->num_rows % 2 == 0 ? 'even' : 'odd') . "'>";
                     echo "<td>$itemName</td>";
                     echo "<td>$itemType</td>";
                     echo "<td>$itemDescription</td>";
-                    echo "<td><span class='status-{$statusClass}'>{$statusText}</span></td>";
                     echo "<td>$itemCount</td>";
                     echo "<td>$itemPrice</td>";
                     echo "<td>$itemTotalPrice</td>";

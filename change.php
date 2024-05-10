@@ -20,9 +20,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['login_id']) && isse
             $stmt->bind_param("si", $file_name, $uid);
 
             if ($stmt->execute()) {
-                echo json_encode(array("status" => "success", "message" => "Photo uploaded successfully!"));
-                exit; // Exit to prevent further execution
-            } else {
+                
+                echo '<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">';
+                echo '<div style="text-align: center;">';
+                echo json_encode(array(  "Thanks your business licences  updated  successfully!"));
+                echo '</div>';
+                echo '</div>';
+                exit;
+            }
+            
+ else {
                 echo json_encode(array("status" => "error", "message" => "Error updating photo: " . $conn->error));
                 exit; // Exit to prevent further execution
             }
@@ -51,12 +58,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['login_id']) && isse
                 <br>
                 <!-- HTML form for uploading photo -->
                 <form id="uploadForm" enctype="multipart/form-data" method="post">
-                    <div class="form-group">
-                        <label for="photo">Upload Your Photo:</label>
-                        <input type="file" class="form-control" id="photo" name="photo">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Upload Photo</button>
-                </form>
+    <div class="form-group">
+        <label for="business_license">Upload Your Renewed Business License:</label>
+        <input type="file" class="form-control" id="photo" name="photo" accept="image/*" required>
+        <img id="preview" src="#" alt="Preview" style="display: none; max-width: 100%; margin-top: 10px;">
+    </div>
+    <button type="submit" class="btn btn-primary">Upload Photo</button>
+</form>
+
+<script>
+    document.getElementById('photo').addEventListener('change', function() {
+        var file = this.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview').src = e.target.result;
+                document.getElementById('preview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+
             </div>
         </div>
     </div>

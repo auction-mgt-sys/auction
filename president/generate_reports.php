@@ -166,7 +166,7 @@ function fetchRequestedItemsStatus1() {
     global $conn;
 
     // Query to fetch requested items with status 1 from the report table
-    $sql = "SELECT requesteditem_name, requesteditem_type, requesteditem_measurment, requesteditem_quantity, price, total_price, reported_date FROM report WHERE status = 1";
+    $sql = "SELECT requesteditem_name, requesteditem_type, requesteditem_measurment, requesteditem_quantity,requesteditem_deptname,requesteditem_depheadname, price, total_price, reported_date FROM report WHERE status = 1";
     $result = mysqli_query($conn, $sql);
 
     // Check if query executed successfully
@@ -176,7 +176,7 @@ function fetchRequestedItemsStatus1() {
             // Start table
             echo "<h3>Requested Items and Accepted by technical committee</h3>";
             echo "<table class='report-table'>";
-            echo "<tr><th>Name</th><th>Type</th><th>Measurement</th><th>Quantity</th><th>Price</th><th>Total Price</th><th>Reported Date</th></tr>";
+            echo "<tr><th>Name</th><th>Type</th><th>Measurement</th><th>Quantity</th><th>Department</th><th>department head</th><th>Price</th><th>Total Price</th><th>Reported Date</th></tr>";
 
             // Output data of each row
             while($row = mysqli_fetch_assoc($result)) {
@@ -185,6 +185,10 @@ function fetchRequestedItemsStatus1() {
                 echo "<td>".$row["requesteditem_type"]."</td>";
                 echo "<td>".$row["requesteditem_measurment"]."</td>";
                 echo "<td>".$row["requesteditem_quantity"]."</td>";
+
+                echo "<td>".$row["requesteditem_deptname"]."</td>";
+                echo "<td>".$row["requesteditem_depheadname"]."</td>";
+
                 echo "<td>".$row["price"]."</td>";
                 echo "<td>".$row["total_price"]."</td>";
                 echo "<td>".$row["reported_date"]."</td>";
@@ -397,8 +401,14 @@ GROUP BY p.id, p.name
                             <option value="requested_items_status_1">Requested Items and Accept </option>
                             <option value="auction">Auction</option>
                             <option value="bidders_per_product">Number of Bidders Per Product</option>
-
-                        </select>
+                            <label for="report_period">Select Report Period:</label>
+                            </div>     </select>
+    <div class="dropdown">
+        <select id="report_period" name="report_period">
+            <option value="6_months">Every 6 Months</option>
+            <option value="1_year"> 1 Year</option>
+        </select>
+                  
                         <button type="submit">view</button>
                     </div>
                 </form>
