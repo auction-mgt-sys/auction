@@ -9,10 +9,12 @@
 			<label for="" class="control-label">Password</label>
 			<input type="password" name="password" required="" class="form-control">
 			<a href="javascript:void(0)" id="new_account">Create New Account</a>
-			<a href="javascript:void(0)" id="forgot_password" class="ml-2">Forgot your Password?</a>
 		</div>
 		<button class="button btn btn-primary btn-sm">Login</button>
+		
+		<a href="password-reset.php" class="float-end">	Forgot Your Password?</a>
 		<button class="button btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancel</button>
+
 	</form>
 </div>
 
