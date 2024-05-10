@@ -60,17 +60,16 @@ $_SESSION['pro_form_amount'] = $price_for_form;
                     <input type="text" class="form-control text-right" name="reason" required="">
         </div>
         <div class="justify-content-start">
-    <div class="p-1 col-4">
-        <input type="file" class="form-control" name="img" onchange="displayImg2(this, $(this), 'img_path-field1')" required>
+        <div class="p-1 col-4">
+    <input type="file" class="form-control" name="img" onchange="displayImg2(this, $(this), 'img_path-field1')" required>
+</div>
+<div class="p-1 col-6">
+    <div class="image-container">
+        <img src="<?php echo isset($photo) ? 'uploads/'.$photo : '' ?>" alt="" id="img_path-field1" style="display: none;">
     </div>
-    <div class="p-1 col-6">
-        <div class="image-container">
-            <img src="<?php echo isset($photo) ? 'uploads/'.$photo : '' ?>" alt="" id="img_path-field1" style="display: none;">
-        </div>
-        <span id="img_error1" style="color: red; display: none;">Please upload an image.</span>
-    </div>
+    <span id="img_error1" style="color: red; display: none;">Please upload an image.</span>
+</div>
 
-    
     
 </div>
 <style>
