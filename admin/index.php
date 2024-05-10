@@ -13,6 +13,7 @@
   if(!isset($_SESSION['login_id'])){
     header('location:../index.php');
   }
+  
   else if(isset($_SESSION['login_id'])){
       
       if($_SESSION['login_type']==2)
@@ -106,8 +107,7 @@
 
   <div id="preloader"></div>
   <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
-
-<div class="modal fade" id="confirm_modal" role='dialog'>
+  <div class="modal fade" id="confirm_modal" role='dialog'>
     <div class="modal-dialog modal-md" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -215,8 +215,7 @@ window._conf = function($msg='',$func='',$params = []){
       $('#alert_toast').removeClass('bg-danger')
       $('#alert_toast').removeClass('bg-info')
       $('#alert_toast').removeClass('bg-warning')
-
-    if($bg == 'success')
+      if($bg == 'success')
       $('#alert_toast').addClass('bg-success')
     if($bg == 'danger')
       $('#alert_toast').addClass('bg-danger')

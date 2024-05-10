@@ -51,22 +51,29 @@ if(isset($_POST['name'])){
     <form action="" id="manage-user">   
         <input type="hidden" name="id" value="<?php echo isset($meta['id']) ? $meta['id']: '' ?>">
         <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" class="form-control" value="<?php echo isset($meta['name']) ? $meta['name']: '' ?>" required>
-        </div>
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" class="form-control" value="<?php echo isset($meta['name']) ? $meta['name']: '' ?>" required pattern="[A-Za-z]+" title="Name should only contain alphabets" >
+    <!-- Add pattern="[A-Za-z]+" to allow only alphabets -->
+    <!-- Add title="Name should only contain alphabets" to display custom error message -->
+</div>
+
     
+<div class="form-group">
+    <label for="lname">Last Name</label>
+    <input type="text" name="lname" id="lname" class="form-control" value="<?php echo isset($meta['lname']) ? $meta['lname']: '' ?>" required pattern="[A-Za-z]+" title="Last Name should only contain alphabets" >
+    <!-- Add pattern="[A-Za-z]+" to allow only alphabets -->
+    <!-- Add title="Last Name should only contain alphabets" to display custom error message -->
+</div>
+
         <div class="form-group">
-            <label for="lname">LastName</label>
-            <input type="text" name="lname" id="lname" class="form-control" value="<?php echo isset($meta['lname']) ? $meta['lname']: '' ?>" required>
-        </div>
-        <div class="form-group">
-            <label for="lname">age</label>
-            <input type="number" name="age" id="age" class="form-control" value="<?php echo isset($meta['age']) ? $meta['age']: '' ?>" required>
+            <label for="age">age</label>
+            <input type="number"min="25" max="65" name="age" id="age" class="form-control" value="<?php echo isset($meta['age']) ? $meta['age']: '' ?>" required>
         </div>
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" name="username" id="username" class="form-control" value="<?php echo isset($meta['username']) ? $meta['username']: '' ?>" required  autocomplete="off">
         </div>
+        
         <div class="form-group">
             <label for="password">Password</label>
             <input type="password" name="password" id="password" class="form-control" value="" autocomplete="off">
@@ -74,23 +81,22 @@ if(isset($_POST['name'])){
             <small><i>Leave this blank if you dont want to change the password.</i></small>
         <?php endif; ?>
         </div>
-        <?php if(isset($meta['type']) && $meta['type'] == 2): ?>
-            <input type="hidden" name="type" value="2">
+        <?php if(isset($meta['type']) && $meta['type'] == 1): ?>
+            <input type="hidden" name="type" value="1">
         <?php else: ?>
         <?php if(!isset($_GET['mtype'])): ?>
         <div class="form-group">
             <label for="type">User Type</label>
             <select name="type" id="type" class="custom-select">
                 <option value="3" <?php echo isset($meta['type']) && $meta['type'] == 3 ? 'selected': '' ?>>Auctioneer</option>
-            
-                <option value="1" <?php echo isset($meta['type']) && $meta['type'] == 1 ? 'selected': '' ?>>Admin</option>
+                <option value="2" <?php echo isset($meta['type']) && $meta['type'] == 2 ? 'selected': '' ?>>bidder</option>
                 <option value="4" <?php echo isset($meta['type']) && $meta['type'] == 4 ? 'selected': '' ?>>Committee</option>
                 <option value="5" <?php echo isset($meta['type']) && $meta['type'] == 5 ? 'selected': '' ?>>department</option>
                 <option value="6" <?php echo isset($meta['type']) && $meta['type'] == 6 ? 'selected': '' ?>>finance</option>
                 <option value="7" <?php echo isset($meta['type']) && $meta['type'] == 7 ? 'selected': '' ?>>president</option>
             </select>
             <div class="form-group" id="department-input">
-                <label for="deptname">Deptname</label>
+                <label for="deptname">Department tname</label>
                 <input type="text" name="deptname" id="deptname" class="form-control" value="<?php echo isset($meta['deptname']) ? $meta['deptname']: '' ?>">
             </div>
         </div>

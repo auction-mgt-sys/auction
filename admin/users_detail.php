@@ -52,6 +52,17 @@ if(isset($_GET['id'])){
                         echo 'No photo available';
                     }
                     ?>
+                    <?php 
+                    if(!empty($bphoto)) { 
+                        if (file_exists('../admin/'.$bphoto)) {
+                            echo '<img src="../admin/'.htmlspecialchars($bphoto).'" alt="User Photo">'; 
+                        } else {
+                            echo '<img src="data:image/jpeg;base64,'.base64_encode($bphoto).'" alt="User Photo">'; 
+                        }
+                    } else {
+                        echo 'No photo available';
+                    }
+                    ?>
                 </div>
                 <div class="user-info">
                     <p>Full Name: <b><?php echo htmlspecialchars($name)." ".htmlspecialchars($lname) ?></b> </p>
@@ -64,7 +75,6 @@ if(isset($_GET['id'])){
                     <p>User Type: <b><?php echo htmlspecialchars($type) ?></b></p>
                     <p>Registration Date: <b><?php echo htmlspecialchars($data_created) ?></b></p>
                     <p>Tax Payment ID: <b><?php echo htmlspecialchars($TIN_number) ?></b></p>
-                    <p>Image: <b><?php echo htmlspecialchars($photo) ?></b></p>
                 </div>
             </div>
         </div>
