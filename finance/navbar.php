@@ -4,7 +4,6 @@ include 'db_connect.php';
 // Count the number of rows in the report table where price and total price are 0, and status is 0
 $sql_setprice = "SELECT COUNT(*) AS setprice_count FROM report WHERE price = 0 AND total_price = 0 AND status = 0";
 $result_setprice = $conn->query($sql_setprice);
-
 $setprice_count = 0; // Default value
 
 if ($result_setprice) {
@@ -59,7 +58,7 @@ $conn->close();
         </a>
         <a href="index.php?page=setprice" class="nav-item nav-setprice">
             <span class="icon-field"><i class="fas fa-dollar-sign"></i></span> Set price
-            <span class="notification-count"><?php echo $setprice_count; ?></span>
+            <span id="notification-count-container" class="notification-count"><?php echo $setprice_count; ?></span>
         </a>
         <a href="index.php?page=generatereport" class="nav-item nav-generatereport">
             <span class="icon-field"><i class="fas fa-history"></i></span> History
@@ -67,57 +66,29 @@ $conn->close();
     </div>
 </nav>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // Function to update the notification count
-    function updateNotificationCount(count) {
-        $('.nav-setprice .notification-count').text(count);
-    }
+    $(document).ready(function() {
+        // Assuming you have a form with the ID "price-form" and an input field with the ID "price-input"
+        $('#price-form').submit(function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
 
-    // Function to check for new items in the requesteditem table
-    function checkForNewItems() {
-        // Make an AJAX request to the backend to check for new items
-        $.ajax({
-            url: 'backend/setprice.php', // Replace with your backend endpoint
-            method: 'GET',
-            success: function(response) {
-                var count = parseInt(response); // Assuming the response is the count of new items
-                updateNotificationCount(count);
-            },
-            error: function() {
-                console.error('Error occurred while checking for new items.');
-            }
-        });
-    }
+            // Get the submitted price value
+            var submittedPrice = $('#price-input').val();
 
-    // Call the function initially
-    checkForNewItems();
-
-    // Add event listener to periodically check for new items
-    setInterval(checkForNewItems, 60000); // Check every minute
-
-    // Add event listener to the form submission
-    $('form').submit(function(event) {
-        event.preventDefault(); // Prevent the form from submitting normally
-
-        // Make an AJAX request to decrease the price and update the notification count
-        $.ajax({
-            url: 'backend/decrease_price.php', // Replace with your backend endpoint
-            method: 'POST',
-            data: $(this).serialize(), // Serialize the form data
-            success: function(response) {
-                var count = parseInt(response); // Assuming the response is the updated count of new items
-                updateNotificationCount(count);
-            },
-            error: function() {
-                console.error('Error occurred while updating the price.');
-            }
+            // Perform an AJAX request to update the count
+            $.ajax({
+                url: 'db_connect.php',
+                method: 'POST',
+                data: { submittedPrice: submittedPrice },
+                success: function(response) {
+                    // Update the count in the notification container
+                    $('#notification-count-container').text(response.setprice_count);
+                },
+                error: function() {
+                    console.log('Error occurred while updating the count.');
+                }
+            });
         });
     });
-
-    $('.nav_collapse').click(function() {
-        console.log($(this).attr('href'));
-        $($(this).attr('href')).collapse();
-    });
-
-    $('.nav-<?php echo isset($_GET['page']) ? $_GET['page'] : ''; ?>').addClass('active');
 </script>
