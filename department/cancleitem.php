@@ -18,7 +18,7 @@ if ($userId != 0) {
 
 // Fetch rejected items from the requesteditem table for the department associated with the logged-in user
 $rejectedItems = array();
-$query = "SELECT id, requesteditem_name, requesteditem_type, requesteditem_description, requesteditem_measurment, requesteditem_quantity, reason  FROM report WHERE auctionstatus = 2 AND requesteditem_deptname = ?";
+$query = "SELECT id, requesteditem_name, requesteditem_type, requesteditem_description, requesteditem_measurment, requesteditem_quantity, reason , dateapprove FROM report WHERE auctionstatus = 2 AND requesteditem_deptname = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $departmentName);
 $stmt->execute();
@@ -64,6 +64,7 @@ $stmt->close();
                                             <th>Measurement</th>
                                             <th>Quantity</th>
                                             <th>Reason</th>
+                                            <th>canclled Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -77,6 +78,7 @@ $stmt->close();
                                                 <td><?php echo $item['requesteditem_quantity']; ?></td>
                                                 <td><?php echo $item['requesteditem_measurment']; ?></td>
                                                 <td><?php echo $item['reason']; ?></td>
+                                                <td><?php echo $item['dateapprove']; ?></td>
 
                                             </tr>
                                         <?php endforeach; ?>

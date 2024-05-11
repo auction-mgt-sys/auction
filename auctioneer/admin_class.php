@@ -15,6 +15,39 @@ Class Action {
 	    ob_end_flush();
 	}
 
+	function save_comment(){
+		// Start the session if it's not already started
+		if (session_status() == PHP_SESSION_NONE) {
+			session_start();
+		}
+		
+		// Extract POST data
+		extract($_POST);
+		
+		// Assuming $_SESSION['login_id'] and $_SESSION['login_type'] are set
+		$sender_id = $_SESSION['login_id'];
+		$sender_type = $_SESSION['login_type'];
+		
+		// Create data string for insertion
+		$data = " sender_id = '$sender_id' ";
+		$data .= ", user_type = '$sender_type' ";
+		$data .= ", reciver_id = '$receiver_id' "; // Assuming receiver_id is the correct variable name
+		$data .= ", title = '$Subject' ";
+		$data .= ", detail = '$detail' ";
+		$data .= ", status = 'unread' ";
+		
+		// Perform the database insertion
+		$save = $this->db->query("INSERT INTO comment SET ".$data);
+		
+		// Check if insertion was successful
+		if($save){
+			return 1; // Successful save
+		} else {
+			return 0; // Failed save
+		}
+	}
+	
+
 	function login(){
 		
 			extract($_POST);		
@@ -29,15 +62,6 @@ Class Action {
 				}
 				elseif ($_SESSION['login_type'] ==4) {
 					return 4;
-				}
-				elseif ($_SESSION['login_type'] ==5) {
-					return 5;
-				}
-				elseif ($_SESSION['login_type'] ==6) {
-					return 6;
-				}
-				elseif ($_SESSION['login_type'] ==7) {
-					return 7;
 				}
 				else{
 					foreach ($_SESSION as $key => $value) {
@@ -71,15 +95,6 @@ Class Action {
 				if($_SESSION['login_type'] == 4){
 					return 4;
 				}
-				elseif ($_SESSION['login_type'] ==5) {
-					return 5;
-				}
-				elseif ($_SESSION['login_type'] ==6) {
-					return 6;
-				}
-				elseif ($_SESSION['login_type'] ==7) {
-					return 7;
-				}
 				else{
 					foreach ($_SESSION as $key => $value) {
 						unset($_SESSION[$key]);
@@ -88,7 +103,7 @@ Class Action {
 					exit;
 				}
 			}else{
-				return 9;
+				return 6;
 			}
 	}
 	function logout(){
@@ -437,7 +452,16 @@ Class Action {
 				unlink('assets/uploads/'. $fname);
 			$move = move_uploaded_file($_FILES['img']['tmp_name'],'assets/uploads/'. $fname);
 			$save = $this->db->query("UPDATE products set img_fname='$fname' where id = $id");
-			}
+
+			}$update_statuss = $this->db->query("
+            UPDATE auctionitem 
+            SET statuss = 1 
+            WHERE common_name = '$name' 
+            AND common_measurement = '$measurement' 
+            AND total_quantity = '$quantity' 
+            AND price = '$regular_price' 
+            AND total_price = '$total_price'
+        ");
 			return 1;
 		}
 	}
@@ -479,6 +503,7 @@ Class Action {
 		}else{
 			$save = $this->db->query("UPDATE bids set ".$data." where id=".$id);
 		}
+		
 		if($save)
 			return 1;
 	}

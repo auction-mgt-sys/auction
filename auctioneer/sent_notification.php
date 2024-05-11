@@ -1,4 +1,4 @@
- <!-- Masthead-->
+<!-- Masthead-->
 
        <?php include('db_connect.php');
 
@@ -45,9 +45,16 @@ $owner = $_SESSION['login_id'];
                            <hr>
                     </a>
                 <?php }  
-
-$d = date('g:i a',strtotime($row['date']));
-                ?>
+  
+  if (isset($row['date'])) {
+      $d = date('g:i a', strtotime($row['date']));
+      // Rest of your code that uses $d
+  } else {
+      // Handle the case when $row['date'] is not set or null
+      $d = ''; // or any default value you want to assign
+  }
+?>
+              
 
                              
 <!--                     <small><i><?php #echo date('F j, Y, g:i a',strtotime($i['date'])) ?></i></small><br/>  
@@ -58,7 +65,8 @@ $d = date('g:i a',strtotime($row['date']));
             </div>
             <!-- Table Panel -->
         </div>
-    </div>  
+    </div>
+
 
 </div>
 <?php } ?>

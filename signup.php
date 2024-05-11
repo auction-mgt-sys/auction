@@ -325,7 +325,7 @@
 </style>
 
 <div class="justify-content-start">
-        <div class="p-1 col-4">scan your BUSINESS LICENSE and upload image
+        <div class="p-1 col-4">scan your BUSINESS CARD and upload image
     <input type="file" class="form-control" name="bphoto" onchange="displayImg2(this,$(this), img_path-field2)" required>
 </div>
 <div class="p-1 col-6">

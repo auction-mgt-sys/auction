@@ -61,6 +61,17 @@ if ($status == 1) {
                         echo 'No photo available';
                     }
                     ?>
+                    <?php 
+                    if(!empty($bphoto)) { 
+                        if (file_exists('../admin/'.$bphoto)) {
+                            echo '<img src="../admin/'.htmlspecialchars($bphoto).'" alt="User Photo">'; 
+                        } else {
+                            echo '<img src="data:image/jpeg;base64,'.base64_encode($bphoto).'" alt="User Photo">'; 
+                        }
+                    } else {
+                        echo 'No photo available';
+                    }
+                    ?>
                 </div>
                 <div class="user-info">
                     <p>Full Name: <b><?php echo htmlspecialchars($name)." ".htmlspecialchars($lname) ?></b> </p>

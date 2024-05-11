@@ -95,7 +95,7 @@ $owner = $_SESSION['login_id'];
 		e.preventDefault();
 		start_load()
 		$.ajax({
-			url:'admin/ajax.php?action=save_comment',
+			url:'admin_class.php?action=save_comment',
 			method:'POST',
 			data:$(this).serialize(),
 			success:function(resp){

@@ -9,13 +9,13 @@ foreach($qry->fetch_array() as $k => $val){
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
     // Update auctionstatus to 1
-    $conn->query("UPDATE report SET auction = 1 WHERE id = {$id}");
+    $conn->query("UPDATE auctionitem SET statuss = 1 WHERE id = {$id}");
 }
-$qry_report = $conn->query("SELECT requesteditem_name, requesteditem_quantity, requesteditem_measurment, total_price ,price FROM report WHERE auctionstatus = 1 and auction = 0  ORDER BY id ASC LIMIT 1");
+$qry_report = $conn->query("SELECT common_name, total_quantity, common_measurement, total_price ,price FROM auctionitem WHERE statuss = 0 and staup = 1 ORDER BY id ASC LIMIT 1");
 $report_row = $qry_report->fetch_assoc();
-$auto_name = isset($report_row['requesteditem_name']) ? $report_row['requesteditem_name'] : '';
-$auto_quantity = isset($report_row['requesteditem_quantity']) ? $report_row['requesteditem_quantity'] : 1;
-$auto_measurement = isset($report_row['requesteditem_measurment']) ? $report_row['requesteditem_measurment'] : '';
+$auto_name = isset($report_row['common_name']) ? $report_row['common_name'] : '';
+$auto_quantity = isset($report_row['total_quantity']) ? $report_row['total_quantity'] : 1;
+$auto_measurement = isset($report_row['common_measurement']) ? $report_row['common_measurement'] : '';
 $auto_total_price = isset($report_row['total_price']) ? $report_row['total_price'] : 0;
 $auto_price = isset($report_row['price']) ? $report_row['price'] : 0;
 
@@ -213,14 +213,17 @@ img#img_path-field{
 						</div>
 
 						<div class="col-md-5">
-							<img src="<?php echo isset($img_fname) ? 'assets/uploads/'.$img_fname :'' ?>" alt="" id="img_path-field">
-						</div>
+    <img src="<?php echo isset($img_fname) ? 'assets/uploads/'.$img_fname :'' ?>" alt="" id="img_path-field" style="max-width: 100%; height: auto;">
+</div>
+
 					</div>
 					<div class="row">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-sm btn-block btn-primary col-sm-2">Post</button>
-                        </div>
-					</div>
+                         <div class="d-flex justify-content-start">
+                          <button type="submit" class="btn btn-sm btn-primary">Post</button>
+                       </div>
+                     </div>
+                   </div>
 				</form>
 			</div>
 		</div>
@@ -243,6 +246,7 @@ img#img_path-field{
 		e.preventDefault()
 		start_load()
 		$('#msg').html('')
+		
 		$.ajax({
 			url:'ajax.php?action=save_product',
 			data: new FormData($(this)[0]),
@@ -263,6 +267,7 @@ img#img_path-field{
 			}
 		})
 	})
+
 	if (window.FileReader) {
   var drop;
   addproductHandler(window, 'load', function() {

@@ -91,10 +91,15 @@
     </style>
 </head>
 
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
 <body>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
     <div class="about-section">
-        <h1>ABOUT WPCSC</h1>
+        <h3>ABOUT WPCSC</h3>
         <?php echo html_entity_decode($_SESSION['system']['about_content']) ?>
     </div>
 
@@ -122,6 +127,7 @@
             </div>
         </div>
         <br>
+        
         <div class="text-center text-muted">Copyright © 2024 - WPCSC AUCTION SYSTEM | <a href="https://wptc.edu.et//" target="_blank">Wolkite Polytechnic College and Satellite Campus</a></div>
     </footer>
 

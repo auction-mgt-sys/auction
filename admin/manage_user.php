@@ -90,6 +90,7 @@ if(isset($_POST['name'])){
             <select name="type" id="type" class="custom-select">
                 <option value="3" <?php echo isset($meta['type']) && $meta['type'] == 3 ? 'selected': '' ?>>Auctioneer</option>
                 <option value="2" <?php echo isset($meta['type']) && $meta['type'] == 2 ? 'selected': '' ?>>bidder</option>
+
                 <option value="4" <?php echo isset($meta['type']) && $meta['type'] == 4 ? 'selected': '' ?>>Committee</option>
                 <option value="5" <?php echo isset($meta['type']) && $meta['type'] == 5 ? 'selected': '' ?>>department</option>
                 <option value="6" <?php echo isset($meta['type']) && $meta['type'] == 6 ? 'selected': '' ?>>finance</option>

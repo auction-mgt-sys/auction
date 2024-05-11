@@ -5,7 +5,7 @@
     background: white;
     padding: 7px 11px;
     border-radius: 50% 50%;
-    color: #000000b3;
+    color: #000003;
 }
 .t{
 
@@ -20,7 +20,7 @@
   		
   		</div>
       <div class="col-md-9 float-left text-white d-flex">
-        <large><h5><b>Wpcsc Auction System</b></h5></large>
+        <large><h5><b>WPCSC Auction System</b></h5></large>
         <p class="t"><b>Auctioneer Page</b></p>
       </div>
 	  	<div class="float-right">

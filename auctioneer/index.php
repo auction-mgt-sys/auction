@@ -26,18 +26,6 @@
       {
         header('location:../committee/index.php');
       }
-      else if($_SESSION['login_type']==5)
-      {
-        header('location:../department/index.php');
-      }
-      else if($_SESSION['login_type']==6)
-      {
-        header('location:../finance/index.php');
-      }
-      else if($_SESSION['login_type']==7)
-      {
-        header('location:../president/index.php');
-      }
       else {
 
  include('./header.php'); 

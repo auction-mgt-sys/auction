@@ -16,8 +16,8 @@
 					<th class="text-center">Transaction ID</th>
 					<th class="text-center">Bidder Name</th>
 					<th class="text-center">Reason</th>
-<!-- 					<th class="text-center">Amount</th>
- -->					<th class="text-center">Date</th>
+			<th class="text-center">business</th>
+ <th class="text-center">Date</th>
 					<th class="text-center">Actions</th>
 				</tr>
 			</thead>
@@ -29,7 +29,13 @@
  					while($row= $payments->fetch_assoc()):
  						$get = $conn->query("SELECT * FROM users where id =".$row['bidder_id']." limit 1");
             			$uname = $get->num_rows > 0 ? $get->fetch_array()['name'] : '' ;
-				 ?>
+						$get_bphoto = $conn->query("SELECT bphoto FROM users WHERE id =" . $row['bidder_id'] . " LIMIT 1");
+						$bphoto = '';
+						if ($get_bphoto->num_rows > 0) {
+							$bphoto = $get_bphoto->fetch_array()['bphoto'];
+						}
+					?> 
+				 
 				 <tr>
 				 	<td class="text-center">
 				 		<?php echo $i++ ?>
@@ -43,13 +49,20 @@
 				 	<td>
 				 		<?php echo ucwords($row['reason']) ?>
 				 	</td>
+					 <td>
+            <!-- Display user's profile picture -->
+			<?php if (!empty($bphoto)) : ?>
+    <img src="uploads/<?php echo htmlspecialchars($bphoto); ?>" alt="Profile Picture" style="width: 50px;">
+<?php endif; ?>
+
+        </td>
 				 	<td>
 				 		<?php echo $row['date_payed'] ?>
 				 	</td>
 				 	<td>
 				 		<center>
 								<div class="btn-group">								  
-								    <a class="btn btn-primary Verify_payment" type='button' href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Accepte</a>&nbsp;
+								    <a class="btn btn-primary Verify_payment" type='button' href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Accept</a>&nbsp;
 								    <a class="btn btn-danger delet_payment" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Delete</a>
 								</div>
 								</center>

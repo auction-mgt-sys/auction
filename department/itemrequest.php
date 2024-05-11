@@ -65,9 +65,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 
 }
-/* Your CSS styles here */
+
+        /* Your CSS styles here */
         
-.toast {
+        .toast {
             display: none;
             position: absolute;
             top: 90px;

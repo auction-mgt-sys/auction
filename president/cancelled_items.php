@@ -52,7 +52,7 @@
         <div class="table-wrapper">
             <?php
             // Fetching cancelled items from the database ordered by item ID in descending order
-            $sql_cancelled = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, requesteditem_type, requesteditem_description, requesteditem_measurment, price, total_price, id FROM report WHERE auctionstatus = 2 ORDER BY requesteditem_id DESC";
+            $sql_cancelled = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, requesteditem_type, requesteditem_description, requesteditem_measurment, price, total_price,  dateapprove FROM report WHERE auctionstatus = 2 ORDER BY requesteditem_id DESC";
             $result_cancelled = $conn->query($sql_cancelled);
 
             if ($result_cancelled->num_rows > 0) {
@@ -60,7 +60,6 @@
                 echo "<table class='cancelled-table' id='cancelled-table'>";
                 echo "<thead>";
                 echo "<tr>";
-                echo "<th>Item ID</th>";
                 echo "<th>Name</th>";
                 echo "<th>Type</th>";
                 echo "<th>Description</th>";
@@ -69,16 +68,15 @@
                 echo "<th>Department</th>"; 
                 echo "<th>Price</th>";
                 echo "<th>Total Price</th>";
+                echo "<th>Cancelled Date </th>";
+
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
 
                 while ($row_cancelled = $result_cancelled->fetch_assoc()) {
                     // Add bold class to the new entries
-                    $bold_class = $row_cancelled['id'] > 1000 ? 'bold-entry' : '';
                     
-                    echo "<tr class='$bold_class'>";
-                    echo "<td>" . $row_cancelled['id'] . "</td>";
                     echo "<td>" . $row_cancelled['requesteditem_name'] . "</td>";
                     echo "<td>" . $row_cancelled['requesteditem_type'] . "</td>";
                     echo "<td>" . $row_cancelled['requesteditem_description'] . "</td>";
@@ -87,6 +85,8 @@
                     echo "<td>" . $row_cancelled['requesteditem_deptname'] . "</td>"; // Added Department data
                     echo "<td>" . $row_cancelled['price'] . "</td>";
                     echo "<td>" . $row_cancelled['total_price'] . "</td>";
+
+                    echo "<td>" . $row_cancelled['dateapprove'] . "</td>";
                     echo "</tr>";
                 }
                 echo "</tbody>";

@@ -30,7 +30,7 @@
         <div class="sidebar-list">
             <a href="index.php?page=home" class="nav-item nav-home"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
             <a href="index.php?page=reports" class="nav-item nav-reports">
-                <span class='icon-field'><i class="fa fa-file"></i></span> View Reports
+                <span class='icon-field'><i class="fa fa-eye"></i></span> View Reports
                 <?php
                 include 'db_connect.php'; 
                 $sql_reports = "SELECT COALESCE(COUNT(*), 0) AS reports_count FROM report WHERE status =1 and auctionstatus = 0";
@@ -55,9 +55,9 @@
                 }
                 ?>
             </a>
-            <a href="index.php?page=approved_items" class="nav-item nav-approved_items"><span class='icon-field'><i class="fa fa-file"></i></span> Approved Items</a>
-            <a href="index.php?page=cancelled_items" class="nav-item nav-cancelled_items"><span class='icon-field'><i class="fa fa-file"></i></span> Cancelled Items</a>
-            <a href="index.php?page=generate_reports" class="nav-item nav-generate_reports"><span class='icon-field'><i class="fa fa-file"></i></span> Generated Reports</a>
+            <a href="index.php?page=approved_items" class="nav-item nav-approved_items"><span class='icon-field'><i class="fa fa-gavel"></i></span> Approved Items</a>
+            <a href="index.php?page=cancelled_items" class="nav-item nav-cancelled_items"><span class='icon-field'><i class="fa fa-ban"></i></span> Cancelled Items</a>
+            <a href="index.php?page=generate_reports" class="nav-item nav-generate_reports"><span class='icon-field'><i class="fa fa-briefcase"></i></span> generated reports</a>
 
         </div>
     </nav>

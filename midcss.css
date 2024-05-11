@@ -1,5 +1,5 @@
 .header{
-    background-image: url(images/wkuhome.jpg);
+    background-image: url(images/wpcsc.jpg);
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
@@ -20,8 +20,8 @@
     margin: auto;
     padding: 2em;    
 }
-.description #wku {
-    width: 150px;
+.description #wpcsc {
+    width: 200px;
 }
 .description h1{
     font-family: "Times New Roman";
@@ -33,7 +33,7 @@
     color:rgb(13, 13, 39);
    }
 .sec1 {
-    margin-top: 15px;
+    margin-top: 0px;
     background-color: #ffffff93;
 
 }

@@ -42,4 +42,11 @@
   <script type="text/javascript" src="assets/js/jquery-te-1.4.0.min.js" charset="utf-8"></script>
 
 
+<style>.header {
+  background-color: #00BDFF;
+}
+.navbar {
+  background-color: #00BDFF;
+}
 
+</style>

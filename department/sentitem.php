@@ -105,6 +105,7 @@ $conn->close();
         $('table').dataTable();
     });
 </script>
+
 <style>
     tr.even {
         background-color: #f2f2f2;

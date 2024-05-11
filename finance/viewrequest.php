@@ -12,10 +12,7 @@ if(!isset($_SESSION['system'])){
 ob_end_flush();
 ?>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Request</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
        body {
             font-family: Arial, sans-serif;
@@ -25,7 +22,7 @@ ob_end_flush();
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 2000px;
             margin: 20px auto;
             padding: 20px;
             background-color: #fff;
@@ -65,6 +62,7 @@ ob_end_flush();
                 </tr>
             </thead>
             <tbody>
+            <h2 style="font-weight: bold;"> View Request </h2>
                 <?php
                     // Fetch accepted items from the database where status = 1
                     $sql = "SELECT * FROM requesteditem WHERE status = 1";
@@ -92,9 +90,9 @@ ob_end_flush();
             </tbody>
         </table>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#requestTable').DataTable({

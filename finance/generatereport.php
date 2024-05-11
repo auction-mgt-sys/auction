@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Query to fetch data
-$query = "SELECT ri.id, ri.name, ri.type, ri.description, ri.status, COUNT(*) AS count_items, r.price, r.total_price
+$query = "SELECT ri.id, ri.name, ri.type, ri.description, ri.status, COUNT(*) AS count_items, r.price, r.total_price, r.reported_date
           FROM requesteditem ri
           LEFT JOIN report r ON ri.id = r.requesteditem_id
           GROUP BY ri.id, ri.name, ri.type, ri.description, ri.status";
@@ -26,104 +26,89 @@ $result = $conn->query($query);
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Include the previous CSS styles -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <h2 style= "font-weight: bold;">Your History</h2>
+    <div class="container">
+        <table class="table table-condensed table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Count</th>
+                    <th>Price</th>
+                    <th>Total Price</th>
+                    <th>Reported date</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            <?php
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $itemName = $row['name'];
+                    $itemType = $row['type'];
+                    $itemDescription = $row['description'];
+                    $itemStatus = $row['status'];
+                    $itemCount = $row['count_items'];
+                    $itemPrice = $row['price'];
+                    $itemTotalPrice = $row['total_price'];
+                    $reported_date = $row['reported_date'];
+
+                    $statusClass = ($itemStatus == 1) ? 'accepted' : 'rejected';
+                    $statusText = ($itemStatus == 1) ? 'Accepted' : 'Rejected';
+
+                    echo "<tr class='" . ($result->num_rows % 2 == 0 ? 'even' : 'odd') . "'>";
+                    echo "<td>$itemName</td>";
+                    echo "<td>$itemType</td>";
+                    echo "<td>$itemDescription</td>";
+                    echo "<td><span class='status-{$statusClass}'>{$statusText}</span></td>";
+                    echo "<td>$itemCount</td>";
+                    echo "<td>$itemPrice</td>";
+                    echo "<td>$itemTotalPrice</td>";
+                    echo "<td>$reported_date</td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='8'>No data available.</td></tr>";
+            }
+
+            $conn->close();
+            ?>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('table').dataTable();
+        });
+    </script>
+
     <style>
-      body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+        tr.even {
+            background-color: #f2f2f2;
+            height: 30px; /* Decrease row height */
         }
-
-        
-        .container {
-            max-width: 1000px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        tr.odd {
+            background-color: #ffffff;
+            height: 30px; /* Decrease row height */
         }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .status-rejected {
-            color: red;
-        }
-
         .status-accepted {
             color: green;
         }
-
-        .report-button {
-            display: block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            margin: 10px auto;
-            cursor: pointer;
-        }
-        h2 {
-            text-align: center;
+        .status-rejected {
+            color: red;
         }
     </style>
-</head>
-<body>
-    <h2>Your History</h2>
-<div class="container">
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Count</th>
-            <th>Price</th>
-            <th>Total Price</th>
-        </tr>
-
-        <?php
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $itemId = $row['id']; // Assuming 'id' is the primary key of the requesteditem table
-                $itemName = $row['name'];
-                $itemType = $row['type'];
-                $itemDescription = $row['description'];
-                $itemStatus = $row['status'];
-                $itemCount = $row['count_items'];
-                $itemPrice = $row['price'];
-                $itemTotalPrice = $row['total_price'];
-
-                echo "<tr>";
-                echo "<td>$itemName</td>";
-                echo "<td>$itemType</td>";
-                echo "<td>$itemDescription</td>";
-                echo "<td><span class='status-" . ($itemStatus == 1 ? 'accepted' : 'rejected') . "'>" . ($itemStatus == 1 ? 'Accepted' : 'Rejected') . "</span></td>";
-                echo "<td>$itemCount</td>";
-                echo "<td>$itemPrice</td>";
-                echo "<td>$itemTotalPrice</td>";
-                echo "</tr>";
-            }
-            
-        } else {
-            echo "<tr><td colspan='7'>No data available.</td></tr>";
-        }
-
-        $conn->close();
-        ?>
-    </table>
-    </div>
 </body>
 </html>

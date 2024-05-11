@@ -159,7 +159,7 @@ if (isset($_POST['cancel'])) {
                     <p><strong>Quantity:</strong> <?php echo $row['requesteditem_quantity']; ?></p>
                     <p><strong>Department:</strong> <?php echo $row['requesteditem_deptname']; ?></p>
 
-                    <p><strong>Depheadname:</strong> <?php echo $row['requesteditem_depheadname']; ?></p>
+                    <p><strong>Department head name:</strong> <?php echo $row['requesteditem_depheadname']; ?></p>
                     <p><strong>Price:</strong> <?php echo $row['price']; ?></p>
                     <p><strong>Total Price:</strong> <?php echo $row['total_price']; ?></p>
                     <form method="post">
@@ -204,13 +204,12 @@ if (isset($_POST['cancel'])) {
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h2>Cancel Auction</h2>
+        <h4>Please provide reason for Cancel Item</h4>
         <form method="post">
             <input type="hidden" id="cancelItemId" name="item_id">
-            <label for="reason">Please provide reason:</label>
             <textarea id="reason" name="reason" rows="4" cols="50"></textarea><br><br>
-            <button type="submit" name="save">Save</button>
-            <button type="button" onclick="cancelModal()">Cancel</button>
+            <button type="submit" name="cancel">save</button>
+            <button type="button" onclick="closeModal()">Cancel</button>
         </form>
     </div>
 </div>

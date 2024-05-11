@@ -36,8 +36,8 @@ foreach($user->fetch_array() as $k =>$v){
 			<small><i>Leave this blank if you dont want to change your password.</i></small>
 		<?php endif; ?>
 		</div>
-		<?php if(isset($meta['type']) && $meta['type'] == 7): ?>
-			<input type="hidden" name="type" value="7">
+		<?php if(isset($meta['type']) && $meta['type'] == 5): ?>
+			<input type="hidden" name="type" value="5">
 		<?php else: ?>
 		<?php if(!isset($_GET['mtype'])): ?>
 		<div class="form-group">
