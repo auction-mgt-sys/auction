@@ -22,7 +22,7 @@
                     <select name="gender" class="form-select form-control" required="">
                         <option value="" selected="">Select Gender</option>
                         <option value="Male">Male</option>
-                        <option value="Femal">Femal</option>
+                        <option value="Femal">Female</option>
                     </select>
                 </div>
             </div>

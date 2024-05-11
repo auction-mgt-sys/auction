@@ -33,8 +33,8 @@
         }
 
         .history-table th {
-            background-color: #3498db;
-            color: #fff;
+            background-color: #fff; /* White background for header */
+            color: #000;
         }
 
         .bold-entry td {
