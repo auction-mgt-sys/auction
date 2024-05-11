@@ -33,8 +33,7 @@
         }
 
         .cancelled-table th {
-            background-color: #3498db;
-            color: #fff;
+            background-color: #fff;
         }
 
         .bold-entry td {

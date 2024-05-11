@@ -34,7 +34,6 @@
 
         .history-table th {
             background-color: #fff; /* White background for header */
-            color: #000;
         }
 
         .bold-entry td {

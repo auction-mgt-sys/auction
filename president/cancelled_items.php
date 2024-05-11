@@ -34,7 +34,6 @@
 
         .cancelled-table th {
             background-color: #fff;
-            color: #000;
         }
 
         .bold-entry td {
