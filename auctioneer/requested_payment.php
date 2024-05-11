@@ -16,8 +16,8 @@
 					<th class="text-center">Transaction ID</th>
 					<th class="text-center">Bidder Name</th>
 					<th class="text-center">Reason</th>
-			<th class="text-center">business</th>
- <th class="text-center">Date</th>
+			        <th class="text-center">business</th>
+                    <th class="text-center">Date</th>
 					<th class="text-center">Actions</th>
 				</tr>
 			</thead>
