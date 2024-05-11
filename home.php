@@ -35,10 +35,6 @@ include 'admin/db_connect.php';
   height: 100px; /* Adjust height as needed */
   border-radius: 50%;
 }
-
-
-
-
 .sec1 {
     padding: 5px;
     width: 900px;

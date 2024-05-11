@@ -25,6 +25,7 @@
 
         h2 {
             text-align: center;
+            padding: 25px;
         }
 
         .row {
