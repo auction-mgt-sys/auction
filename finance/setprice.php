@@ -48,9 +48,9 @@ ob_end_flush();
         }
 
         th {
-            background-color: #3498db;
-            color: #fff;
-        }
+        background-color: #f4f4f4;
+        color: #000; /* Add this line to set the font color to black */
+    }
 
         .total-price-input {
             width: 100px; /* Adjust the width of the total price input */
