@@ -51,27 +51,30 @@ if ($status == 1) {
             <div class="col-md-12">
                 <div class="avatar-container">
                     <?php 
-                    if(!empty($photo)) { 
-                        if (file_exists('../admin/'.$photo)) {
-                            echo '<img src="../admin/'.htmlspecialchars($photo).'" alt="User Photo">'; 
+                    
+                    if (!empty($photo)) {
+                        if (file_exists('../admin/' . $photo)) {
+                            echo '<img src="../admin/' . htmlspecialchars($photo) . '" alt="User Photo" style="width: 200px; height: 200px;">';
                         } else {
-                            echo '<img src="data:image/jpeg;base64,'.base64_encode($photo).'" alt="User Photo">'; 
+                            echo '<img src="data:image/jpeg;base64,' . base64_encode($photo) . '" alt="User Photo" style="width: 200px; height: 200px;">';
                         }
                     } else {
                         echo 'No photo available';
                     }
                     ?>
-                    <?php 
-                    if(!empty($bphoto)) { 
-                        if (file_exists('../admin/'.$bphoto)) {
-                            echo '<img src="../admin/'.htmlspecialchars($bphoto).'" alt="User Photo">'; 
+                    
+                    <?php
+                    if (!empty($bphoto)) {
+                        if (file_exists('../admin/' . $bphoto)) {
+                            echo '<img src="../admin/' . htmlspecialchars($bphoto) . '" alt="User Photo" style="width: 200px; height: 200px;">';
                         } else {
-                            echo '<img src="data:image/jpeg;base64,'.base64_encode($bphoto).'" alt="User Photo">'; 
+                            echo '<img src="data:image/jpeg;base64,' . base64_encode($bphoto) . '" alt="User Photo" style="width: 200px; height: 200px;">';
                         }
                     } else {
                         echo 'No photo available';
                     }
                     ?>
+                    
                 </div>
                 <div class="user-info">
                     <p>Full Name: <b><?php echo htmlspecialchars($name)." ".htmlspecialchars($lname) ?></b> </p>
