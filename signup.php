@@ -346,10 +346,12 @@ document.getElementById('hint').addEventListener('input', function() {
         <div class="form-group">
             <input type="text" name="TIN" class="form-control" placeholder="Taxpayment ID (TIN)" required="">
         </div>
-        <div class="justify-content-start">
-        <div class="p-1 col-4">scan your TIN CARD and upload image
-    <input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this)), img_path-field1" required>
+        <div class="justify-content-start" style="white-space: nowrap;">
+    <div class="p-1 col-4">scan your TIN CARD and upload image
+        <input type="file" class="form-control" name="img" onchange="displayImg2(this,$(this)), img_path-field1" required>
+    </div>
 </div>
+
 <div class="p-1 col-6">
     <div class="image-container">
         <img src="<?php echo isset($photo) ? 'pho/'.$photo :'' ?>" alt="" id="img_path-field">
@@ -376,6 +378,7 @@ document.getElementById('hint').addEventListener('input', function() {
         margin: 0 auto;
     }
 </style>
+<div class="justify-content-start" style="white-space: nowrap;">
 
 <div class="justify-content-start">
         <div class="p-1 col-4">scan your BUSINESS CARD and upload image

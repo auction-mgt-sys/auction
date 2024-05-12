@@ -38,60 +38,135 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Change Password</title>
-    <!-- Add your stylesheets and other head elements here -->
+    <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa; /* Light gray background */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .back-home-link img {
+            width: 50px;
+            height: 50px;
+        }
+
+        nav {
+            /* Add styles if needed */
+        }
+
+        main {
+            /* Add styles if needed */
+        }
+
+        /* Form styles */
+        legend {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .form-table {
+            width: 100%;
+        }
+
+        .form-input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        .form-submit,
+        .cancel-link {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-submit {
+            background-color: #007bff; /* Bootstrap primary color */
+            color: #fff;
+            margin-right: 10px;
+        }
+
+        .form-submit:hover {
+            background-color: #0056b3; /* Darker shade of primary color on hover */
+        }
+
+        .cancel-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .cancel-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
-
 <body>
-    <div id="main">
-        <!-- Header -->
-        <div id="header">
-            <a href="index.php" class="text-start"><b><img src="images/Backspace.png" style="width: 50px; height: 50px;"> BACK To HOME</b></a>
-        </div>
-        <!-- Navigation -->
-        <div id="navigation">
-            <ul>
-                <!-- Add navigation links if needed -->
-            </ul>
-        </div>
-
-        <!-- Site Content -->
-        <div id="site_content">
+    <div class="container">
+        <header>
+            <a href="index.php" class="back-home-link"><img src="images/Backspace.png" alt="Back to Home"></a>
+        </header>
+        <nav>
+            <!-- Add navigation links if needed -->
+        </nav>
+        <main>
             <form name="frmChange" method="post" action="">
                 <fieldset>
-                    <table width="450" height="300" border="0" align="center" cellpadding="10" cellspacing="0">
-                        <tr class="tableheader">
-                            <td colspan="2" bgcolor="white" align="center">Change Password</td>
+                    <legend>Change Password</legend>
+                    <table class="form-table">
+                        <tr>
+                            <td><label for="hint">Hint</label></td>
+                            <td><input type="text" name="hint" id="hint" class="form-input" required></td>
                         </tr>
                         <tr>
-                            <td width="300" bgcolor="white"><label>Hint</label></td>
-                            <td width="300" bgcolor="white"><input type="text" name="hint" id="hint" class="form_settings" /></td>
+                            <td><label for="newPassword">New Password</label></td>
+                            <td><input type="password" name="newPassword" id="newPassword" class="form-input" required></td>
                         </tr>
                         <tr>
-                            <td bgcolor="white"><label>New Password</label></td>
-                            <td bgcolor="white"><input type="password" name="newPassword" id="newPassword" class="form_settings" />
-                                <span id="newPassword" class="required"></span></td>
+                            <td><label for="confirmPassword">Confirm Password</label></td>
+                            <td><input type="password" name="confirmPassword" id="confirmPassword" class="form-input" required></td>
                         </tr>
                         <tr>
-                            <td bgcolor="white"><label>Confirm Password</label></td>
-                            <td bgcolor="white"><input type="password" name="confirmPassword" id="confirmPassword" class="form_settings" />
-                                <span id="confirmPassword" class="required"></span></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" bgcolor="white"><input type="submit" name="submit" value="Change" class="submit" /></td>
+                            <td colspan="2">
+                                <input type="submit" name="submit" value="Change" class="form-submit">
+                                <a href="bidder.php" class="cancel-link">Cancel</a>
+                            </td>
                         </tr>
                     </table>
-                    <div style="text-align: center;">
-                        <a href="bidder.php" class="text-start"><b>Cancel</b></a>
-                    </div>
                 </fieldset>
             </form>
-        </div><!-- close site content -->
-    </div><!-- close main -->
+        </main>
+    </div><!-- close container -->
 </body>
-
 </html>
