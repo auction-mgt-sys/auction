@@ -1,14 +1,47 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type="text/css" href="admin/assets/font-awesome/css/all.css">
 <script src="sweetalert.min.js"></script>
+<script src="darkmode.js"></script>
 
+<body>
+<body onload="checkDarkMode()">
+
+</body>
     <?php
     session_start();
     include('admin/db_connect.php');
     ob_start();
     if(!isset($_SESSION['login_id'])){
       header('location:index.php');
+    }else if(isset($_SESSION['login_id'])){
+        // Check if the user's account is active
+        require 'admin/db_connect.php'; // Include your database connection file
+    
+        // Prepare and execute the SQL query to check the user's account status
+        $stmt = $conn->prepare("SELECT sta FROM users WHERE id = ?");
+        $stmt->bind_param("i", $_SESSION['login_id']);
+        $stmt->execute();
+        $stmt->store_result();
+        
+        if ($stmt->num_rows == 1) {
+            $stmt->bind_result($sta);
+            $stmt->fetch();
+    
+            // Check if the account status is inactive (sta = 1)
+            if ($sta == 1) {
+                // Account is inactive, deny access or display error message
+                session_destroy(); // Destroy session to force logout
+                echo "Your account is inactive. Please contact the administrator for assistance."; // Or any other error message
+                exit; // Stop further execution
+            }
+        } else {
+            // User not found in the database, deny access or display error message
+            session_destroy(); // Destroy session to force logout
+            echo "User not found. Please contact the administrator for assistance."; // Or any other error message
+            exit; // Stop further execution
+        }
     }
     else if(isset($_SESSION['login_id'])){
       if($_SESSION['login_type']==1)
@@ -36,7 +69,13 @@
         header('location:president/index.php');
       }
       else {
+        // Handle other login types
+    }
 
+    // Close the database connection
+    $stmt->close();
+    $conn->close();
+}
 
         $query = $conn->query("SELECT * FROM system_settings limit 1")->fetch_array();
          foreach ($query as $key => $value) {
@@ -50,14 +89,40 @@
     ?>
 
     <style>
+      .header {
+        position: relative;
+        height: 450px;
+        width: 200;
+        background-image: url('images/wpcsc.jpg');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        text-align: center;
+    }
       #main-field{
         margin-top: 5rem!important;
       }
       .wpcsc {
   width: 55px;
+  height: 55;
   margin-right: 10px;
 }
+
+      .wpcsc {
+  width: 45px;
+  height: 45px; /* Ensure height matches width for perfect circle */
+  margin-right: 10px;
+  border-radius: 50%; /* Make it circular */
+}
+/* Define styles for small circular profile image */
+.small-profile-img {
+    width: 50px; /* Adjust width as needed */
+    height: 50px; /* Adjust height as needed */
+}
+
+
     </style>
+    
     <body id="page-top">
         <!-- Navigation-->
         <div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -71,25 +136,209 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="bidder.php?page=home"><img src="images/Home.png" class="ic"> Home</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> About Organization</a></li>
-                       
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> Contact Us</a></li>
-                        <?php if(isset($_SESSION['login_id'])): ?>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Welcome ".$_SESSION['login_username'] ?> <i class="fa fa-power-off"></i></a></li>
+                        <li class="nav-item"> <a class="nav-link js-scroll-trigger" href="index.php?page=about"><img src="images/about.png" class="ic"> About Organization   </a> 
+</li><li class="nav-item notification-icon">
+                    <a class="nav-link js-scroll-trigger" href="index.php?page=event">
+    <img src="images/auction_32px.png" class="ic"> Events
+    <?php
+    
+    $current_datetime = date('Y-m-d H:i:s');
+    $where = "";
+    // Check if there are any ongoing events based on the current date and time
+    $event_count_query = $conn->query("SELECT COUNT(*) AS event_count FROM products WHERE unix_timestamp(bid_end_datetime) >= ".strtotime(date("Y-m-d H:i"))." $where ORDER BY name ASC");
+
+    $event_count_row = $event_count_query->fetch_assoc();
+    $event_count = $event_count_row['event_count'];
+
+    // Display the number of ongoing events in the notification icon if count is greater than 0
+    if ($event_count > 0) {
+        echo '<span class="notification-count">' . $event_count . '</span>';
+    }
+    ?>
+</a>
+
+
+</li>
+        <?php if(isset($_SESSION['login_id'])): ?>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin/ajax.php?action=logout2"><?php echo "Logout "?> <i class="fa fa-power-off"></i></a></li>
                       <?php else: ?>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="javascript:void(0)" id="login_now"><img src='images/Login.png' class='ic'> Login</a></li>
                       <?php endif; ?>
-                       
-                        
-                     
+                      <span>
+    <div class="translate" id="google_translate_element"></div>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {  
+            new google.translate.TranslateElement({
+                pageLanguage: 'en', // Default language of the page
+                includedLanguages: 'am,en', // Languages to include (Amharic and English)
+            }, 'google_translate_element');
+        }
+        
+        // Asynchronously load the translation script
+        (function() {
+            var googleTranslateScript = document.createElement('script');
+            googleTranslateScript.type = 'text/javascript';
+            googleTranslateScript.async = true;
+            googleTranslateScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(googleTranslateScript);
+        })();
+    </script>
+</span>
+
+
+
+
+
+
+
+                      <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle js-scroll-trigger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <div class="profile-image">
+    </div>
+    
+</a>
+
+<!-- Hidden file input -->
+<input type="file" name="image" id="image" accept=".jpg, .jpeg, .png" style="display: none;">
+
+
+
+<!-- Hidden field for storing user ID -->
+<input type="hidden" name="id" value="<?php echo $sessionId; ?>">
+<script>// Function to handle when an image is selected
+document.getElementById('image').addEventListener('change', function(event) {
+    var file = event.target.files[0];
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+        document.getElementById('profileImg').src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+});
+
+</script>
+<script>
+    // Function to toggle dark mode
+    function toggleDarkMode() {
+        // Toggle dark mode class on the body
+        document.body.classList.toggle('dark-mode');
+
+        // Check if dark mode is enabled
+        var isDarkMode = document.body.classList.contains('dark-mode');
+
+        // Save the user's preference to local storage
+        localStorage.setItem('darkMode', isDarkMode ? 'true' : 'false');
+    }
+
+    // Function to check and set initial dark mode state
+    function checkDarkMode() {
+        // Check if dark mode preference is stored in local storage
+        var darkMode = localStorage.getItem('darkMode');
+
+        // Set dark mode based on stored preference
+        if (darkMode === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+    }
+
+    // Call checkDarkMode() to set initial dark mode state
+    checkDarkMode();
+</script>
+
+
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>j</title>
+    <!-- Include darkmode.js -->
+    <script src="darkmode.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body onload="checkDarkMode()"> <!-- Call checkDarkMode() here -->
+<a class="dropdown-item" href="#" onclick="toggleDarkMode()">
+    <i class="fas fa-moon mr-2"></i>
+</a>
+
+
+    
+    <div class="dropdown-divider"></div>
+</div>
+</body>
+</html>
+
+</div>
+
+</li>
                     </ul>
                 </div>
             </div>
         </nav>
   <main id="main-field">
-        <!--#############################
-          home page starts-->
           <style>
+/* Centering individual navigation items horizontally, adding padding, top margin, and bottom border */
+.notification-icon {
+        position: relative;
+    }
+
+    .notification-count {
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 5px;
+        font-size: 12px;
+        position: absolute;
+        top: -5px;
+        right: -5px;
+    }
+.goog-te-menu-value,
+.goog-te-menu2 {
+    font-size: 12px; /* Adjust font size */
+    padding: 4px 8px; /* Adjust padding */
+}
+
+/* Adjust the size of the Google Translate button */
+.goog-te-button {
+    font-size: 12px; /* Adjust font size */
+    padding: 4px 8px; /* Adjust padding */
+}
+
+/* Adjust the size of the language options in the dropdown */
+.goog-te-menu2-item {
+    font-size: 12px; /* Adjust font size */
+    padding: 1px 2px; /* Adjust padding */
+}
+/* Hide the Google Translate display at the top */
+
+
+body > div:first-child {
+    display: none !important;
+}
+
+/* Centering the navigation bar horizontally */
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+}
+#wpcsc {
+  width: 50px; /* Adjust width as needed */
+  height: 50px; /* Adjust height as needed */
+  border-radius: 50%;
+}
+/* Adjusting padding on the top and bottom */
+.navbar-nav {
+    padding-top: 5px; /* Adjust as needed */
+    padding-bottom: 5px; /* Adjust as needed */
+}
+
+
+
+
     #cat-list li{
         cursor: pointer;
     }
@@ -104,7 +353,64 @@
     position: absolute;
     right: .5em;
 }
+/* Optionally, to center vertically as well */
+
+.card-header{
+    width: 70vh;
+    height: 10vh; /* Optionally, to center vertically as well */
+}
+.row {
+    margin-right: 40px;
+}
+.overlay{
+    position: absolute;
+    min-height: auto;
+    min-width: auto;
+    left: 0;
+    top: 0;
+    background: rgba(247, 247, 247, 0.590);
+   }
+      .description{
+    position: relative;
+    top: 0px;
+    margin: auto;
+    padding: 2em;    
+}
+.description #wpcsc {
+    width: 200px;
+}
+.description h1{
+    font-family: "Times New Roman";
+    color:rgb(13, 13, 39);
+    padding: 10px;
+    font-size: 33px;
+   }
+   .description h3,.description h4{
+    font-family: "Times New Roman";
+    color:rgb(13, 13, 39);
+    font-size: 30px;
+
+   }
+   .description h2{
+    font-family: "Times New Roman";
+    color:rgb(13, 13, 39);
+    font-size: 30px;
+
+   }
+.sec1 {
+    margin-top: 0px;
+    background-color: #ffffff93;
+
+}
+   .description p{
+    color:rgb(49, 49, 49);
+    font-size: 20px;
+    width: 50%;
+    line-height: 1.5;
+   }
 </style>
+
+
 <?php 
 
 $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
@@ -114,7 +420,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
         <div class="row">
             <div class="col-md-3">
                 <div class="card">
-                    <br><br>
+              
                     <div class="card-header">CONTENTS ON THIS PAGE
                     </div>
 
@@ -136,11 +442,53 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                     </div>
                   </div>
                     <ul class='list-group ' id='opp-list'>
+                    <?php 
+// Ensure session is started
+
+// Check if login_id is set in session
+if (isset($_SESSION['login_id'])) {
+    // Assign user ID from session
+    $uid = $_SESSION['login_id'];
+    
+    // Include database connection
+    include 'admin/db_connect.php';
+    
+    // Prepare and execute query to count active payments for the user
+    $countQuery = $conn->prepare("SELECT COUNT(*) AS total_active_payments FROM payment WHERE bidder_id = ? AND status = 1");
+    $countQuery->bind_param("s", $uid);
+    $countQuery->execute();
+    $countResult = $countQuery->get_result();
+    
+    // Fetch the count result
+    $countRow = $countResult->fetch_assoc();
+    
+    // Get the total count of active payments
+    $totalActivePayments = $countRow['total_active_payments'];
+    
+    // Initialize payment link text
+    $paymentLinkText = "My Payments";
+    
+    // Append count to the link text if there are active payments
+    if ($totalActivePayments > 0) {
+        $paymentLinkText .= " ($totalActivePayments)";
+    }
+    ?>
+    <!-- Output the link with dynamic text -->
+    <a href="index.php?page=my_payments" class='list-group-item list' id="sids" style="color: white;"><?php echo $paymentLinkText ?></a>
+    <?php 
+    // Exit after outputting the link
+} 
+?>
+
                             <a href="index.php?page=my_bids" class='list-group-item list' id="sids"> My Bids</a>
-                            <a href="index.php?page=my_payments" class='list-group-item list' id="sids" >My Payments</a>
+                            
+
                             <a href="index.php?page=winners" class='list-group-item list' id="sids">Winners</a>
-                            <a href="index.php?page=inbox_notifications" class='list-group-item list' id="sids">Messages</a>
-                    </ul> 
+                            <a href="index.php?page=inbox_notifications" class='list-group-item list' id="sids">Feedback</a>
+                            <a href="index.php?page=changepasswords" class='list-group-item list' id="sids">change password</a>
+                            <a href="index.php?page=change" class='list-group-item list' id="sids">update your licences </a>
+
+                          </ul> 
                 </div>
             </div>
             <div class="col-md-9">
@@ -158,24 +506,30 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                            
                          
                              <?php if(isset($_SESSION['login_username'])): ?>
-                               <?php echo "<h1>WPCSC AUCTION SYSTEM</h1>"; ?>
-                               
+                              <?php 
+ echo  " "
+?>
+<br>
+
+                               <?php echo "<h1>WELCOME TO WOLKITE POLYTHECNIC COLLEGE</h1>"; ?>
+                               <?php echo "<h2> AUCTION  MANAGEMENT SYSTEM</h2>"; ?>
+
                                 <?php echo "<div class='text-center'>"?>
-                                <?php echo "<h3></h3>"; ?>
-                             <?php echo "<h4>Welcome ".$_SESSION['login_username']."</h4>"?>
-                               <?php echo "</div>"; ?> 
+                             <?php echo "<h3>Welcome ".$_SESSION['login_username']."</h3>"?>
+
                              <?php else:
-                             echo "<img src='images/img.jpg' id='wpcsc'>
-                        <h1>WOLKITE POLYTECHNIC COLLEGE </h1>
-                        <h3>WELCOME TO AUCTION AND BIDDING SYSTEM</h3>    
-                          <h3></h3>"; ?>
+                                                                                                                                  echo "<img src='images/logo.png' id='wpcsc'>
+
+                                                                 <h1>WELCOME TO WOLKITE POLYTHECHNIC COLLEGE</h1>
+                                        
+                             <h3>WELCOME TO AUCTION  MANAGEMENT SYSTEM</h3>; "?>  
+                          
                                 <?php echo "<div class='justify-content-center'>"?>
                                 <?php 
                              echo "<a href='index.php?page=about' class='a btn btn-primary'>
 
                             >>About The Organization>>
-                        </a>";
-                             ?>
+                        </a>"; ?>
                              <?php echo "</div>"; ?>
                              <?php endif; ?>      
                          
@@ -188,8 +542,31 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
 </div> 
     
 <style>
+ .card {
+        /* Adjust the width as needed */
+        width: 110%;
+    }
+    .col-md-3 {
+        /* Adjust the width as needed */
+        width: 20%;
+    }
+
+    .list-group {
+        /* Adjust the width as needed */
+        width: 100%;
+    }
+
+    .list-group-item {
+        /* Adjust the width as needed */
+        width: 100%;
+    }
+
+    /* You can add more specific styles if needed */
+
+
 #sids{
-  margin-bottom: 5px;
+  margin-bottom: 1px;
+  
 }
 .a {
     margin-bottom: 15px;
@@ -278,7 +655,9 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                                     <div class="float-right align-top bid-tag">
                                          <span class="badge badge-pill badge-primary text-white"><i class="fa fa-tag"></i>Form Price: <?php echo number_format($row['price_for_form']) ?></span>
                                      </div>
-                                     <img class="card-img-top" src="auctioneer/assets/uploads/<?php echo $row['img_fname'] ?>" alt="Card image cap">
+                                     <div class="image-container">
+    <img class="card-img-top" src="auctioneer/assets/uploads/<?php echo $row['img_fname'] ?>" alt="Card image cap">
+</div>
                                       <div class="float-right align-top d-flex">
                                          <span class="badge badge-pill badge-warning text-white"><i class="fa fa-hourglass-half"></i> <?php echo date("M d,Y h:i A",strtotime($row['bid_end_datetime'])) ?></span>
                                      </div>
@@ -286,7 +665,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
                                          <p><?php echo $row['name'] ?></p>
                                          <p><small><?php echo $cat_arr[$row['category_id']] ?></small></p>
                                          <p class="truncate"><?php echo $row['description'] ?></p>
-                                        <button class="btn btn-primary btn-sm view_prod" type="button" data-id="<?php echo $row['id'] ?>"> View</button>
+                                        <button class="btn btn-primary btn-sm view_prod" type="button" data-id="<?php echo $row['id'] ?>"> buy bid</button>
                                      </div>
                                  </div>
                              </div>
@@ -298,7 +677,64 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
         </div>
     </div>
 </div>
-       
+<style>
+.dark-mode {
+    background-color: #333; /* Example background color for dark mode */
+    color: #fff; /* Example text color for dark mode */
+    /* Add additional styles for dark mode as needed */
+}
+.image-container {
+    width: 200px; /* Set the width you desire */
+    height: 200px; /* Set the height you desire */
+    overflow: hidden; /* Ensure that any overflowing content is hidden */
+}
+
+.image-container img {
+    width: 100%; /* Make the image take up the entire width of its container */
+    height: auto; /* Allow the image to scale proportionally */
+}
+
+</style>
+<script>
+    // Function to toggle dark mode
+    // Function to toggle dark mode
+// Function to toggle dark mode
+function toggleDarkMode() {
+    // Toggle dark mode class on the body
+    document.body.classList.toggle('dark-mode');
+
+    // Check if dark mode is enabled
+    var isDarkMode = document.body.classList.contains('dark-mode');
+
+    // Save the user's preference to local storage
+    localStorage.setItem('darkMode', isDarkMode ? 'true' : 'false');
+}
+
+// Function to check and set initial dark mode state
+function checkDarkMode() {
+    // Check if dark mode preference is stored in local storage
+    var darkMode = localStorage.getItem('darkMode');
+
+    // Set dark mode based on stored preference
+    if (darkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+}
+
+
+    // Function to handle updating profile
+    <?php
+
+?>
+
+
+
+
+    // Function to handle changing password
+    
+</script>
+
+
 <script>
     $('#cat-list li').click(function(){
         location.href = $(this).attr('data-href')
@@ -452,7 +888,7 @@ accordion style start
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8 text-center">
-                        <h2 class="mt-0 text-black">Contact us</h2>
+                        <h4 class="mt-0 text-black">Contact us</h4>
                         <hr class="divider my-4" />
                     </div>
                 </div>
@@ -472,12 +908,26 @@ accordion style start
                 </div>
             </div>
             <br>
-            <div class="container"><div class="small text-center text-muted">Copyright © 2024 - <?php echo $_SESSION['system']['name'] ?> | <a href="https://www.wpcsc.edu.et//" target="_blank">Wolkite polythecnc</a></div></div>
+            <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Explore Our Campus</h6>
+                    <a href="https://www.google.com/maps/place/9.145,+40.489" target="_blank" class="btn btn-primary">View on Map</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <br>
+            <div class="container"><div class="small text-center text-muted">Copyright © 2024 - <?php echo $_SESSION['system']['name'] ?> | <a href="https://www.wpcsc.edu.et//" target="_blank">Wolkite polythecnc college</a></div></div>
         </footer>
         
        <?php include('footer.php') ?>
-       <?php   }
-    }?>
+       <?php   
+    ?>
     </body>
     <script type="text/javascript">
       $('#login').click(function(){
