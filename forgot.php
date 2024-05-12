@@ -87,8 +87,8 @@ if(isset($_REQUEST['pwdrst'])) {
         $mail->SMTPSecure = "tls";
         $mail->Host = 'smtp.gmail.com';
         $mail->Port = 587;
-        $mail->Username = "beyeneeleni2@gmail.com";   //Enter your username/emailid
-        $mail->Password = "Beyeneeleni2@#$";   //Enter your password
+        $mail->Username = "hannasemu25@gmail.com";   //Enter your username/emailid
+        $mail->Password = "nabiy24253030@#$";   //Enter your password
         $mail->FromName = "Wpcsc";
         $mail->AddAddress($email);
         $mail->Subject = "Reset Password";
