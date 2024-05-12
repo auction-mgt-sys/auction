@@ -1,23 +1,5 @@
 <?php
 include 'db_connect.php'; 
-
-// Count the number of rows in the report table where price and total price are 0, and status is 0
-$sql_setprice = "SELECT COUNT(*) AS setprice_count FROM report WHERE price = 0 AND total_price = 0 AND status = 0";
-$result_setprice = $conn->query($sql_setprice);
-
-$setprice_count = 0; // Default value
-
-if ($result_setprice) {
-    // Fetch result
-    $row_setprice = $result_setprice->fetch_assoc();
-    $setprice_count = $row_setprice["setprice_count"];
-} else {
-    // Error handling
-    echo "Error: " . $conn->error;
-}
-
-// Close connection
-$conn->close();
 ?>
 
 <style>
@@ -59,8 +41,30 @@ $conn->close();
         </a>
         <a href="index.php?page=setprice" class="nav-item nav-setprice">
             <span class="icon-field"><i class="fas fa-dollar-sign"></i></span> Set price
-            <span class="notification-count"><?php echo $setprice_count; ?></span>
-        </a>
+           
+            <?php
+                include 'db_connect.php'; 
+                $sql_reports = "SELECT COALESCE(COUNT(*), 0) AS reports_count FROM report WHERE status =0 ";
+                $result_reports = $conn->query($sql_reports);
+                $reports_count = 0; // Default value
+
+                if ($result_reports) {
+                    // Fetch result
+                    $row_reports = $result_reports->fetch_assoc();
+                    $reports_count = $row_reports["reports_count"];
+                } else {
+                    // Error handling
+                    echo "Error: " . $conn->error;
+                }
+
+                // Close connection
+                $conn->close();
+
+                // Display notification count
+                if ($reports_count > 0) {
+                    echo "<span class='notification-count'>$reports_count</span>";
+                }
+                ?>        </a>
         <a href="index.php?page=generatereport" class="nav-item nav-generatereport">
             <span class="icon-field"><i class="fas fa-history"></i></span> History
         </a>

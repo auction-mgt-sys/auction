@@ -292,9 +292,33 @@
         </div>
         <div class="d-flex justify-content-start">
     <div class="p-1 col-12">
-        <input type="text" name="hint" class="form-control" placeholder="Password Hint 1" required>
+        <input type="text" name="hint" id="hint" class="form-control" placeholder="Password Hint 1" required>
+        <div id="error-message" style="display: none; color: red;">Password hint already exists!</div>
     </div>
 </div>
+
+<script>
+    // Function to check if the hint already exists
+    function checkHint() {
+        var hintValue = document.getElementById("hint").value;
+        // Send an AJAX request to the server to check if hintValue exists
+        // Assuming you have a function called checkHintValue on the server that returns true if the hint exists and false otherwise
+        // Example: var hintExists = checkHintValue(hintValue);
+        var hintExists = false; // Example, replace this with your server call
+
+        if (hintExists) {
+            document.getElementById("error-message").style.display = "block";
+            return false;
+        } else {
+            document.getElementById("error-message").style.display = "none";
+            return true;
+        }
+    }
+
+    // Attach the checkHint function to the input's onchange event
+    document.getElementById("hint").onchange = checkHint;
+</script>
+
 <br>
         <div class="form-group">
             <input type="text" name="TIN" class="form-control" placeholder="Taxpayment ID (TIN)" required="">
