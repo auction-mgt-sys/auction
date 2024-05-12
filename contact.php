@@ -25,6 +25,7 @@
 
         h2 {
             text-align: center;
+            padding: 30px;
         }
 
         .row {
@@ -77,8 +78,8 @@
 <body>
 
 <!-- Masthead-->
-<div class="contact-section">
-    <!-- Add content for contact section if needed -->
+<!-- <div class="contact-section">
+    Add content for contact section if needed -->
 </div>
 
 <h2>Our Team</h2>
