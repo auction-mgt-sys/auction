@@ -290,12 +290,35 @@
 </script>
 
         </div>
-        <div class="d-flex justify-content-start">
+       <div class="d-flex justify-content-start">
     <div class="p-1 col-12">
         <input type="text" name="hint" id="hint" class="form-control" placeholder="Password Hint 1" required>
         <div id="error-message" style="display: none; color: red;">Password hint already exists!</div>
     </div>
 </div>
+
+<script>
+document.getElementById('hint').addEventListener('input', function() {
+    var hintValue = this.value;
+    var errorMessage = document.getElementById('error-message');
+    
+    // Make an AJAX request to check if the hint already exists
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'check_hint.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status == 200) {
+            if (xhr.responseText === 'exists') {
+                errorMessage.style.display = 'block';
+            } else {
+                errorMessage.style.display = 'none';
+            }
+        }
+    };
+    xhr.send('hint=' + hintValue);
+});
+</script>
+
 
 <script>
     // Function to check if the hint already exists
