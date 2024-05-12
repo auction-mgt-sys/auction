@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2024 at 05:45 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: May 12, 2024 at 09:13 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,16 +45,8 @@ CREATE TABLE `auctionitem` (
 --
 
 INSERT INTO `auctionitem` (`id`, `common_name`, `common_type`, `common_measurement`, `total_quantity`, `price`, `total_price`, `statuss`, `staup`, `dateupload`) VALUES
-(33, 'desktop', 'opttiplex500', 'ram,cpu,generation', 7, 100, 700, 1, 1, '2024-04-30 16:25:32'),
-(34, 'clocth', 'kkkk', 'wert', 16, 10, 80, 1, 1, '2024-04-30 16:31:08'),
-(38, 'clocth', 'cloth', 'quality, collour,djhs', 14, 12, 168, 1, 1, '2024-05-05 21:45:25'),
-(39, 'desktop', 'opttiplex500', 'ram,cpu,generation', 12, 12, 144, 1, 1, '2024-05-05 21:45:36'),
-(40, 'table', 'chair', 'wood', 13, 12, 156, 1, 1, '2024-05-05 21:45:37'),
-(41, 'computers', 'pc', 'RAM,cpu', 10, 80, 800, 1, 1, '2024-05-11 20:42:55'),
-(42, 'Cloths', 'cotton fabric', 'Meter', 50, 1000, 50000, 1, 1, '2024-05-12 13:25:35'),
-(43, 'Thread', 'textile', 'piece', 100, 45, 4500, 1, 1, '2024-05-12 13:27:38'),
-(44, 'charger sockets', 'power plug', 'Number', 100, 100, 10000, 1, 1, '2024-05-12 13:31:52'),
-(45, 'Computer', 'Dell', 'Number', 100, 25000, 2500000, 1, 1, '2024-05-12 13:34:41');
+(1, 'desktop', 'computer', 'ram,cpu,generation', 10, 6, 60, 1, 1, '2024-05-12 20:54:47'),
+(2, 'whiteboard', 'board', 'color, wood', 5, 20, 100, 1, 1, '2024-05-12 20:55:03');
 
 -- --------------------------------------------------------
 
@@ -85,6 +77,13 @@ CREATE TABLE `bids` (
   `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1=bid,2=confirmed,3=cancelled',
   `date_created` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bids`
+--
+
+INSERT INTO `bids` (`id`, `user_id`, `product_id`, `bid_amount`, `status`, `date_created`) VALUES
+(1, 112, 1, 200, 2, '2024-05-12 22:13:31');
 
 -- --------------------------------------------------------
 
@@ -131,16 +130,6 @@ CREATE TABLE `comment` (
   `status` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `comment`
---
-
-INSERT INTO `comment` (`id`, `sender_id`, `user_type`, `reciver_id`, `comment_type`, `title`, `detail`, `date`, `status`) VALUES
-(41, '103', 2, '11', 1, 'asdfghj', 'qwertyuiolkjhgfd', '2024-05-12 12:27:01', 'unread'),
-(42, '103', 2, '11', 1, 'qwertyuijbvcdxs', 'asdfghjm v', '2024-05-12 12:27:43', 'read'),
-(43, '51', 3, '103', 0, 'wertyuk', 'qwertyujmnbvcxd', '2024-05-12 16:39:01', 'read'),
-(44, '103', 2, '11', 1, 'please', 'i will be nice', '2024-05-12 16:40:14', 'unread');
-
 -- --------------------------------------------------------
 
 --
@@ -166,8 +155,7 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`id`, `reason`, `pro_id`, `amount`, `bidder_id`, `user_id`, `transaction_id`, `status`, `date_payed`, `photo`, `bphoto`) VALUES
-(1, 'selling', 53, 50, 103, 0, 'hana300', 1, '2024-05-12 14:44:52', 'uploads/', ''),
-(2, 'gift', 53, 200, 103, 0, 'hana30', 1, '2024-05-12 15:54:57', 'uploads/', '');
+(4, 'qww', 1, 200, 112, 0, 'transac123', 2, '2024-05-12 21:38:41', 'uploads/', '');
 
 -- --------------------------------------------------------
 
@@ -196,10 +184,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `measurement`, `quantity`, `price_for_form`, `total_price`, `description`, `start_bid`, `regular_price`, `bid_end_datetime`, `img_fname`, `date_created`) VALUES
-(53, 4, 'Cloths', 'Meter', '50', '200', '50000', 'For garment  and fashion student', 10000, 1000, '2024-05-13 13:27:00', '53.jpg', '2024-05-12 13:27:28'),
-(54, 4, 'Thread', 'piece', '100', '250', '4500', 'For garment and fashion student', 5000, 45, '2024-05-13 20:00:00', '54.jpg', '2024-05-12 13:29:04'),
-(55, 11, 'charger sockets', 'Number', '100', '400', '10000', 'socket charger by 3 ports', 15000, 100, '2024-05-14 19:00:00', '55.jpg', '2024-05-12 13:34:19'),
-(56, 12, 'Computer', 'Number', '100', '350', '2500000', 'we need Dell computers for our computer Libraries and for staff!', 100000, 25000, '2024-05-14 13:36:00', '56.jpg', '2024-05-12 13:36:45');
+(1, 12, 'desktop', 'ram,cpu,generation', '10', '100', '60', 'Our campus need purchase those computer from legal campany ', 1000, 6, '2024-05-12 22:00:00', '1.jpg', '2024-05-12 21:07:33'),
+(2, 8, 'whiteboard', 'color, wood', '5', '120', '100', 'we need purchase those materia from legal campany', 200, 20, '2024-05-13 05:10:00', '2.jpg', '2024-05-12 21:12:44');
 
 -- --------------------------------------------------------
 
@@ -236,7 +222,7 @@ CREATE TABLE `report` (
   `requesteditem_depheadname` varchar(100) NOT NULL,
   `reason` varchar(200) NOT NULL,
   `reported_date` datetime NOT NULL DEFAULT current_timestamp(),
-  `dateapprove` datetime NOT NULL DEFAULT current_timestamp()
+  `dateapprove` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -244,13 +230,8 @@ CREATE TABLE `report` (
 --
 
 INSERT INTO `report` (`id`, `price`, `total_price`, `requesteditem_name`, `requesteditem_type`, `requesteditem_description`, `requesteditem_measurment`, `requesteditem_quantity`, `requesteditem_id`, `status`, `auctionstatus`, `groupitem`, `requesteditem_deptname`, `requesteditem_depheadname`, `reason`, `reported_date`, `dateapprove`) VALUES
-(2, 9, 63, 'table', 'habhgd', 'i need the table', 'hhdjskbwe6', 7, 1, 1, 2, 0, 'IS', '', 'we don\'t have beget', '2024-05-11 23:34:33', '2024-05-11 23:34:33'),
-(3, 1000, 50000, 'Cloths', 'cotton fabric', 'We need it for garment student', 'Meter', 50, 2, 1, 1, 1, 'Garement', '', '', '2024-05-12 13:16:08', '2024-05-12 13:16:08'),
-(4, 45, 4500, 'Thread', 'textile', 'We need it for garment student', 'piece', 100, 3, 1, 1, 1, 'Garement', '', '', '2024-05-12 13:16:08', '2024-05-12 13:16:08'),
-(6, 25000, 2500000, 'Computer', 'Dell', 'we need Dell computers for our computer Libraries and for staff!', 'Number', 100, 4, 1, 1, 1, 'IS', '', '', '2024-05-12 13:30:13', '2024-05-12 13:30:13'),
-(7, 100, 10000, 'charger sockets', 'power plug', 'socket charger by 3 ports', 'Number', 100, 5, 1, 1, 1, 'IS', '', '', '2024-05-12 13:30:13', '2024-05-12 13:30:13'),
-(9, 125, 18750, 'Ardino materials', 'plug', 'Electronics, branch of physics and electrical engineering that deals with the emission, behaviour, and effects of electrons and with electronic devices.', 'number', 150, 6, 1, 1, 0, 'software', '', '', '2024-05-12 13:46:40', '2024-05-12 13:46:40'),
-(10, 0, 0, 'Pc', 'HP', 'for software student and staff worker', 'Number', 50, 7, 0, 0, 0, 'software', '', '', '2024-05-12 14:26:44', '2024-05-12 14:26:44');
+(1, 6, 60, 'desktop', 'computer', 'there is storage this device in my department', 'ram,cpu,generation', 10, 1, 1, 1, 1, 'information systems', 'esayas wakajri', '', '2024-05-12 20:43:08', '2024-05-12 20:54:47'),
+(2, 20, 100, 'whiteboard', 'board', 'for student thoery class', 'color, wood', 5, 2, 1, 1, 1, 'information systems', 'esayas wakajri', '', '2024-05-12 20:43:08', '2024-05-12 20:55:03');
 
 -- --------------------------------------------------------
 
@@ -277,13 +258,8 @@ CREATE TABLE `requesteditem` (
 --
 
 INSERT INTO `requesteditem` (`id`, `name`, `type`, `description`, `measurment`, `quantity`, `status`, `deptname`, `depheadname`, `reason`, `sent_date`) VALUES
-(1, 'table', 'habhgd', 'i need the table', 'hhdjskbwe6', 7, 1, 'IS', 'abdu melike', '', '2024-05-11 22:41:22'),
-(2, 'Cloths', 'cotton fabric', 'We need it for garment student', 'Meter', 50, 1, 'Garement', 'Elshadai Melesse', '', '2024-05-12 13:13:05'),
-(3, 'Thread', 'textile', 'We need it for garment student', 'piece', 100, 1, 'Garement', 'Elshadai Melesse', '', '2024-05-12 13:13:05'),
-(4, 'Computer', 'Dell', 'we need Dell computers for our computer Libraries and for staff!', 'Number', 100, 1, 'IS', 'abdu melike', '', '2024-05-12 13:19:14'),
-(5, 'charger sockets', 'power plug', 'socket charger by 3 ports', 'Number', 100, 1, 'IS', 'abdu melike', '', '2024-05-12 13:24:00'),
-(6, 'Ardino materials', 'plug', 'Electronics, branch of physics and electrical engineering that deals with the emission, behaviour, and effects of electrons and with electronic devices.', 'number', 150, 1, 'software', 'Robel', 'for it student', '2024-05-12 13:45:00'),
-(7, 'Pc', 'HP', 'for software student and staff worker', 'Number', 50, 1, 'software', 'Robel aklilu', '', '2024-05-12 14:26:05');
+(1, 'desktop', 'computer', 'there is storage this device in my department', 'ram,cpu,generation', 10, 1, 'information systems', 'esayas wakajri', '', '2024-05-12 20:41:39'),
+(2, 'whiteboard', 'board', 'for student thoery class', 'color, wood', 5, 1, 'information systems', 'esayas wakajri', '', '2024-05-12 20:41:39');
 
 -- --------------------------------------------------------
 
@@ -325,6 +301,7 @@ CREATE TABLE `users` (
   `address` text NOT NULL,
   `age` int(11) NOT NULL,
   `TIN_number` varchar(50) NOT NULL,
+  `hint` varchar(100) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0=nutral,1=accepted,2=reject,3=new',
   `type` tinyint(2) NOT NULL DEFAULT 7 COMMENT '1=admin,2=bidder,3=auctioneer,4=commitee,5=department,6=finance,7=president',
   `photo` text NOT NULL,
@@ -338,18 +315,15 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `lname`, `gender`, `username`, `password`, `email`, `contact`, `address`, `age`, `TIN_number`, `status`, `type`, `photo`, `bphoto`, `deptname`, `data_created`, `sta`) VALUES
-(1, 'Administrator', '', '', 'admin', '8ce87b8ec346ff4c80635f667d1592ae', 'admin@gmail.com', '0923222120', 'wolkite', 0, '', 0, 1, '', '', '', '2024-03-05 23:28:49', 0),
-(4, 'finance', 'ss', '', 'fan', '25d55ad283aa400af464c76d713c07ad', '', '', '', 33, '', 0, 6, '', '', '', '2024-03-05 23:39:51', 0),
-(5, 'commitee', 'dd', '', 'hana', '8ce87b8ec346ff4c80635f667d1592ae', '', '', '', 32, '', 0, 4, '', '', '', '2024-03-05 23:40:29', 0),
-(6, 'president', 'ww', '', 'pre', '25d55ad283aa400af464c76d713c07ad', '', '', '', 34, '', 0, 7, '', '', '', '2024-03-05 23:41:17', 0),
-(51, 'auctioneer', 'nnn', '', 'eleni', 'e807f1fcf82d132f9bb018ca6738a19f', '', '', '', 44, '', 0, 3, '', '', '', '2024-04-08 19:17:02', 0),
-(52, 'esayasl', 'wakajrii', '', 'mrr', '885873cb8b9305303ff867f7a71f29f9', '', '', '', 40, '', 0, 5, '', '', 'IS', '2024-04-09 13:10:01', 0),
-(101, 'hanna', 'semu', 'Femal', 'hhss', 'edb4453919043acca51d2ee7817d604c', 'hannasemu30@gmail.com', '909999677', 'aa', 23, 'hh', 3, 2, 'photos/120730838.jfif', 'photos/photo_2023-12-14_21-09-46.jpg', '', '2024-05-10 12:26:49', 0),
-(103, 'hanna', 'semu', 'Femal', 'han', 'edb4453919043acca51d2ee7817d604c', 'hannasemu25@gmail.com', '987879877', 'aa', 23, '143', 1, 2, 'photos/watching-sunset-near-rice-paddies-field-wallpaper-1280x800_3.jpg', 'photos/photo_2023-12-14_21-09-46.jpg', '', '2024-05-11 20:22:45', 0),
-(104, 'abdu', 'melike', '', 'iss', '25d55ad283aa400af464c76d713c07ad', '', '', '', 35, '', 0, 5, '', '', 'IS', '2024-05-11 20:32:35', 0),
-(105, 'Elshadai', 'Melesse', '', 'elshu', '25d55ad283aa400af464c76d713c07ad', '', '', '', 28, '', 0, 5, '', '', 'Garement', '2024-05-12 12:52:15', 0),
-(106, 'Robel', 'aklilu', '', 'software', '25d55ad283aa400af464c76d713c07ad', '', '', '', 25, '', 0, 5, '', '', 'software', '2024-05-12 13:38:31', 0);
+INSERT INTO `users` (`id`, `name`, `lname`, `gender`, `username`, `password`, `email`, `contact`, `address`, `age`, `TIN_number`, `hint`, `status`, `type`, `photo`, `bphoto`, `deptname`, `data_created`, `sta`) VALUES
+(1, 'Administrator', '', '', 'admin', '8ce87b8ec346ff4c80635f667d1592ae', 'admin@gmail.com', '0923222120', 'wolkite', 0, '', '', 0, 1, '', '', '', '2024-03-05 23:28:49', 0),
+(103, 'hanna', 'semu', 'Femal', 'han', 'edb4453919043acca51d2ee7817d604c', 'hannasemu25@gmail.com', '987879877', 'aa', 23, '143', '', 1, 2, 'photos/watching-sunset-near-rice-paddies-field-wallpaper-1280x800_3.jpg', 'photos/photo_2023-12-14_21-09-46.jpg', '', '2024-05-11 20:22:45', 0),
+(107, 'elenibe', 'beyene', '', 'eleni', '25d55ad283aa400af464c76d713c07ad', '', '', '', 22, '', '', 0, 3, '', '', '', '2024-05-12 20:01:04', 0),
+(108, 'hanna', 'semu', '', 'hana', '25d55ad283aa400af464c76d713c07ad', '', '', '', 22, '', '', 0, 4, '', '', '', '2024-05-12 20:01:35', 0),
+(109, 'genet', 'mebrat', '', 'geni', '25d55ad283aa400af464c76d713c07ad', '', '', '', 42, '', '', 0, 6, '', '', '', '2024-05-12 20:02:31', 0),
+(110, 'faris', 'kebede', '', 'pre', '25d55ad283aa400af464c76d713c07ad', '', '', '', 33, '', '', 0, 7, '', '', '', '2024-05-12 20:04:15', 0),
+(111, 'esayas', 'wakajri', '', 'isayas', '25d55ad283aa400af464c76d713c07ad', '', '', '', 35, '', '', 0, 5, '', '', 'information systems', '2024-05-12 20:05:13', 0),
+(112, 'Elshadai', 'Melesse', 'Femal', 'elshu', '20388b5e65a54bfa08c9df810ef75047', 'elshadaimelesse@gmail.com', '947641431', 'wolkite', 22, '661212', 'elshu', 1, 2, 'photos/tin.jpg', 'photos/bu.jpg', '', '2024-05-12 20:16:57', 0);
 
 --
 -- Indexes for dumped tables
@@ -442,7 +416,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `auctionitem`
 --
 ALTER TABLE `auctionitem`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `bidform`
@@ -454,7 +428,7 @@ ALTER TABLE `bidform`
 -- AUTO_INCREMENT for table `bids`
 --
 ALTER TABLE `bids`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -466,19 +440,19 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `profle`
@@ -490,13 +464,13 @@ ALTER TABLE `profle`
 -- AUTO_INCREMENT for table `report`
 --
 ALTER TABLE `report`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `requesteditem`
 --
 ALTER TABLE `requesteditem`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `system_settings`
@@ -508,7 +482,7 @@ ALTER TABLE `system_settings`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- Constraints for dumped tables
