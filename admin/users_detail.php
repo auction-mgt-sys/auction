@@ -41,28 +41,38 @@ if(isset($_GET['id'])){
         <div class="row">
             <div class="col-md-12">
                 <div class="avatar-container">
-                    <?php 
-                    if(!empty($photo)) { 
-                        if (file_exists('../admin/'.$photo)) {
-                            echo '<img src="../admin/'.htmlspecialchars($photo).'" alt="User Photo">'; 
+                    <?php
+                if (!empty($photo)) {
+                        if (file_exists('../admin/' . $photo)) {
+                            echo '<img src="../admin/' . htmlspecialchars($photo) . '" alt="User Photo" style="width: 200px; height: 200px;">';
                         } else {
-                            echo '<img src="data:image/jpeg;base64,'.base64_encode($photo).'" alt="User Photo">'; 
+                            echo '<img src="data:image/jpeg;base64,' . base64_encode($photo) . '" alt="User Photo" style="width: 200px; height: 200px;">';
                         }
                     } else {
                         echo 'No photo available';
                     }
                     ?>
-                    <?php 
-                    if(!empty($bphoto)) { 
-                        if (file_exists('../admin/'.$bphoto)) {
-                            echo '<img src="../admin/'.htmlspecialchars($bphoto).'" alt="User Photo">'; 
+                    
+                    <?php
+                    if (!empty($bphoto)) {
+                        if (file_exists('../admin/' . $bphoto)) {
+                            echo '<img src="../admin/' . htmlspecialchars($bphoto) . '" alt="User Photo" style="width: 200px; height: 200px;">';
                         } else {
-                            echo '<img src="data:image/jpeg;base64,'.base64_encode($bphoto).'" alt="User Photo">'; 
+                            echo '<img src="data:image/jpeg;base64,' . base64_encode($bphoto) . '" alt="User Photo" style="width: 200px; height: 200px;">';
                         }
                     } else {
                         echo 'No photo available';
                     }
                     ?>
+                    
+                    <?php if (!empty($bphoto) && file_exists('../uploads/' . $bphoto)) : ?>
+    <!-- If the image exists in the file system, display it -->
+    <img src="../uploads/<?php echo htmlspecialchars($bphoto); ?>" alt="P" style="width: 150px; height: auto;">
+<?php else: ?>
+    <!-- If the image does not exist in the file system, display a placeholder image -->
+    <img src="../uploads/placeholder.jpg" alt="" style="width: 150px; height: auto;">
+<?php endif; ?>
+
                 </div>
                 <div class="user-info">
                     <p>Full Name: <b><?php echo htmlspecialchars($name)." ".htmlspecialchars($lname) ?></b> </p>

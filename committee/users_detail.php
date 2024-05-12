@@ -87,7 +87,6 @@ if ($status == 1) {
                     <p>User Type: <b><?php echo htmlspecialchars($userType) ?></b></p>
                     <p>Registration Date: <b><?php echo htmlspecialchars($data_created) ?></b></p>
                     <p>Tax Payment ID: <b><?php echo htmlspecialchars($TIN_number) ?></b></p>
-                    <p>Image: <b><?php echo htmlspecialchars($photo) ?></b></p>
                 </div>
             </div>
         </div>

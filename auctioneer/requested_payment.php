@@ -67,7 +67,7 @@ if (!empty($bphoto)) {
 }
 ?>
 
-<?php if (!empty($bphoto) && file_exists('../uploads/' . $bphoto)) : ?>
+<?php if (!empty($bphoto) && file_exists('uploads/' . $bphoto)) : ?>
     <!-- If the image exists in the file system, display it -->
     <img src="../uploads/<?php echo htmlspecialchars($bphoto); ?>" alt="P" style="width: 150px; height: auto;">
 <?php else: ?>

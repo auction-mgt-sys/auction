@@ -34,7 +34,7 @@
         <div class="p-1 col-6">
     <div class="custom-input-container">
         <span class="country-code">+251</span>
-        <input type="text" name="contact" class="custom-input" value="" oninput="this.value = this.value.replace(/[^790-9]/g, '').substring(0, 9);" required="" pattern="^[790][0-9]{8}$" title="Please enter a valid Ethiopian phone number starting with 9 or 7 followed by 8 digits" placeholder="Phone Number">
+        <input type="text" name="contact" class="custom-input" value="" oninput="this.value = this.value.replace(/[^790-9]/g, '').substring(0, 9);" required="" pattern="^[790][0-9]{8}$" title="Please enter a valid Ethiopian phone number starting with 9(ethiotelecom) or 7 (safaricom) followed by 8 digits" placeholder="Phone Number">
     </div>
 </div>
 
@@ -84,7 +84,7 @@
 
         // Validate email format
         if (!emailPattern.test(emailInput.value)) {
-            emailError.textContent = 'Please enter a valid Gmail email address (e.g., sss@gmail.com)';
+            emailError.textContent = 'Please enter a valid Gmail email address (sss@gmail.com)';
             emailInput.setCustomValidity('Invalid Gmail format');
             return;
         } else {
@@ -295,6 +295,7 @@
         <input type="text" name="hint" class="form-control" placeholder="Password Hint 1" required>
     </div>
 </div>
+<br>
         <div class="form-group">
             <input type="text" name="TIN" class="form-control" placeholder="Taxpayment ID (TIN)" required="">
         </div>

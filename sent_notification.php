@@ -3,7 +3,7 @@ include('admin/db_connect.php');
 
 // Check if the user is logged in
 if (isset($_SESSION['login_id'])) {
-    $bidder_id = $_SESSION['login_id'];
+    $bidder_id = $_SESSION['login_id'];}
 ?>
 
     <div class="container-fluid d-flex h">
@@ -33,7 +33,7 @@ if (isset($_SESSION['login_id'])) {
                         <div class="card-body">
                             <table class="table table-condensed table-bordered table-hover">
                                 <?php
-                                $users = $conn->query("SELECT * FROM comment WHERE sender_id = $bidder_id ORDER BY 'date' ASC");}
+                                $users = $conn->query("SELECT * FROM comment WHERE sender_id = $bidder_id ORDER BY date ASC LIMIT 1");
                                 while ($row = $users->fetch_assoc()) {
                                     $get = $conn->query("SELECT * FROM users WHERE id =" . $row['reciver_id'] . " LIMIT 1");
                                     $uname = $get->num_rows > 0 ? $get->fetch_array()['name'] : '';
@@ -41,7 +41,7 @@ if (isset($_SESSION['login_id'])) {
                                     <tr>
                                         <td>
                                             <a class="dropdown-item view_detail" href="javascript:void(0)" data-id='<?php echo $row['id'] ?>'>
-                                                <small><i><?php echo 'To: ' . $uname ?></i></small><br>
+                                                <small><i><?php echo 'To: Auctioneer ' . $uname ?></i></small><br>
                                                 <p>Subject: <?php echo $row['title']; ?></p>
                                                 <small><i><?php echo date('F j, Y, g:i a', strtotime($row['date'])) ?></i></small>
                                                 <hr>
@@ -129,14 +129,61 @@ if (isset($_SESSION['login_id'])) {
             background: #f1f1f1;
             margin: 10px;
             box-shadow: 0 0 5px black;
-            border-radius: 5px;
-            width: 100%;
+            border-radius: 3px;
         }
+    </style>
 
-        .row1 {
-            margin-left: 10px;
-        }
 
+
+<style>
+#sids{
+  margin-bottom: 5px;
+}
+.a {
+    margin-bottom: 15px;
+    font-family: 'Arial';
+}
+.mid_1 {
+    margin-left: 20%;
+    font-family: "Algerian";
+    margin-top: 20px;
+}
+.mid_2 {
+    margin-left: 40%;
+    font-family: "Algerian";
+    margin-top: 10px;
+}
+.mid_1 h3 {
+    font-family: "Times New Roman";
+    text-decoration: none;
+    margin-top: 20px;
+    font-style: italic;
+}
+#w {
+    font-weight: bold;
+}
+#im1 {
+    width: 100px;
+    margin-left: 5%;
+}
+.row0 {
+    padding-top: 25px;
+    background: #f1f1f1;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 5px black; 
+    border-radius: 3px;
+}
+.row00 {
+    background: #f1f1f1;
+    margin: 10px;
+    box-shadow: 0 0 5px black; 
+    border-radius: 5px;
+    width: 100%;
+}
+.row1 {
+    margin-left: 10px;
+}
 .row2 {
     text-align: center;
     margin-top: 10px;

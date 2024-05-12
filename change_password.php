@@ -1,53 +1,54 @@
 <?php
-session_start();
-
-// Include database connection and user functions
-include('admin/db_connect.php');
-include('user_functions.php');
-
-// Check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['status' => 'error', 'message' => 'User not logged in']);
-    exit;
-}
-
-// Process password change request
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_id = $_SESSION['user_id'];
-    $current_password = $_POST['currentPassword'];
-    $new_password = $_POST['newPassword'];
-    $confirm_password = $_POST['confirmPassword'];
-
-    // Validate form inputs
-    if (empty($current_password) || empty($new_password) || empty($confirm_password)) {
-        echo json_encode(['status' => 'error', 'message' => 'All fields are required']);
-        exit;
-    }
-
-    // Verify current password
-    $user = getUserById($conn, $user_id);
-    if (!$user || !password_verify($current_password, $user['password'])) {
-        echo json_encode(['status' => 'error', 'message' => 'Incorrect current password']);
-        exit;
-    }
-
-    // Check if new password and confirm password match
-    if ($new_password !== $confirm_password) {
-        echo json_encode(['status' => 'error', 'message' => 'New password and confirm password do not match']);
-        exit;
-    }
-
-    // Hash the new password
-    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-
-    // Update user's password in the database
-    if (updateUserPassword($conn, $user_id, $hashed_password)) {
-        echo json_encode(['status' => 'success', 'message' => 'Password changed successfully']);
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Failed to update password']);
-    }
-} else {
-    // If request method is not POST
-    echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
-}
+include 'admin/db_connect.php'; // Include your database connection script
 ?>
+
+<div class="container-fluid">
+    <form action="#" method="post" id="forgot-password-form">
+        <div class="form-group">
+            <label for="username" class="control-label">Username</label>
+            <input type="text" name="username" class="form-control" required="">
+        </div>
+        <div class="form-group">
+            <label for="hint" class="control-label">Password Hint</label>
+            <input type="text" name="hint" class="form-control" required="">
+        </div>
+        <div id="new-password-section" style="display: none;">
+            <div class="form-group">
+                <label for="new_password" class="control-label">New Password</label>
+                <input type="password" name="new_password" id="new_password" class="form-control" required="">
+            </div>
+            <div class="form-group">
+                <label for="confirm_password" class="control-label">Confirm Password</label>
+                <input type="password" name="confirm_password" id="confirm_password" class="form-control" required="">
+            </div>
+        </div>
+        <button class="btn btn-primary">Reset Password</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#forgot-password-form').submit(function(e){
+        e.preventDefault();
+        var form = $(this);
+        $.ajax({
+            url: 'forgot_password_handler.php',
+            method: 'POST',
+            data: form.serialize(),
+            success: function(response){
+                console.log(response);
+                if(response.success) {
+                    $('#new-password-section').show();
+                    $('#new_password').val(response.newPassword);
+                    $('#confirm_password').val(response.newPassword);
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function(xhr, status, error){
+                console.error(xhr.responseText);
+            }
+        });
+    });
+</script>

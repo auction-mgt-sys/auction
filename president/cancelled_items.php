@@ -52,7 +52,7 @@
         <div class="table-wrapper">
             <?php
             // Fetching cancelled items from the database ordered by item ID in descending order
-            $sql_cancelled = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, requesteditem_type, requesteditem_description, requesteditem_measurment, price, total_price,  dateapprove FROM report WHERE auctionstatus = 2 ORDER BY requesteditem_id DESC";
+            $sql_cancelled = "SELECT requesteditem_id, requesteditem_name, requesteditem_quantity, requesteditem_deptname, requesteditem_depheadname, requesteditem_type, requesteditem_description, requesteditem_measurment, price, total_price,  dateapprove FROM report WHERE auctionstatus = 2 ORDER BY requesteditem_id DESC";
             $result_cancelled = $conn->query($sql_cancelled);
 
             if ($result_cancelled->num_rows > 0) {
@@ -66,6 +66,8 @@
                 echo "<th>Measurement</th>";
                 echo "<th>Quantity</th>";
                 echo "<th>Department</th>"; 
+
+                echo "<th>Department Head</th>"; 
                 echo "<th>Price</th>";
                 echo "<th>Total Price</th>";
                 echo "<th>Cancelled Date </th>";
@@ -82,7 +84,9 @@
                     echo "<td>" . $row_cancelled['requesteditem_description'] . "</td>";
                     echo "<td>" . $row_cancelled['requesteditem_measurment'] . "</td>";
                     echo "<td>" . $row_cancelled['requesteditem_quantity'] . "</td>";
-                    echo "<td>" . $row_cancelled['requesteditem_deptname'] . "</td>"; // Added Department data
+                    echo "<td>" . $row_cancelled['requesteditem_deptname'] . "</td>"; 
+
+                    echo "<td>" . $row_cancelled['requesteditem_depheadname'] . "</td>"; 
                     echo "<td>" . $row_cancelled['price'] . "</td>";
                     echo "<td>" . $row_cancelled['total_price'] . "</td>";
 
