@@ -80,7 +80,7 @@ $cid = isset($_GET['category_id']) ? $_GET['category_id'] : 0;
 
                                          <h1> WELCOME TO WOLKITE POLYTHECHNIC COLLEGE </h1>
                                         
-                                        <h3>  AUCTION  MANAGEMENT SYSTEM</h3>; "?>
+                                        <h3>  AUCTION  MANAGEMENT SYSTEM</h3> "?>
                                 <?php echo "<div class='justify-content-center'>"?>
                                 </section>
                                             </a>
