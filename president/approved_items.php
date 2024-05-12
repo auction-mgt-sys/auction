@@ -67,14 +67,14 @@
             echo "<th>Price</th>";
             echo "<th>Total Price</th>";
 
-            echo "<th>AApproved Date</th>";
+            echo "<th>Approved Date</th>";
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
 
             while ($row_approved = $result_approved->fetch_assoc()) {
                 // Add bold class to the new entries
-                
+                echo "<tr>"; // Missing opening <tr> tag
                 echo "<td>" . $row_approved['requesteditem_name'] . "</td>";
                 echo "<td>" . $row_approved['requesteditem_type'] . "</td>";
                 echo "<td>" . $row_approved['requesteditem_description'] . "</td>";

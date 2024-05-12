@@ -48,9 +48,9 @@ ob_end_flush();
         }
 
         th {
-            background-color: #3498db;
-            color: #fff;
-        }
+        background-color: #f4f4f4;
+        color: #000; /* Add this line to set the font color to black */
+    }
 
         .total-price-input {
             width: 100px; /* Adjust the width of the total price input */
@@ -78,8 +78,8 @@ ob_end_flush();
         include("db_connect.php");
 
         // Insert data into the report table
-        $insert_sql = "INSERT INTO report (requesteditem_name, requesteditem_type, requesteditem_description, requesteditem_measurment, requesteditem_quantity,requesteditem_deptname, requesteditem_depheadname, requesteditem_id)
-                        SELECT DISTINCT name, type, description, measurment, quantity, deptname, depheadname, id FROM requesteditem 
+        $insert_sql = "INSERT INTO report (requesteditem_name, requesteditem_type, requesteditem_description, requesteditem_measurment, requesteditem_quantity,requesteditem_deptname, requesteditem_id)
+                        SELECT DISTINCT name, type, description, measurment, quantity,deptname, id FROM requesteditem 
                         WHERE status = 1 and  id NOT IN (SELECT requesteditem_id FROM report)";
         if ($conn->query($insert_sql) === TRUE) {
             // Fetch data from the report table
@@ -97,8 +97,6 @@ ob_end_flush();
                                     <th>Measurement</th>
                                     <th>Quantity</th>
                                     <th>Deptname</th>
-
-                                    <th>Depheadname</th>
                                     <th>ID</th>
                                     <th>Price</th>
                                     <th>Total Price</th>
@@ -114,7 +112,6 @@ ob_end_flush();
                             <td>" . $row["requesteditem_measurment"] . "</td>
                             <td>" . $row["requesteditem_quantity"] . "</td>
                             <td>" . $row["requesteditem_deptname"] . "</td>
-                            <td>" . $row["requesteditem_depheadname"] . "</td>
                             <td>" . $row["requesteditem_id"] . "</td>
                             <td><input type='text' class='price-input' name='price[" . $row["requesteditem_id"] . "]' id='price_" . $row["requesteditem_id"] . "' value='" . $row["price"] . "' oninput='calculateTotalPrice(" . $row["requesteditem_id"] . ", " . $row["requesteditem_quantity"] . ")'></td>
                             <td><input type='text' class='total-price-input' name='total_price[" . $row["requesteditem_id"] . "]' id='total_price_" . $row["requesteditem_id"] . "' value='" . ($row["price"] * $row["requesteditem_quantity"]) . "'></td>

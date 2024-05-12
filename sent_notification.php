@@ -41,7 +41,7 @@ if (isset($_SESSION['login_id'])) {
                                     <tr>
                                         <td>
                                             <a class="dropdown-item view_detail" href="javascript:void(0)" data-id='<?php echo $row['id'] ?>'>
-                                                <small><i><?php echo 'To: ' . $uname ?></i></small><br>
+                                                <small><i><?php echo 'To: Auctioneer ' . $uname ?></i></small><br>
                                                 <p>Subject: <?php echo $row['title']; ?></p>
                                                 <small><i><?php echo date('F j, Y, g:i a', strtotime($row['date'])) ?></i></small>
                                                 <hr>

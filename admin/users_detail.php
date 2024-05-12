@@ -41,7 +41,7 @@ if(isset($_GET['id'])){
         <div class="row">
             <div class="col-md-12">
                 <div class="avatar-container">
-                    <?php 
+                <?php 
                     if(!empty($photo)) { 
                         if (file_exists('../admin/'.$photo)) {
                             echo '<img src="../admin/'.htmlspecialchars($photo).'" alt="User Photo">'; 

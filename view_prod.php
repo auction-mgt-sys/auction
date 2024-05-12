@@ -43,7 +43,7 @@ $_SESSION['pro_form_amount'] = $price_for_form;
     <h5 class="text-center">Payment For Bid Form</h5>
     <p >First you have to make a payment to get the bid-form by using <b>Mobile-Banking</b> or by <b>Tele-Birr</b> then after fill the form below with a correct information!</p>
     <h5 class="text-center" style="color: green">Name: <?php echo $name ?></h5>
-    <b>Account Number: </b><p class="form-control"><b> 001122334455</b></p>
+    <b>Account Number: </b><p class="form-control"><b> 1000127354559</b></p>
     <p class="form-control">Price For Form: <?php echo $price_for_form ?></p>
     
 
