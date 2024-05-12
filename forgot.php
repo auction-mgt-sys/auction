@@ -84,19 +84,18 @@ if(isset($_REQUEST['pwdrst'])) {
         $mail = new PHPMailer;
         $mail->IsSMTP();
         $mail->SMTPAuth = true;
-        $mail->SMTPSecure = "tls";
+        $mail->SMTPSecure = "ssl";
         $mail->Host = 'smtp.gmail.com';
         $mail->Port = 587;
         $mail->Username = "hannasemu25@gmail.com";   //Enter your username/emailid
         $mail->Password = "nabiy24253030@#$";   //Enter your password
-        $mail->FromName = "Wpcsc";
+        $mail->FromName = "Wpcsc Auction";
         $mail->AddAddress($email);
         $mail->Subject = "Reset Password";
         $mail->isHTML( TRUE );
         $mail->Body = $message;
             {
         };
-
         if ($mail->send()) {
             $msg = "We have e-mailed your password reset link!";
             $msgClass = "success";
