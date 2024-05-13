@@ -11,6 +11,7 @@
       <a href="javascript:void(0)" id="new_account">Create New Account</a>
 <span style="margin: 0 10px;">&nbsp;</span> <!-- Adding space between the links -->
 <a href="forgot.php">Forgot password?</a>
+
 </div>
     <button class="button btn btn-primary btn-sm">Login</button>
     <button class="button btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancel</button>
@@ -27,7 +28,7 @@
   $('#new_account').click(function(){
     uni_modal("Account Page",'signup.php?redirect=index.php?page=checkout')
   });  $('#forgot_password').click(function(){
-    uni_modal("Forgot Password",'forgot.php');
+    uni_modal("Forgot Password",'forgot_password.php');
   });
   $('#login-frm').submit(function(e){
     e.preventDefault()

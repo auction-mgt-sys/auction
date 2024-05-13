@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pwdrst'])) {
         if ($update_query) {
             $msg = "Password updated successfully!";
             echo '<script>alert("We have e-mailed your password reset link!");</script>';
-            header('location:login.php');
+            header('location:index.php');
             $msgClass = "success";
         } else {
             $msg = "Failed to update password. Please try again.";
