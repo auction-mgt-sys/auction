@@ -22,7 +22,7 @@
                     <select name="gender" class="form-select form-control" required="">
                         <option value="" selected="">Select Gender</option>
                         <option value="Male">Male</option>
-                        <option value="Femal">Female</option>
+                        <option value="Femal">Femal</option>
                     </select>
                 </div>
             </div>
@@ -212,12 +212,6 @@
     <div id="confirmPasswordStrength" style="margin-top: 10px;"></div>
 </div>
 
-<!-- New input field for password hint -->
-<div class="form-group">
-    <input type="text" name="passwordHint" class="form-control" id="passwordHint" placeholder="Password Hint" required="">
-    <small id="passwordHintMessage" class="form-text text-muted">Provide a hint to help you remember your password.</small>
-</div>
-
 <style>
     .password-container {
         position: relative;
@@ -294,41 +288,8 @@
         }
     }
 </script>
-<script>
-    // Function to store password hint
-    function storePasswordHint() {
-        const passwordHintInput = document.getElementById('passwordHint').value.trim();
-        
-        // Assuming you have a function to send data to the server, let's call it sendDataToServer()
-        sendDataToServer(passwordHintInput); // Send password hint to server
-        
-        // Optional: You can clear the input field after storing the hint
-        document.getElementById('passwordHint').value = '';
-    }
-
-    // Validate password hint
-    function validatePasswordHint() {
-        const passwordHintInput = document.getElementById('passwordHint');
-        const passwordHintMessage = document.getElementById('passwordHintMessage');
-
-        // Check if password hint is provided
-        if (passwordHintInput.value.trim() === '') {
-            passwordHintMessage.textContent = 'Please provide a hint for your password.';
-            passwordHintInput.setCustomValidity('Password hint is required');
-        } else {
-            passwordHintMessage.textContent = '';
-            passwordHintInput.setCustomValidity('');
-        }
-    }
-</script>
-
 
         </div>
-        <div class="d-flex justify-content-start">
-    <div class="p-1 col-12">
-        <input type="text" name="hint" class="form-control" placeholder="Password Hint 1" required>
-    </div>
-</div>
         <div class="form-group">
             <input type="text" name="TIN" class="form-control" placeholder="Taxpayment ID (TIN)" required="">
         </div>
@@ -514,9 +475,6 @@ if (!file_exists($imageDirectory)) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET['action']) && $_GET['action'] == 'signup') {
     // Your existing form handling code here
     
-    // Handle password hint
-    $passwordHint = $_POST['passwordHint'];
-    // Use $passwordHint as needed
     // Example code for handling image upload
     if (isset($_FILES['img'])) {
         // Debugging: Inspect $_FILES array
