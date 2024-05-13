@@ -89,10 +89,10 @@ function MM_validateForm() { //v4.0
   var phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
   var phone = /^\d{10}$/;
 
-   if(document.getElementById("oldpassword").value =="")
+   if(document.getElementById("hintpassword").value =="")
    {
     alert('first fill old password text field !!');
-    document.getElementById("oldpassword").focus();
+    document.getElementById("hintpassword").focus();
     return false;
    }
       if(document.getElementById("newPassword").value =="")
@@ -147,7 +147,7 @@ var load = window.open ('changepasswords.php','_self',false);
 ?>
 <?php
 if(isset($_POST['submit'])) {
-    $oldpass = $_POST['oldpassword'];
+    $oldpass = $_POST['hintpassword'];
     $newpass = $_POST['newPassword'];
     $confirmpass = $_POST['confirmPassword'];
     
@@ -182,7 +182,7 @@ if(isset($_POST['submit'])) {
             }
         }
     } else {
-        echo '<p align="center"><font color="red" size="2">Wrong Old password!</font></p>';
+        echo '<p align="center"><font color="red" size="2">Incorrect password hint!</font></p>';
         echo '<meta content="5;changepasswords.php" http-equiv="refresh" />';
     }
 }
@@ -200,9 +200,9 @@ if(isset($_POST['submit'])) {
            <td colspan="2" bgcolor="white"align="center" class="style26">Change Password</h1></td>
         </tr>
          <tr>
-           <td width="300" bgcolor="white"><label class="style7">old password</label></td>
-           <td width="300" bgcolor="white"><input type="password" name="oldpassword" id="oldpassword" class="form_settings"/>
-               <span id="oldpassword" class="required"></span></td>
+           <td width="300" bgcolor="white"><label class="style7">Password Hint</label></td>
+           <td width="300" bgcolor="white"><input type="password" name="hintpassword" id="hintpassword" class="form_settings"/>
+               <span id="hintpassword" class="required"></span></td>
          </tr>
          <tr>
            <td bgcolor="white"><label class="style7">New Password</label></td>
