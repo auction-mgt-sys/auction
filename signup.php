@@ -290,12 +290,7 @@
 </script>
 
         </div>
-       <div class="d-flex justify-content-start">
-    <div class="p-1 col-12">
-        <input type="text" name="hint" id="hint" class="form-control" placeholder="Password Hint 1" required>
-        <div id="error-message" style="display: none; color: red;">Password hint already exists!</div>
-    </div>
-</div>
+       
 
 <script>
 document.getElementById('hint').addEventListener('input', function() {

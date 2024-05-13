@@ -117,7 +117,7 @@ if($cid > 0){
 }
 $cat = $conn->query("SELECT * FROM products where unix_timestamp(bid_end_datetime) >= ".strtotime(date("Y-m-d H:i"))." $where order by name asc");
 if($cat->num_rows <= 0){
-    echo "<center><h4><i>No Available Product.</i></h4></center>";
+    echo "<center><h4><i></i></h4></center>";
     
 } 
 while($row = $cat->fetch_assoc()):

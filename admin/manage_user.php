@@ -65,10 +65,26 @@ if(isset($_POST['name'])){
     <!-- Add title="Last Name should only contain alphabets" to display custom error message -->
 </div>
 
-        <div class="form-group">
-            <label for="age">age</label>
-            <input type="number"min="25" max="65" name="age" id="age" class="form-control" value="<?php echo isset($meta['age']) ? $meta['age']: '' ?>" required>
-        </div>
+<div class="form-group">
+    <label for="age">Age</label>
+    <input type="number" min="24" max="70" name="age" id="age" class="form-control" value="<?php echo isset($meta['age']) ? $meta['age'] : '' ?>" required oninput="checkInput()">
+    <div id="error-message" style="color: red; display: none;">Please enter a valid age.</div>
+</div>
+
+<script>
+    function checkInput() {
+        var ageInput = document.getElementById("age");
+        var errorMessage = document.getElementById("error-message");
+        if (ageInput.value.length > 2 || parseInt(ageInput.value) < 24 || parseInt(ageInput.value) > 70) {
+            errorMessage.style.display = "block";
+            ageInput.setCustomValidity("Invalid input");
+        } else {
+            errorMessage.style.display = "none";
+            ageInput.setCustomValidity("");
+        }
+    }
+</script>
+
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" name="username" id="username" class="form-control" value="<?php echo isset($meta['username']) ? $meta['username']: '' ?>" required  autocomplete="off">

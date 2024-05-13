@@ -62,10 +62,10 @@ require 'vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
-include('admin/db_connect.php');
+include('C:/xampp/htdocs/IMSP/DBconnection.php');
 if(isset($_REQUEST['pwdrst'])) {
     $email = $_REQUEST['email'];
-    $check_email = mysqli_query($conn, "SELECT email FROM users WHERE email='$email'");
+    $check_email = mysqli_query($conn, "SELECT email FROM createdaccount WHERE email='$email'");
     $res = mysqli_num_rows($check_email);
 
     if($res > 0) {
@@ -84,18 +84,19 @@ if(isset($_REQUEST['pwdrst'])) {
         $mail = new PHPMailer;
         $mail->IsSMTP();
         $mail->SMTPAuth = true;
-        $mail->SMTPSecure = "ssl";
+        $mail->SMTPSecure = "tls";
         $mail->Host = 'smtp.gmail.com';
         $mail->Port = 587;
-        $mail->Username = "hannasemu25@gmail.com";   //Enter your username/emailid
-        $mail->Password = "nabiy24253030@#$";   //Enter your password
-        $mail->FromName = "Wpcsc Auction";
+        $mail->Username = "daniel.bekele.garedew@gmail.com";   //Enter your username/emailid
+        $mail->Password = "xfnq vqnu skwg gfcw";   //Enter your password
+        $mail->FromName = "Gold Water";
         $mail->AddAddress($email);
         $mail->Subject = "Reset Password";
         $mail->isHTML( TRUE );
         $mail->Body = $message;
             {
         };
+
         if ($mail->send()) {
             $msg = "We have e-mailed your password reset link!";
             $msgClass = "success";

@@ -63,7 +63,7 @@
  }
 </style>
 <?php
-include('admin/db_connection.php');
+include('C:/xampp/htdocs/auction/admin/db_connect.php');
 
 // Check if 'secret' key is set in $_GET
 

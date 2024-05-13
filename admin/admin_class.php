@@ -311,7 +311,6 @@ $data .= ", contact = '$contact' ";
 $data .= ", address = '$address' ";
 $data .= ", age = '$age' ";
 $data .= ", TIN_number = '$TIN' ";
-$data .= ", hint = '$hint' ";
 
 $data .= ", type = '$type' ";
 $data .= ", status = '$status' ";
