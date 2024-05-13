@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2024 at 11:29 AM
+-- Generation Time: May 12, 2024 at 09:13 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -20,6 +20,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `auction_mgt_sys`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auctionitem`
+--
+
+CREATE TABLE `auctionitem` (
+  `id` int(11) NOT NULL,
+  `common_name` varchar(255) DEFAULT NULL,
+  `common_type` varchar(255) DEFAULT NULL,
+  `common_measurement` varchar(255) DEFAULT NULL,
+  `total_quantity` int(11) DEFAULT NULL,
+  `price` int(30) DEFAULT NULL,
+  `total_price` int(30) DEFAULT NULL,
+  `statuss` tinyint(2) NOT NULL DEFAULT 0 COMMENT '0=not post,1=post',
+  `staup` tinyint(2) NOT NULL DEFAULT 2 COMMENT '0=upload,1=see',
+  `dateupload` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `auctionitem`
+--
+
+INSERT INTO `auctionitem` (`id`, `common_name`, `common_type`, `common_measurement`, `total_quantity`, `price`, `total_price`, `statuss`, `staup`, `dateupload`) VALUES
+(1, 'desktop', 'computer', 'ram,cpu,generation', 10, 6, 60, 1, 1, '2024-05-12 20:54:47'),
+(2, 'whiteboard', 'board', 'color, wood', 5, 20, 100, 1, 1, '2024-05-12 20:55:03');
 
 -- --------------------------------------------------------
 
@@ -48,16 +75,15 @@ CREATE TABLE `bids` (
   `product_id` int(30) NOT NULL,
   `bid_amount` float NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1=bid,2=confirmed,3=cancelled',
-  `data_crated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `date_created` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bids`
 --
 
-INSERT INTO `bids` (`id`, `user_id`, `product_id`, `bid_amount`, `status`, `data_crated`) VALUES
-(1, 50, 3, 2222, 1, '2024-04-11 11:29:35'),
-(2, 50, 4, 22, 1, '2024-04-11 11:54:10');
+INSERT INTO `bids` (`id`, `user_id`, `product_id`, `bid_amount`, `status`, `date_created`) VALUES
+(1, 112, 1, 200, 2, '2024-05-12 22:13:31');
 
 -- --------------------------------------------------------
 
@@ -76,8 +102,15 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `name`) VALUES
 (1, 'desk'),
-(2, 'foods'),
-(3, 'books');
+(3, 'books'),
+(4, 'clothes'),
+(5, 'machine'),
+(6, 'ink '),
+(7, 'paper'),
+(8, 'construction'),
+(9, 'table'),
+(11, 'electronics'),
+(12, 'computer');
 
 -- --------------------------------------------------------
 
@@ -97,19 +130,6 @@ CREATE TABLE `comment` (
   `status` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `comment`
---
-
-INSERT INTO `comment` (`id`, `sender_id`, `user_type`, `reciver_id`, `comment_type`, `title`, `detail`, `date`, `status`) VALUES
-(1, '5', 4, '17', 0, '', '', '2024-03-22 15:39:06', 'unread'),
-(2, '27', 2, '11', 1, 'drrfghjkl', 'dfghj', '2024-03-25 15:44:07', 'read'),
-(3, '5', 4, '7', 0, 'sdfgh', 'jjkj', '2024-03-28 10:51:31', 'unread'),
-(4, '9', 2, '11', 1, 'jjjj', 'jjjj', '2024-04-01 10:26:40', 'read'),
-(5, '10', 2, '11', 1, 'jjjj', 'kkk', '2024-04-03 13:48:16', 'read'),
-(6, '50', 2, '11', 1, 'ssss', 'sss', '2024-04-11 11:15:06', 'read'),
-(7, '51', 3, '50', 0, 'kkk', 'kkk', '2024-04-11 11:16:52', 'read');
-
 -- --------------------------------------------------------
 
 --
@@ -122,22 +142,20 @@ CREATE TABLE `payment` (
   `pro_id` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
   `bidder_id` int(30) NOT NULL,
+  `user_id` int(20) NOT NULL,
   `transaction_id` varchar(50) NOT NULL,
   `status` tinyint(3) NOT NULL DEFAULT 0 COMMENT '0=request,1=new,2=used',
   `date_payed` datetime NOT NULL DEFAULT current_timestamp(),
-  `photo` text NOT NULL
+  `photo` text NOT NULL,
+  `bphoto` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `payment`
 --
 
-INSERT INTO `payment` (`id`, `reason`, `pro_id`, `amount`, `bidder_id`, `transaction_id`, `status`, `date_payed`, `photo`) VALUES
-(7, 'sjjsjs', 4, 99, 10, '7778gggg', 1, '2024-04-03 15:29:10', ''),
-(8, 'ggggg', 4, 99, 50, 'gffff', 1, '2024-04-08 19:10:23', ''),
-(9, 'asdfg', 4, 100, 50, '123', 1, '2024-04-08 20:12:48', ''),
-(11, 'wwww', 3, 6666, 50, '4764', 2, '2024-04-11 11:27:51', ''),
-(12, 'wwww', 4, 500, 50, '476431', 2, '2024-04-11 11:52:33', '');
+INSERT INTO `payment` (`id`, `reason`, `pro_id`, `amount`, `bidder_id`, `user_id`, `transaction_id`, `status`, `date_payed`, `photo`, `bphoto`) VALUES
+(4, 'qww', 1, 200, 112, 0, 'transac123', 2, '2024-05-12 21:38:41', 'uploads/', '');
 
 -- --------------------------------------------------------
 
@@ -166,8 +184,20 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `measurement`, `quantity`, `price_for_form`, `total_price`, `description`, `start_bid`, `regular_price`, `bid_end_datetime`, `img_fname`, `date_created`) VALUES
-(3, 1, 'wewr', 'asfd', '333', '3', '33', 'qsdf', 230, 220, '2024-04-11 11:51:00', '3.jpg', '2024-03-20 12:09:35'),
-(4, 1, 'TY', 'JKJJ', '1', '99', '70', 'GHGH', 90, 70, '2024-04-11 11:53:00', '4.jpg', '2024-03-25 16:35:14');
+(1, 12, 'desktop', 'ram,cpu,generation', '10', '100', '60', 'Our campus need purchase those computer from legal campany ', 1000, 6, '2024-05-12 22:00:00', '1.jpg', '2024-05-12 21:07:33'),
+(2, 8, 'whiteboard', 'color, wood', '5', '120', '100', 'we need purchase those materia from legal campany', 200, 20, '2024-05-13 05:10:00', '2.jpg', '2024-05-12 21:12:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `profle`
+--
+
+CREATE TABLE `profle` (
+  `id` int(30) NOT NULL,
+  `user_id` int(30) NOT NULL,
+  `image_path` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -187,17 +217,21 @@ CREATE TABLE `report` (
   `requesteditem_id` int(30) NOT NULL,
   `status` tinyint(2) NOT NULL DEFAULT 0 COMMENT '0=newrequest,1=reporteditem,',
   `auctionstatus` tinyint(3) NOT NULL DEFAULT 0 COMMENT '0=new,1=approved,2=canclled',
-  `auction` tinyint(2) NOT NULL DEFAULT 0 COMMENT '0=notpost,1=post'
+  `groupitem` tinyint(2) NOT NULL COMMENT '0=ungrouped,1=grouped',
+  `requesteditem_deptname` varchar(100) NOT NULL,
+  `requesteditem_depheadname` varchar(100) NOT NULL,
+  `reason` varchar(200) NOT NULL,
+  `reported_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `dateapprove` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `report`
 --
 
-INSERT INTO `report` (`id`, `price`, `total_price`, `requesteditem_name`, `requesteditem_type`, `requesteditem_description`, `requesteditem_measurment`, `requesteditem_quantity`, `requesteditem_id`, `status`, `auctionstatus`, `auction`) VALUES
-(31, 8, 8, 'desktop', 'xklzl', 'zz,xm', 'askgajks76', 1, 119, 1, 1, 0),
-(32, 3, 3, 'dfghjk', 'dfghjkl', 'tyuiopkk', 'kkk', 1, 121, 1, 2, 0),
-(33, 5, 5, 'xcvbnm,.', 'ghjkl;', 'kkk', 'kkk', 1, 122, 1, 2, 0);
+INSERT INTO `report` (`id`, `price`, `total_price`, `requesteditem_name`, `requesteditem_type`, `requesteditem_description`, `requesteditem_measurment`, `requesteditem_quantity`, `requesteditem_id`, `status`, `auctionstatus`, `groupitem`, `requesteditem_deptname`, `requesteditem_depheadname`, `reason`, `reported_date`, `dateapprove`) VALUES
+(1, 6, 60, 'desktop', 'computer', 'there is storage this device in my department', 'ram,cpu,generation', 10, 1, 1, 1, 1, 'information systems', 'esayas wakajri', '', '2024-05-12 20:43:08', '2024-05-12 20:54:47'),
+(2, 20, 100, 'whiteboard', 'board', 'for student thoery class', 'color, wood', 5, 2, 1, 1, 1, 'information systems', 'esayas wakajri', '', '2024-05-12 20:43:08', '2024-05-12 20:55:03');
 
 -- --------------------------------------------------------
 
@@ -215,19 +249,17 @@ CREATE TABLE `requesteditem` (
   `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0=new,1=accepted,2=rejected',
   `deptname` varchar(100) NOT NULL,
   `depheadname` varchar(100) NOT NULL,
-  `reason` varchar(100) NOT NULL
+  `reason` varchar(200) NOT NULL,
+  `sent_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `requesteditem`
 --
 
-INSERT INTO `requesteditem` (`id`, `name`, `type`, `description`, `measurment`, `quantity`, `status`, `deptname`, `depheadname`, `reason`) VALUES
-(119, 'desktop', 'xklzl', 'zz,xm', 'askgajks76', 1, 1, 'IS', 'esayas wakajri', ''),
-(120, 'table', 'kjkjk', 'vnm,', 'kjjkh', 1, 2, 'IS', 'esayas wakajri', 'there is shortge of item'),
-(121, 'dfghjk', 'dfghjkl', 'tyuiopkk', 'kkk', 1, 1, 'IS', 'esayas wakajri', ''),
-(122, 'xcvbnm,.', 'ghjkl;', 'kkk', 'kkk', 1, 1, 'IS', 'esayas wakajri', ''),
-(123, 'JJJ', 'JJJJ', 'KKK', 'KKK', 1, 2, 'IS', 'esayas wakajri', 'ioiii');
+INSERT INTO `requesteditem` (`id`, `name`, `type`, `description`, `measurment`, `quantity`, `status`, `deptname`, `depheadname`, `reason`, `sent_date`) VALUES
+(1, 'desktop', 'computer', 'there is storage this device in my department', 'ram,cpu,generation', 10, 1, 'information systems', 'esayas wakajri', '', '2024-05-12 20:41:39'),
+(2, 'whiteboard', 'board', 'for student thoery class', 'color, wood', 5, 1, 'information systems', 'esayas wakajri', '', '2024-05-12 20:41:39');
 
 -- --------------------------------------------------------
 
@@ -249,7 +281,7 @@ CREATE TABLE `system_settings` (
 --
 
 INSERT INTO `system_settings` (`id`, `name`, `email`, `contact`, `cover_img`, `about_content`) VALUES
-(1, 'WPCSC AUCTION SYSTEM', 'wolktiepolytecheniccollege@gmail.com', '0113301647', '', 'ABOUT US WOLKITE POLYTECHNIC COLLEGE The purpose of the college is to provide quality and project-based result-oriented training in formal and informal training fields, producing qualified entrepreneurs and motivated citizens at the basic and intermediate levels. Empowering women and disabled people.');
+(1, 'WPCSC AUCTION SYSTEM', 'wolktiepolytecheniccollege@gmail.com', '0113301647', '1714589880_1714388760_wpcsc.jpg', '&lt;h5 style=&quot;text-align:justify&quot;&gt;&lt;span style=&quot;text-align:justify&quot;&gt;&lt;sup style=&quot;text-align:justify&quot;&gt;&lt;span style=&quot;text-align:justify&quot;&gt;WOLKITE POLYTECHNIC COLLEGE and &amp;nbsp;SATELLITE CAMPUS is a leading institution that provides quality education and training in various technical fields. With itscommitment to excellence, the college offers a wide range of programs andcourses that are designed to meet the needs of both students and employers. Ourdedicated faculty and staff work tirelessly to ensure a high standard ofeducation, fostering creativity and innovation in our students. We are proud toserve our community by empowering individuals, particularly women andunderrepresented groups, to pursue rewarding careers in their chosen fields.&lt;/span&gt;&lt;/sup&gt;&lt;/span&gt;&lt;/h5&gt;&lt;p class=&quot;MsoNormal&quot; style=&quot;text-align:justify&quot;&gt;&lt;o:p style=&quot;text-align:justify&quot;&gt;&lt;/o:p&gt;&lt;/p&gt;');
 
 -- --------------------------------------------------------
 
@@ -264,50 +296,59 @@ CREATE TABLE `users` (
   `gender` varchar(11) NOT NULL,
   `username` varchar(200) NOT NULL,
   `password` text NOT NULL,
-  `email` varchar(25) NOT NULL,
+  `email` varchar(50) NOT NULL,
   `contact` varchar(15) NOT NULL,
   `address` text NOT NULL,
   `age` int(11) NOT NULL,
   `TIN_number` varchar(50) NOT NULL,
+  `hint` varchar(100) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0=nutral,1=accepted,2=reject,3=new',
   `type` tinyint(2) NOT NULL DEFAULT 7 COMMENT '1=admin,2=bidder,3=auctioneer,4=commitee,5=department,6=finance,7=president',
   `photo` text NOT NULL,
+  `bphoto` text NOT NULL,
   `deptname` varchar(100) NOT NULL,
-  `data_created` datetime NOT NULL DEFAULT current_timestamp()
+  `data_created` datetime NOT NULL DEFAULT current_timestamp(),
+  `sta` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0=active,1=deactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `lname`, `gender`, `username`, `password`, `email`, `contact`, `address`, `age`, `TIN_number`, `status`, `type`, `photo`, `deptname`, `data_created`) VALUES
-(1, 'Administrator', '', '', 'admin', '25d55ad283aa400af464c76d713c07ad', 'admin@gmail.com', '0923222120', 'wolkite', 0, '', 0, 1, '', '', '2024-03-05 23:28:49'),
-(4, 'finance', 'ss', '', 'fan', '25d55ad283aa400af464c76d713c07ad', '', '', '', 33, '', 0, 6, '', '', '2024-03-05 23:39:51'),
-(5, 'commitee', 'dd', '', 'hana', '25d55ad283aa400af464c76d713c07ad', '', '', '', 32, '', 0, 4, '', '', '2024-03-05 23:40:29'),
-(6, 'president', 'ww', '', 'pre', '25d55ad283aa400af464c76d713c07ad', '', '', '', 34, '', 0, 7, '', '', '2024-03-05 23:41:17'),
-(50, 'Elshadai Melesse', 'wdwe', 'Femal', 'qqq', '1bbd886460827015e5d605ed44252251', 'd@gmail.com', '66556', 'hhh', 77, '12121212', 1, 2, 'photos/', '', '2024-04-08 19:09:13'),
-(51, 'auctioneer', 'nnn', '', 'eleni', 'e807f1fcf82d132f9bb018ca6738a19f', '', '', '', 44, '', 0, 3, '', '', '2024-04-08 19:17:02'),
-(52, 'esayas', 'wakajri', '', 'esu', '25d55ad283aa400af464c76d713c07ad', '', '', '', 40, '', 0, 5, '', 'IS', '2024-04-09 13:10:01'),
-(53, 'gech', 'pro', '', 'proj', '25d55ad283aa400af464c76d713c07ad', '', '', '', 235, '', 0, 5, '', 'CS', '2024-04-09 14:21:51'),
-(54, 'fi', 'las', 'Femal', 'ssd', 'e807f1fcf82d132f9bb018ca6738a19f', 'd@gmail.comm', '+2519476555', 'add', 76, 'jj', 3, 2, 'photos/', '', '2024-04-10 17:09:46'),
-(55, 'Elshadai Melesse', 'wdwe', 'Male', 'kkk', 'e807f1fcf82d132f9bb018ca6738a19f', 'd@gmail.comm', '+251947655599', 'kk', 18, 'jjj', 3, 2, 'photos/', '', '2024-04-10 17:12:39'),
-(56, 'Elshadai Melesse', 'wdwe', 'Male', 'jjj', '78f4c0ff2d9e273f3ac37194dafcbfa9', 'd@gmail.comm', '+2519476555kkkk', 'll', 99, 'kk', 3, 2, 'photos/', '', '2024-04-10 17:15:01');
+INSERT INTO `users` (`id`, `name`, `lname`, `gender`, `username`, `password`, `email`, `contact`, `address`, `age`, `TIN_number`, `hint`, `status`, `type`, `photo`, `bphoto`, `deptname`, `data_created`, `sta`) VALUES
+(1, 'Administrator', '', '', 'admin', '8ce87b8ec346ff4c80635f667d1592ae', 'admin@gmail.com', '0923222120', 'wolkite', 0, '', '', 0, 1, '', '', '', '2024-03-05 23:28:49', 0),
+(103, 'hanna', 'semu', 'Femal', 'han', 'edb4453919043acca51d2ee7817d604c', 'hannasemu25@gmail.com', '987879877', 'aa', 23, '143', '', 1, 2, 'photos/watching-sunset-near-rice-paddies-field-wallpaper-1280x800_3.jpg', 'photos/photo_2023-12-14_21-09-46.jpg', '', '2024-05-11 20:22:45', 0),
+(107, 'elenibe', 'beyene', '', 'eleni', '25d55ad283aa400af464c76d713c07ad', '', '', '', 22, '', '', 0, 3, '', '', '', '2024-05-12 20:01:04', 0),
+(108, 'hanna', 'semu', '', 'hana', '25d55ad283aa400af464c76d713c07ad', '', '', '', 22, '', '', 0, 4, '', '', '', '2024-05-12 20:01:35', 0),
+(109, 'genet', 'mebrat', '', 'geni', '25d55ad283aa400af464c76d713c07ad', '', '', '', 42, '', '', 0, 6, '', '', '', '2024-05-12 20:02:31', 0),
+(110, 'faris', 'kebede', '', 'pre', '25d55ad283aa400af464c76d713c07ad', '', '', '', 33, '', '', 0, 7, '', '', '', '2024-05-12 20:04:15', 0),
+(111, 'esayas', 'wakajri', '', 'isayas', '25d55ad283aa400af464c76d713c07ad', '', '', '', 35, '', '', 0, 5, '', '', 'information systems', '2024-05-12 20:05:13', 0),
+(112, 'Elshadai', 'Melesse', 'Femal', 'elshu', '20388b5e65a54bfa08c9df810ef75047', 'elshadaimelesse@gmail.com', '947641431', 'wolkite', 22, '661212', 'elshu', 1, 2, 'photos/tin.jpg', 'photos/bu.jpg', '', '2024-05-12 20:16:57', 0);
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `auctionitem`
+--
+ALTER TABLE `auctionitem`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `bidform`
 --
 ALTER TABLE `bidform`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `bidform_product_id_qw` (`product_id`);
 
 --
 -- Indexes for table `bids`
 --
 ALTER TABLE `bids`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `bids_user_id_we` (`user_id`),
+  ADD KEY `bids_product_id_e` (`product_id`);
 
 --
 -- Indexes for table `categories`
@@ -325,19 +366,29 @@ ALTER TABLE `comment`
 -- Indexes for table `payment`
 --
 ALTER TABLE `payment`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `payment_bidder_id_fr` (`bidder_id`);
 
 --
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_categories_id` (`category_id`);
+
+--
+-- Indexes for table `profle`
+--
+ALTER TABLE `profle`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `prfle_user_id` (`user_id`);
 
 --
 -- Indexes for table `report`
 --
 ALTER TABLE `report`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `report_requesteditem_id_er` (`requesteditem_id`);
 
 --
 -- Indexes for table `requesteditem`
@@ -362,6 +413,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `auctionitem`
+--
+ALTER TABLE `auctionitem`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `bidform`
 --
 ALTER TABLE `bidform`
@@ -371,43 +428,49 @@ ALTER TABLE `bidform`
 -- AUTO_INCREMENT for table `bids`
 --
 ALTER TABLE `bids`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `profle`
+--
+ALTER TABLE `profle`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `report`
 --
 ALTER TABLE `report`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `requesteditem`
 --
 ALTER TABLE `requesteditem`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `system_settings`
@@ -419,7 +482,48 @@ ALTER TABLE `system_settings`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `bidform`
+--
+ALTER TABLE `bidform`
+  ADD CONSTRAINT `bidform_product_id_qw` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `bids`
+--
+ALTER TABLE `bids`
+  ADD CONSTRAINT `bids_product_id_e` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `bids_user_id_we` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `payment`
+--
+ALTER TABLE `payment`
+  ADD CONSTRAINT `payment_bidder_id_fr` FOREIGN KEY (`bidder_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `product_categories_id` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+
+--
+-- Constraints for table `profle`
+--
+ALTER TABLE `profle`
+  ADD CONSTRAINT `prfle_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `report`
+--
+ALTER TABLE `report`
+  ADD CONSTRAINT `report_requesteditem_id_er` FOREIGN KEY (`requesteditem_id`) REFERENCES `requesteditem` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
