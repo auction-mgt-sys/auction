@@ -79,7 +79,7 @@ $owner = $_SESSION['login_id'];
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<button class="btn btn-sm btn-block btn-primary col-sm-2"> Save</button>
+							<button class="btn btn-sm btn-block btn-primary col-sm-2"> Send</button>
 						</div>
 					</div>
 				</form>

@@ -13,7 +13,7 @@ foreach($user->fetch_array() as $k =>$v){
 	<div id="msg"></div>
 	<?php 
 
-$get = $conn->query("SELECT * FROM users WHERE id = " . $meta['sender_id'] . " ORDER BY id DESC LIMIT 1");
+$get = $conn->query("SELECT * FROM users where id =".$meta['sender_id']."  order by 'date' asc limit 1");
                         $uname = $get->num_rows > 0 ? $get->fetch_array()['name'] : '' ;
 	?>
 	<form action="" id="manage-comment_detail">	

@@ -16,8 +16,8 @@
 					<th class="text-center">Transaction ID</th>
 					<th class="text-center">Bidder Name</th>
 					<th class="text-center">Reason</th>
-			<th class="text-center">business</th>
- <th class="text-center">Date</th>
+			        <th class="text-center">business</th>
+                    <th class="text-center">Date</th>
 					<th class="text-center">Actions</th>
 				</tr>
 			</thead>
@@ -49,13 +49,34 @@
 				 	<td>
 				 		<?php echo ucwords($row['reason']) ?>
 				 	</td>
-					 <td>
-            <!-- Display user's profile picture -->
-			<?php if (!empty($bphoto)) : ?>
-    <img src="uploads/<?php echo htmlspecialchars($bphoto); ?>" alt="Profile Picture" style="width: 50px;">
+					<td>
+    <!-- Display user's profile picture -->
+    <?php
+if (!empty($bphoto)) {
+    // Check if the image exists in the file system
+    if (file_exists('../admin/' . $bphoto)) {
+        // If the image exists in the file system, display it
+        echo '<img src="../admin/' . htmlspecialchars($bphoto) . '" alt="" style="width: 150px; height: auto;">';
+    } else {
+        // If the image does not exist in the file system, assume it's base64-encoded and display it
+        echo '<img src="data:image/jpeg;base64,' . base64_encode($bphoto) . '" alt="" style="width: 200px; height: auto;">';
+    }
+} else {
+    // If no photo is available, display a message
+    echo 'No photo available';
+}
+?>
+
+<?php if (!empty($bphoto) && file_exists('../uploads/' . $bphoto)) : ?>
+    <!-- If the image exists in the file system, display it -->
+    <img src="../uploads/<?php echo htmlspecialchars($bphoto); ?>" alt="P" style="width: 150px; height: auto;">
+<?php else: ?>
+    <!-- If the image does not exist in the file system, display a placeholder image -->
+    <img src="../uploads/placeholder.jpg" alt="" style="width: 150px; height: auto;">
 <?php endif; ?>
 
-        </td>
+</td>
+
 				 	<td>
 				 		<?php echo $row['date_payed'] ?>
 				 	</td>

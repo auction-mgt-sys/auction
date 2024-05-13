@@ -51,6 +51,12 @@
 				<input type="password" name="con-password" class="form-control" placeholder="confirm password" required="">
 			</div>
 		</div>
+		</div>
+<div class="d-flex justify-content-start">
+    <div class="p-1 col-12">
+        <input type="text" name="hint1" class="form-control" placeholder="Password Hint 1" required>
+    </div>
+</div>
 		<div class="form-group">
 				<input type="text" name="TIN" class="form-control" placeholder="Taxpayment ID (TIN)" required="">
 		</div>

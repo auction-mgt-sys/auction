@@ -48,11 +48,9 @@ $owner = $_SESSION['login_id'];
                      <small><i><?php echo date('F j, Y, g:i a',strtotime($row['date'])) ?></i></small><br>
                      <?php echo $row['title'] ; ?><br>
                     <small> <i><?php echo 'From:- '.$uname ?></i></small><hr>
-             
-                </a>
-         <?php }  
+             </a>
+             <?php }  
   
-
   if (isset($row['date'])) {
       $d = date('g:i a', strtotime($row['date']));
       // Rest of your code that uses $d
@@ -61,7 +59,6 @@ $owner = $_SESSION['login_id'];
       $d = ''; // or any default value you want to assign
   }
 ?>
-     
                       
 <!--                     <small><i><?php #echo date('F j, Y, g:i a',strtotime($i['date'])) ?></i></small><br/>  
 -->                             
@@ -220,18 +217,3 @@ uni_modal("<small><i><?php echo 'at: - '.$d ?></i></small>",'view_comment_detail
 })
 $('.list-<?php echo isset($_GET['page']) ? $_GET['page'] : '' ?>').addClass('active')
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

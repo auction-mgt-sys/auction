@@ -25,7 +25,7 @@
 
         h2 {
             text-align: center;
-            padding: 30px;
+            padding: 25px;
         }
 
         .row {
@@ -79,8 +79,8 @@
 
 <!-- Masthead-->
 <!-- <div class="contact-section">
-    Add content for contact section if needed -->
-</div>
+    <!-- Add content for contact section if needed -->
+</div> -->
 
 <h2>Our Team</h2>
 
@@ -106,7 +106,7 @@
                 <h3>ELENI BEYENE</h3>
                 <p class="title">Website Developer</p>
                 <p>A student at Wolkite University. She developed this website for a graduation industrial project and for use in any auction process that the organization issues regularly!</p>
-                <p><i class="icon fas fa-envelope"></i><a href="mailto:elenibeyene@gmail.com">hannasemu@gmail.com</a></p>
+                <p><i class="icon fas fa-envelope"></i><a href="mailto:elenibeyene@gmail.com">elenibeyene@gmail.com</a></p>
                 <p><i class="icon fab fa-linkedin"></i><a href="https://www.linkedin.com/in/elenibeyene" target="_blank"> elenibeyene</a></p>
         
             </div>

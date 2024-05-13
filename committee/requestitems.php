@@ -144,7 +144,6 @@ if ($result->num_rows > 0) {
     echo "<div class='search-container'>";
     echo "<input type='text' id='searchInput' onkeyup='searchItems()' placeholder='Search for items...'>";
     echo "</div>";
-
     echo "<div>";
     echo "<label>Show entries: </label>";
     echo "<select id='entriesSelect' onchange='changeEntries()'>";
@@ -247,7 +246,6 @@ $conn->close();
 
         // Get the reason for rejection
         var reason = document.getElementById('rejectReason').value;
-
         // Send an AJAX request to update the status
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {

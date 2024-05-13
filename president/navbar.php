@@ -30,7 +30,7 @@
         <div class="sidebar-list">
             <a href="index.php?page=home" class="nav-item nav-home"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
             <a href="index.php?page=reports" class="nav-item nav-reports">
-                <span class='icon-field'><i class="fa fa-eye"></i></span> View Reports
+                <span class='icon-field'><i class="fa fa-eye"></i></span> View set price
                 <?php
                 include 'db_connect.php'; 
                 $sql_reports = "SELECT COALESCE(COUNT(*), 0) AS reports_count FROM report WHERE status =1 and auctionstatus = 0";

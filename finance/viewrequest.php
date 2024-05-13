@@ -41,10 +41,9 @@ ob_end_flush();
             border: 1px solid #ddd;
             text-align: left;
         }
-        
         th {
-            background-color: #3498db;
-            color: #fff;
+            background-color: #f4f4f4;
+            color: #000; /* Set the font color to black */
         }
     </style>
 </head>
